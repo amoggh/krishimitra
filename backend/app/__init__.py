@@ -1,0 +1,1 @@
+# KrushiMitra FastAPI backend
