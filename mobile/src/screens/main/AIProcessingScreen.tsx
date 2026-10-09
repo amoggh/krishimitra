@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { RootStackScreenProps } from "@/types/navigation";
-import { submitFarmInput, getRecommendation } from "@/services/api";
+import { getCropRecommendation } from "@/services/api";
 import { mockRecommendation } from "@/data/mockData";
 import { colors } from "@/theme/colors";
 
 type Props = RootStackScreenProps<"AIProcessing">;
 
+// These steps mirror the actual pipeline stages in pipeline.py
 const STEPS = [
-  "Soil & weather data loaded",
-  "Water budget calculated",
+  "Loading soil & weather data",
+  "Calculating water budget",
   "Crop compatibility filter",
-  "Yield & price forecasting",
+  "Yield model (requires training data)",
+  "Price forecasting (requires mandi data)",
   "Risk simulation (Monte Carlo)",
-  "Land division optimization",
+  "Land allocation optimizer (NSGA-II)",
 ];
 
 export function AIProcessingScreen({ navigation, route }: Props) {
@@ -26,17 +28,21 @@ export function AIProcessingScreen({ navigation, route }: Props) {
       step += 1;
       setActiveStep(step);
       if (step >= STEPS.length - 1) clearInterval(interval);
-    }, 700);
+    }, 600);
 
     async function run() {
       try {
-        const { job_id } = await submitFarmInput(route.params.farmInput);
-        const result = await getRecommendation(job_id);
-        navigation.replace("Recommendations", { result });
+        // Direct call — synchronous backend response
+        const result = await getCropRecommendation(route.params.farmInput);
+        // Ensure farmer sees a couple animation steps then navigate
+        setTimeout(() => {
+          navigation.replace("Recommendations", { result });
+        }, 1200);
       } catch {
+        // Fallback to mock data so UI stays resilient if backend is unreachable
         setTimeout(() => {
           navigation.replace("Recommendations", { result: mockRecommendation });
-        }, STEPS.length * 700 + 400);
+        }, 1500);
       }
     }
 
@@ -51,12 +57,14 @@ export function AIProcessingScreen({ navigation, route }: Props) {
           <ActivityIndicator size="large" color={colors.greenLight} />
         </View>
       </View>
+
       <Text className="text-center font-sans-extrabold text-xl text-white">
         Analyzing your farm…
       </Text>
       <Text className="mt-2 text-center text-sm text-white/75">
-        Running optimization on real Indian data
+        Running KrushiMitra optimization pipeline
       </Text>
+
       <View className="mt-8">
         {STEPS.map((step, index) => {
           const done = index < activeStep;
@@ -64,10 +72,18 @@ export function AIProcessingScreen({ navigation, route }: Props) {
           return (
             <View key={step} className="mb-3 flex-row items-center gap-3">
               <View
-                className={`h-2 w-2 rounded-full ${done || active ? "bg-green-light" : "bg-white/30"}`}
+                className={`h-2 w-2 rounded-full ${
+                  done || active ? "bg-green-light" : "bg-white/30"
+                }`}
               />
               <Text
-                className={`text-sm ${active ? "text-green-light" : done ? "text-white" : "text-white/50"}`}
+                className={`text-sm ${
+                  active
+                    ? "font-sans-bold text-green-light"
+                    : done
+                    ? "text-white"
+                    : "text-white/50"
+                }`}
               >
                 {step}
               </Text>
@@ -75,6 +91,10 @@ export function AIProcessingScreen({ navigation, route }: Props) {
           );
         })}
       </View>
+
+      <Text className="mt-8 text-center text-xs text-white/40">
+        {route.params.farmInput.district || "Karnataka"} · Karnataka
+      </Text>
     </LinearGradient>
   );
 }

@@ -1,5 +1,7 @@
 export { apiClient, setAuthToken } from "./client";
 export * from "./authService";
 export * from "./farmService";
+export * from "./cropOptimizerService";
 export * from "./marketService";
 export * from "./riskService";
+export * from "./diseaseService";

@@ -8,7 +8,16 @@ export function WeatherWidget({ weather }: Props) {
   return (
     <LinearGradient
       colors={["#4a90c2", "#2980b9"]}
-      className="mb-3 flex-row items-start justify-between rounded-card p-3.5"
+      style={{
+        borderRadius: 20,
+        marginBottom: 12,
+        shadowColor: "#2980b9",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.18,
+        shadowRadius: 10,
+        elevation: 3,
+      }}
+      className="flex-row items-start justify-between p-3.5"
     >
       <View>
         <Text className="text-xs text-white/90">Today · {weather.location}</Text>

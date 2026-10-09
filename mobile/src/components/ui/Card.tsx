@@ -3,8 +3,9 @@ import { View, type ViewProps } from "react-native";
 export function Card({ children, className, ...rest }: ViewProps) {
   return (
     <View
-      className={`mb-3 rounded-card bg-white p-3.5 shadow-sm ${className ?? ""}`}
+      className={`mb-3 bg-white p-3.5 ${className ?? ""}`}
       style={{
+        borderRadius: 20,
         shadowColor: "#1b5e3b",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.08,

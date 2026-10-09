@@ -34,7 +34,7 @@ export function HomeScreen({ navigation }: Props) {
           {dashboard.farmer.location} · {dashboard.farmer.acres} acres
         </Text>
       </GradientHeader>
-      <ScreenContainer safe={false} className="-mt-3 px-4">
+      <ScreenContainer safe={false} className="px-4 pt-4">
         <WeatherWidget weather={dashboard.weather} />
         <View className="mb-3 flex-row gap-2.5">
           <SoilSummaryCard
@@ -44,7 +44,7 @@ export function HomeScreen({ navigation }: Props) {
           />
           <WaterBudgetCard litresPerAcre={dashboard.water_budget_litres_per_acre} />
         </View>
-        <FarmLocationMap latitude={18.15} longitude={74.58} />
+        <FarmLocationMap latitude={12.52} longitude={76.89} />
         <SectionTitle>Quick actions</SectionTitle>
         <QuickActions
           actions={[
@@ -54,7 +54,12 @@ export function HomeScreen({ navigation }: Props) {
               emoji: "🌾",
               onPress: () => navigation.getParent()?.navigate("FarmInput"),
             },
-            { id: "scan", label: "Scan Leaf", emoji: "🔍" },
+            {
+              id: "scan",
+              label: "Scan Leaf",
+              emoji: "🔍",
+              onPress: () => navigation.getParent()?.navigate("DiseaseDetection"),
+            },
             {
               id: "mandi",
               label: "Mandi",
@@ -67,7 +72,7 @@ export function HomeScreen({ navigation }: Props) {
         <Pressable onPress={() => navigation.getParent()?.navigate("Recommendations", { result: recommendation })}>
           <RecentRecommendationCard recommendation={recommendation} />
         </Pressable>
-        <SectionTitle>Market trends · Pune mandi</SectionTitle>
+        <SectionTitle>Market trends · Mandya mandi</SectionTitle>
         {dashboard.market_trends.map((item) => (
           <View key={item.crop} className="mb-1 flex-row justify-between">
             <Text className="text-sm text-ink">{item.crop}</Text>

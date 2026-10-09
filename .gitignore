@@ -1,0 +1,168 @@
+# ==============================================================================
+# KrushiMitra - Git Ignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Dependencies & Package Managers
+# ------------------------------------------------------------------------------
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm/
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Local Secrets
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+# Preserve environment templates/examples
+!*.env.example
+!*.env.template
+
+# ------------------------------------------------------------------------------
+# Python & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environments
+.venv/
+*/.venv/
+venv/
+*/venv/
+env/
+*/env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python packaging & distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Python testing & static analysis
+.pytest_cache/
+*/.pytest_cache/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+htmlcov/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# IDE-generated type stubs & virtual file system caches
+.stubs/
+.vfscache/
+.vfsmeta/
+.work-folder-info
+
+# ------------------------------------------------------------------------------
+# Jupyter Notebooks & Checkpoints
+# ------------------------------------------------------------------------------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# ------------------------------------------------------------------------------
+# Mobile (Expo / React Native / Android / iOS)
+# ------------------------------------------------------------------------------
+.expo/
+*/.expo/
+.expo-shared/
+*/.expo-shared/
+web-build/
+mobile/dist/
+dist/
+.metro-health-check*
+
+# Native build artifacts & signing keys
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.keystore
+
+android/.gradle/
+android/app/build/
+android/build/
+ios/Pods/
+ios/build/
+
+# ------------------------------------------------------------------------------
+# Datasets & Large Training Files (Not needed in git repo)
+# ------------------------------------------------------------------------------
+dataset-plant disease/
+dataset*/
+datasets/
+*.tar.gz
+*.zip
+*.7z
+*.rar
+
+# Model checkpoints & temporary training files
+checkpoint.keras
+*.keras.tmp
+checkpoints/
+*.ckpt
+
+# Output logs and demo dumps
+backend/demo_output.txt
+*.log
+
+# ------------------------------------------------------------------------------
+# Editor & IDE Settings
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------------------------
+# Operating System Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini

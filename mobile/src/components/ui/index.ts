@@ -5,3 +5,4 @@ export { GradientHeader } from "./GradientHeader";
 export { PrimaryButton } from "./PrimaryButton";
 export { ScreenContainer } from "./ScreenContainer";
 export { SectionTitle } from "./SectionTitle";
+export { SelectDropdown, type SelectDropdownOption, type SelectDropdownProps } from "./SelectDropdown";

@@ -1,0 +1,268 @@
+[
+  {
+    "class_id": 0,
+    "class_name": "Apple___Apple_scab",
+    "crop": "Apple",
+    "condition": "Apple Scab",
+    "is_healthy": false
+  },
+  {
+    "class_id": 1,
+    "class_name": "Apple___Black_rot",
+    "crop": "Apple",
+    "condition": "Black Rot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 2,
+    "class_name": "Apple___Cedar_apple_rust",
+    "crop": "Apple",
+    "condition": "Cedar Apple Rust",
+    "is_healthy": false
+  },
+  {
+    "class_id": 3,
+    "class_name": "Apple___healthy",
+    "crop": "Apple",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 4,
+    "class_name": "Blueberry___healthy",
+    "crop": "Blueberry",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 5,
+    "class_name": "Cherry_(including_sour)___Powdery_mildew",
+    "crop": "Cherry (Including Sour)",
+    "condition": "Powdery Mildew",
+    "is_healthy": false
+  },
+  {
+    "class_id": 6,
+    "class_name": "Cherry_(including_sour)___healthy",
+    "crop": "Cherry (Including Sour)",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 7,
+    "class_name": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+    "crop": "Corn (Maize)",
+    "condition": "Cercospora Leaf Spot Gray Leaf Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 8,
+    "class_name": "Corn_(maize)___Common_rust_",
+    "crop": "Corn (Maize)",
+    "condition": "Common Rust",
+    "is_healthy": false
+  },
+  {
+    "class_id": 9,
+    "class_name": "Corn_(maize)___Northern_Leaf_Blight",
+    "crop": "Corn (Maize)",
+    "condition": "Northern Leaf Blight",
+    "is_healthy": false
+  },
+  {
+    "class_id": 10,
+    "class_name": "Corn_(maize)___healthy",
+    "crop": "Corn (Maize)",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 11,
+    "class_name": "Grape___Black_rot",
+    "crop": "Grape",
+    "condition": "Black Rot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 12,
+    "class_name": "Grape___Esca_(Black_Measles)",
+    "crop": "Grape",
+    "condition": "Esca (Black Measles)",
+    "is_healthy": false
+  },
+  {
+    "class_id": 13,
+    "class_name": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "crop": "Grape",
+    "condition": "Leaf Blight (Isariopsis Leaf Spot)",
+    "is_healthy": false
+  },
+  {
+    "class_id": 14,
+    "class_name": "Grape___healthy",
+    "crop": "Grape",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 15,
+    "class_name": "Orange___Haunglongbing_(Citrus_greening)",
+    "crop": "Orange",
+    "condition": "Haunglongbing (Citrus Greening)",
+    "is_healthy": false
+  },
+  {
+    "class_id": 16,
+    "class_name": "Peach___Bacterial_spot",
+    "crop": "Peach",
+    "condition": "Bacterial Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 17,
+    "class_name": "Peach___healthy",
+    "crop": "Peach",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 18,
+    "class_name": "Pepper,_bell___Bacterial_spot",
+    "crop": "Pepper, Bell",
+    "condition": "Bacterial Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 19,
+    "class_name": "Pepper,_bell___healthy",
+    "crop": "Pepper, Bell",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 20,
+    "class_name": "Potato___Early_blight",
+    "crop": "Potato",
+    "condition": "Early Blight",
+    "is_healthy": false
+  },
+  {
+    "class_id": 21,
+    "class_name": "Potato___Late_blight",
+    "crop": "Potato",
+    "condition": "Late Blight",
+    "is_healthy": false
+  },
+  {
+    "class_id": 22,
+    "class_name": "Potato___healthy",
+    "crop": "Potato",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 23,
+    "class_name": "Raspberry___healthy",
+    "crop": "Raspberry",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 24,
+    "class_name": "Soybean___healthy",
+    "crop": "Soybean",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 25,
+    "class_name": "Squash___Powdery_mildew",
+    "crop": "Squash",
+    "condition": "Powdery Mildew",
+    "is_healthy": false
+  },
+  {
+    "class_id": 26,
+    "class_name": "Strawberry___Leaf_scorch",
+    "crop": "Strawberry",
+    "condition": "Leaf Scorch",
+    "is_healthy": false
+  },
+  {
+    "class_id": 27,
+    "class_name": "Strawberry___healthy",
+    "crop": "Strawberry",
+    "condition": "Healthy",
+    "is_healthy": true
+  },
+  {
+    "class_id": 28,
+    "class_name": "Tomato___Bacterial_spot",
+    "crop": "Tomato",
+    "condition": "Bacterial Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 29,
+    "class_name": "Tomato___Early_blight",
+    "crop": "Tomato",
+    "condition": "Early Blight",
+    "is_healthy": false
+  },
+  {
+    "class_id": 30,
+    "class_name": "Tomato___Late_blight",
+    "crop": "Tomato",
+    "condition": "Late Blight",
+    "is_healthy": false
+  },
+  {
+    "class_id": 31,
+    "class_name": "Tomato___Leaf_Mold",
+    "crop": "Tomato",
+    "condition": "Leaf Mold",
+    "is_healthy": false
+  },
+  {
+    "class_id": 32,
+    "class_name": "Tomato___Septoria_leaf_spot",
+    "crop": "Tomato",
+    "condition": "Septoria Leaf Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 33,
+    "class_name": "Tomato___Spider_mites Two-spotted_spider_mite",
+    "crop": "Tomato",
+    "condition": "Spider Mites Two-Spotted Spider Mite",
+    "is_healthy": false
+  },
+  {
+    "class_id": 34,
+    "class_name": "Tomato___Target_Spot",
+    "crop": "Tomato",
+    "condition": "Target Spot",
+    "is_healthy": false
+  },
+  {
+    "class_id": 35,
+    "class_name": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "crop": "Tomato",
+    "condition": "Tomato Yellow Leaf Curl Virus",
+    "is_healthy": false
+  },
+  {
+    "class_id": 36,
+    "class_name": "Tomato___Tomato_mosaic_virus",
+    "crop": "Tomato",
+    "condition": "Tomato Mosaic Virus",
+    "is_healthy": false
+  },
+  {
+    "class_id": 37,
+    "class_name": "Tomato___healthy",
+    "crop": "Tomato",
+    "condition": "Healthy",
+    "is_healthy": true
+  }
+]

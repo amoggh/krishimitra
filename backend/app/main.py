@@ -14,7 +14,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from app.api.v1.crop_optimizer import recommend as crop_recommend
+from crop_optimization.schemas import FarmerInput, RecommendationResult
+
 app.include_router(api_router, prefix=settings.api_prefix)
+
+@app.post("/api/crop-optimization/optimize", response_model=RecommendationResult, tags=["Crop Optimizer"])
+@app.post("/api/crop-optimization/recommend", response_model=RecommendationResult, tags=["Crop Optimizer"])
+def crop_optimize_alias(farmer_input: FarmerInput) -> RecommendationResult:
+    return crop_recommend(farmer_input)
 
 
 @app.get("/health")

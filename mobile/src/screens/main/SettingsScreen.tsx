@@ -20,7 +20,7 @@ export function SettingsScreen({ navigation }: Props) {
 
   return (
     <SafeAreaView className="flex-1 bg-cream">
-      <View className="flex-row items-center justify-between px-4 py-3">
+      <View className="flex-row items-center justify-between px-4 pb-3 pt-5">
         <Text className="font-sans-extrabold text-2xl text-ink">Settings</Text>
         <Pressable onPress={() => navigation.goBack()}>
           <Text className="font-sans-semibold text-forest">Done</Text>

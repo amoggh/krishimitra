@@ -15,7 +15,7 @@ import { RootNavigator } from "@/navigation/RootNavigator";
 import { colors } from "@/theme/colors";
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
     PlusJakartaSans_600SemiBold,
@@ -23,12 +23,16 @@ export default function App() {
     PlusJakartaSans_800ExtraBold,
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded && !fontError) {
     return (
       <View className="flex-1 items-center justify-center bg-cream">
         <ActivityIndicator color={colors.forest} />
       </View>
     );
+  }
+
+  if (fontError) {
+    console.warn("Font loading error:", fontError);
   }
 
   return (

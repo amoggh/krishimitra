@@ -26,7 +26,7 @@ export function WaterBudgetCard({ litresPerAcre }: { litresPerAcre: number }) {
       <Text className="font-sans-extrabold text-base text-forest-dark">
         {(litresPerAcre / 1000).toFixed(1)}K L
       </Text>
-      <Text className="text-xs text-ink-muted">/acre · Kharif</Text>
+      <Text className="text-xs text-ink-muted">/day · Kharif est.</Text>
     </Card>
   );
 }

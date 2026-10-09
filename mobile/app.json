@@ -18,6 +18,10 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.krushimitra.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow KrushiMitra to access camera to scan plant leaves for disease detection",
+        "NSPhotoLibraryUsageDescription": "Allow KrushiMitra to access photo library to select plant leaf images for disease detection"
+      },
       "config": {
         "googleMapsApiKey": "YOUR_IOS_MAPS_KEY"
       }
@@ -28,6 +32,11 @@
         "backgroundColor": "#0f3d26"
       },
       "package": "com.krushimitra.app",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "config": {
         "googleMaps": {
           "apiKey": "YOUR_ANDROID_MAPS_KEY"
@@ -35,12 +44,6 @@
       }
     },
     "plugins": [
-      [
-        "expo-font",
-        {
-          "fonts": []
-        }
-      ],
       "expo-asset"
     ],
     "web": {

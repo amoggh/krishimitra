@@ -6,38 +6,133 @@ export interface FarmerProfile {
   acres: number;
 }
 
+// ---- Crop Optimizer input — matches backend FarmerInput schema ----
+
+export interface SoilInput {
+  ph?: number;
+  nitrogen?: number;
+  phosphorus?: number;
+  potassium?: number;
+  texture?: string;
+}
+
 export interface FarmInputPayload {
   area_acres: number;
-  location: string;
+  district: string;
   pincode?: string;
   investment_inr: number;
   motor_hp: number;
-  electricity_hours: number;
-  irrigation_type: "flood" | "sprinkler" | "drip";
+  daily_electricity_hours: number;
+  irrigation_type: "flood" | "furrow" | "sprinkler" | "drip";
   borewell_depth_ft?: number;
-  latitude?: number;
-  longitude?: number;
+  season: string;
+  soil?: SoilInput;
 }
 
-export interface CropRecommendation {
+// ---- Crop Optimizer output — matches backend RecommendationResult schema ----
+
+export interface WaterBudgetResult {
+  estimated_daily_litres_low: number;
+  estimated_daily_litres_mid: number;
+  estimated_daily_litres_high: number;
+  seasonal_pumped_mm_low: number;
+  seasonal_pumped_mm_mid: number;
+  seasonal_pumped_mm_high: number;
+  effective_rainfall_mm: number;
+  total_available_mm_mid: number;
+  warnings: string[];
+}
+
+export interface YieldResult {
   crop: string;
-  acres: number;
-  input_tier: string;
-  yield_quintals_per_acre: { low: number; high: number };
-  price_per_quintal: { low: number; high: number };
-  profit_inr: { low: number; high: number };
-  water_usage_pct: number;
-  risk_level: "low" | "medium" | "high";
+  lower_t_per_ha?: number;
+  expected_t_per_ha?: number;
+  upper_t_per_ha?: number;
+  unit: string;
+  available: boolean;
+  unavailable_reason?: string;
+}
+
+export interface PriceResult {
+  crop: string;
+  lower_inr_per_quintal?: number;
+  expected_inr_per_quintal?: number;
+  upper_inr_per_quintal?: number;
+  unit: string;
+  available: boolean;
+  unavailable_reason?: string;
+}
+
+export interface RiskResultDetail {
+  crop: string;
+  expected_profit_inr?: number;
+  profit_variance_inr?: number;
+  profit_p10_inr?: number;
+  profit_p90_inr?: number;
+  yield_failure_probability?: number;
+  price_crash_probability?: number;
+  risk_adjusted_profit_inr?: number;
+  available: boolean;
+  unavailable_reason?: string;
+}
+
+export interface CropResult {
+  crop: string;
+  area_acres: number;
+  area_hectares: number;
+  percentage_of_total: number;
+  yield_result?: YieldResult;
+  price_result?: PriceResult;
+  risk_result?: RiskResultDetail;
+  expected_revenue_inr?: number;
+  expected_cost_inr?: number;
+  expected_net_profit_inr?: number;
+  net_profit_lower_inr?: number;
+  net_profit_upper_inr?: number;
+  water_requirement_mm?: number;
+  reasons: string[];
+  warnings: string[];
+}
+
+export interface RejectedCrop {
+  crop: string;
+  reasons: string[];
+}
+
+export interface DataQualitySummary {
+  soil_data_available: boolean;
+  weather_data_available: boolean;
+  mandi_data_available: boolean;
+  yield_model_trained: boolean;
+  price_model_trained: boolean;
+  warnings: string[];
 }
 
 export interface RecommendationResult {
-  plan_id: string;
+  location: string;
   season: string;
-  profit_inr: { low: number; high: number };
-  confidence_pct: number;
-  land_division: { crop: string; acres: number; color: string }[];
-  crops: CropRecommendation[];
-  explanation: string;
+  total_land_acres: number;
+  budget_inr: number;
+  water_budget: WaterBudgetResult;
+  recommendations: CropResult[];
+  rejected_crops: RejectedCrop[];
+  warnings: string[];
+  data_quality: DataQualitySummary;
+  status: string;
+  message?: string;
+  confidence?: string;
+  confidence_explanation?: string;
+  why_this_plan?: string[];
+  data_sources?: string[];
+}
+
+// ---- Legacy/local-only shape for UI display helpers ----
+
+/** Derived from CropResult for use in LandDivisionBar */
+export interface LandDivisionItem {
+  crop: string;
+  acres: number;
+  color: string;
 }
 
 export interface RiskAnalysis {
@@ -46,6 +141,20 @@ export interface RiskAnalysis {
   price_volatility_pct: number;
   pest_risk: string;
   profit_distribution: { x: number; y: number }[];
+}
+
+export interface DiseasePrediction {
+  crop: string | null;
+  condition: string;
+  class_name: string | null;
+  is_healthy: boolean | null;
+  confidence: number;
+  status: "confident" | "uncertain";
+}
+
+export interface DiseaseAnalysisResult {
+  success: boolean;
+  prediction: DiseasePrediction;
 }
 
 export interface MandiPrice {
