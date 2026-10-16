@@ -76,6 +76,30 @@ export interface RiskResultDetail {
   unavailable_reason?: string;
 }
 
+export interface CropValidation {
+  is_ground_truth_verified: boolean;
+  badge: string;
+  historical_yield_median_t_ha?: number;
+  historical_yield_range_str?: string;
+  yield_deviation_pct?: number;
+  yield_verdict?: string;
+  yield_sources: string[];
+  yield_samples_count: number;
+  market_price_median_inr?: number;
+  market_price_range_str?: string;
+  price_deviation_pct?: number;
+  price_verdict?: string;
+  price_sources: string[];
+  price_samples_count: number;
+}
+
+export interface PlanValidationSummary {
+  datasets_checked: string[];
+  total_datasets_count: number;
+  all_crops_verified: boolean;
+  verdict: string;
+}
+
 export interface CropResult {
   crop: string;
   area_acres: number;
@@ -92,6 +116,8 @@ export interface CropResult {
   water_requirement_mm?: number;
   reasons: string[];
   warnings: string[];
+  allocation_reason?: string;
+  validation?: CropValidation;
 }
 
 export interface RejectedCrop {
@@ -124,6 +150,7 @@ export interface RecommendationResult {
   confidence_explanation?: string;
   why_this_plan?: string[];
   data_sources?: string[];
+  validation_summary?: PlanValidationSummary;
 }
 
 // ---- Legacy/local-only shape for UI display helpers ----

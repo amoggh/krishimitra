@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Pressable, Switch, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "@/types/navigation";
-import { Card } from "@/components/ui";
+import { BackButton, Card } from "@/components/ui";
 import { colors } from "@/theme/colors";
 
 type Props = RootStackScreenProps<"Settings">;
@@ -21,8 +21,15 @@ export function SettingsScreen({ navigation }: Props) {
   return (
     <SafeAreaView className="flex-1 bg-cream">
       <View className="flex-row items-center justify-between px-4 pb-3 pt-5">
-        <Text className="font-sans-extrabold text-2xl text-ink">Settings</Text>
-        <Pressable onPress={() => navigation.goBack()}>
+        <View className="flex-row items-center gap-2">
+          <BackButton />
+          <Text className="font-sans-extrabold text-2xl text-ink">Settings</Text>
+        </View>
+        <Pressable
+          onPress={() =>
+            navigation.canGoBack() ? navigation.goBack() : navigation.navigate("Main")
+          }
+        >
           <Text className="font-sans-semibold text-forest">Done</Text>
         </Pressable>
       </View>

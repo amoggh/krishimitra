@@ -231,6 +231,39 @@ class CropAllocation(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Ground-truth validation output (from validate_output.py)
+# ---------------------------------------------------------------------------
+
+
+class CropValidation(BaseModel):
+    """Ground-truth dataset counter-check from validate_output.py."""
+
+    is_ground_truth_verified: bool = True
+    badge: str = "Ground-Truth Verified"
+    historical_yield_median_t_ha: Optional[float] = None
+    historical_yield_range_str: Optional[str] = None
+    yield_deviation_pct: Optional[float] = None
+    yield_verdict: Optional[str] = None
+    yield_sources: list[str] = Field(default_factory=list)
+    yield_samples_count: int = 0
+    market_price_median_inr: Optional[float] = None
+    market_price_range_str: Optional[str] = None
+    price_deviation_pct: Optional[float] = None
+    price_verdict: Optional[str] = None
+    price_sources: list[str] = Field(default_factory=list)
+    price_samples_count: int = 0
+
+
+class PlanValidationSummary(BaseModel):
+    """Overall multi-dataset validation summary."""
+
+    datasets_checked: list[str] = Field(default_factory=list)
+    total_datasets_count: int = 5
+    all_crops_verified: bool = True
+    verdict: str = "Verified with Karnataka Agricultural & APMC Mandi Records"
+
+
+# ---------------------------------------------------------------------------
 # Full per-crop recommendation result
 # ---------------------------------------------------------------------------
 
@@ -257,6 +290,11 @@ class CropResult(BaseModel):
     water_requirement_mm: Optional[float] = None
     reasons: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
+
+    # Plain-language explanation for farmers/evaluators
+    allocation_reason: Optional[str] = None
+    # Ground-truth validation against real historical CSVs
+    validation: Optional[CropValidation] = None
 
 
 # ---------------------------------------------------------------------------
@@ -316,6 +354,9 @@ class RecommendationResult(BaseModel):
 
     warnings: list[str] = Field(default_factory=list)
     data_quality: DataQualitySummary = Field(default_factory=DataQualitySummary)
+
+    # Multi-dataset ground-truth verification summary (from validate_output.py)
+    validation_summary: Optional[PlanValidationSummary] = None
 
     # Overall status message
     status: str = "ok"

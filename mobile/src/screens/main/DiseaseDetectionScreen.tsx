@@ -16,7 +16,7 @@ import {
 } from "expo-image-picker";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "@/types/navigation";
-import { PrimaryButton, ScreenContainer } from "@/components/ui";
+import { BackButton, PrimaryButton, ScreenContainer } from "@/components/ui";
 import { colors } from "@/theme/colors";
 import { analyzeDisease, type DiseaseResult } from "@/services/api/diseaseService";
 
@@ -255,9 +255,7 @@ export function DiseaseDetectionScreen({ navigation }: Props) {
       >
         {/* Page header */}
         <View className="pt-4 pb-2">
-          <Pressable onPress={() => navigation.goBack()} className="mb-3">
-            <Text className="text-sm text-forest">← Back</Text>
-          </Pressable>
+          <BackButton className="mb-3" />
           <Text className="font-sans-extrabold text-2xl text-ink">
             Leaf Scan
           </Text>

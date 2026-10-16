@@ -6,3 +6,4 @@ export { PrimaryButton } from "./PrimaryButton";
 export { ScreenContainer } from "./ScreenContainer";
 export { SectionTitle } from "./SectionTitle";
 export { SelectDropdown, type SelectDropdownOption, type SelectDropdownProps } from "./SelectDropdown";
+export { BackButton, type BackButtonProps } from "./BackButton";

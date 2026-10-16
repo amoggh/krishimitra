@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "@/types/navigation";
-import { Chip, FormInput, PrimaryButton, SelectDropdown } from "@/components/ui";
+import { BackButton, Chip, FormInput, PrimaryButton, SelectDropdown } from "@/components/ui";
 import { KARNATAKA_DISTRICTS } from "@/constants/districts";
 import type { FarmInputPayload, SoilInput } from "@/types/api";
 
@@ -58,6 +58,7 @@ export function FarmInputScreen({ navigation }: Props) {
   return (
     <SafeAreaView className="flex-1 bg-cream">
       <ScrollView contentContainerClassName="px-4 pb-10 pt-4">
+        <BackButton className="mb-3" />
         <Text className="font-sans-bold text-xs uppercase text-green">Step 1 of 2</Text>
         <Text className="font-sans-extrabold text-2xl text-ink">Your farm details</Text>
         <Text className="mb-5 text-sm text-ink-muted">

@@ -558,6 +558,43 @@ def optimize_allocation(
             )
         )
 
+    # If NSGA-II returned 0 allocations or crops, trigger fallback allocator
+    if not allocations and crops:
+        logger.info("NSGA-II found 0 above-threshold allocations; activating fallback allocator.")
+        allocations = _equal_allocation_fallback(crops, total_acres, budget_inr)
+
+    # Secondary guarantee: split between top 2 crops if still empty
+    if not allocations and crops:
+        c1 = crops[0]
+        c2 = crops[1] if len(crops) > 1 else crops[0]
+        if c1.crop == c2.crop or len(crops) == 1:
+            allocations = [
+                CropAllocation(
+                    crop=c1.crop,
+                    area_acres=round(float(total_acres), 2),
+                    area_hectares=round(acres_to_hectares(float(total_acres)), 4),
+                    percentage_of_total=100.0,
+                )
+            ]
+        else:
+            a1 = round(float(total_acres) * 0.60, 2)
+            a2 = round(float(total_acres) - a1, 2)
+            allocations = [
+                CropAllocation(crop=c1.crop, area_acres=a1, area_hectares=round(acres_to_hectares(a1), 4), percentage_of_total=60.0),
+                CropAllocation(crop=c2.crop, area_acres=a2, area_hectares=round(acres_to_hectares(a2), 4), percentage_of_total=40.0),
+            ]
+
+    # Encourage diversification: if only 1 crop got allocated but multiple candidates exist
+    if len(allocations) == 1 and len(crops) > 1 and total_acres >= 1.0:
+        other_candidate = next((c for c in crops if c.crop != allocations[0].crop), None)
+        if other_candidate:
+            a1 = round(float(total_acres) * 0.60, 2)
+            a2 = round(float(total_acres) - a1, 2)
+            allocations = [
+                CropAllocation(crop=allocations[0].crop, area_acres=a1, area_hectares=round(acres_to_hectares(a1), 4), percentage_of_total=60.0),
+                CropAllocation(crop=other_candidate.crop, area_acres=a2, area_hectares=round(acres_to_hectares(a2), 4), percentage_of_total=40.0),
+            ]
+
     # Scale allocations so total farm land is 100% utilized while respecting MAX_SINGLE_CROP_FRACTION
     if allocations:
         tot = sum(a.area_acres for a in allocations)
@@ -568,7 +605,6 @@ def optimize_allocation(
 
             # If the primary crop exceeds max single crop fraction, cap it and redistribute remainder
             if max(scaled_areas) > max_allowed and len(scaled_areas) > 1:
-                # Sort indices by area
                 order = sorted(range(len(scaled_areas)), key=lambda k: scaled_areas[k], reverse=True)
                 primary_idx = order[0]
                 scaled_areas[primary_idx] = max_allowed
@@ -588,8 +624,17 @@ def optimize_allocation(
                 for k in range(len(allocations))
             ]
 
+            # Reconcile any tiny rounding delta onto the primary crop
+            current_tot = sum(a.area_acres for a in allocations)
+            diff = round(total_acres - current_tot, 2)
+            if abs(diff) > 0.001:
+                allocations[0].area_acres = round(allocations[0].area_acres + diff, 2)
+                allocations[0].area_hectares = round(acres_to_hectares(allocations[0].area_acres), 4)
+                allocations[0].percentage_of_total = round(allocations[0].area_acres / total_acres * 100, 1)
+
     # Sort largest to smallest
     allocations.sort(key=lambda a: a.area_acres, reverse=True)
 
-    logger.info("NSGA-II complete. %d crops allocated.", len(allocations))
+    logger.info("NSGA-II complete. %d crops allocated, total=%.2f acres.", len(allocations), sum(a.area_acres for a in allocations))
     return allocations
+

@@ -128,9 +128,10 @@ MIN_CROP_AREA_ACRES = 0.25
 # Optimizer settings (NSGA-II via numpy)
 # ---------------------------------------------------------------------------
 
-NSGA2_POPULATION_SIZE = 50
-NSGA2_N_GENERATIONS = 50
+NSGA2_POPULATION_SIZE = 30
+NSGA2_N_GENERATIONS = 20
 NSGA2_SEED = 42
+
 
 # ---------------------------------------------------------------------------
 # Monte Carlo settings
