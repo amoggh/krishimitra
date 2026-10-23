@@ -92,7 +92,8 @@ def test_data_loader_loads_all_five_datasets():
     assert "district" in multi.columns
 
     all_data = load_all_datasets()
-    assert len(all_data) == 5
+    # 5 ground-truth datasets + DES cultivation cost table
+    assert len(all_data) == 6
     assert all(df is not None for df in all_data.values())
 
 
@@ -167,9 +168,10 @@ def test_pipeline_real_run():
     assert len(res.why_this_plan) > 0
     assert len(res.data_sources) >= 3
 
-    # Check total land allocation <= farm size + tiny rounding
+    # Planted + water-limited fallow land = farm size (within rounding)
     tot_area = sum(c.area_acres for c in res.recommendations)
-    assert 4.5 <= tot_area <= 5.1
+    assert tot_area <= 5.1
+    assert tot_area + res.summary.get("fallow_acres", 0.0) == pytest.approx(5.0, abs=0.1)
 
     # Check no single crop exceeds 60% limit
     for c in res.recommendations:

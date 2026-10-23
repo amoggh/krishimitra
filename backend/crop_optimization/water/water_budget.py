@@ -41,10 +41,15 @@ from crop_optimization.config import (
     BOREWELL_DEPTH_HIGH_THRESHOLD_FT,
     DEEP_BOREWELL_FLOW_PENALTY,
     EFFECTIVE_RAINFALL_FRACTION,
+    GROUNDWATER_PUMP_DERATE,
     IRRIGATION_EFFICIENCY,
     PUMP_FLOW_RATE_LPH_PER_HP,
 )
-from crop_optimization.data_loader import load_soil_weather_data
+from crop_optimization.data_loader import (
+    load_groundwater_stress,
+    load_imd_rainfall,
+    load_soil_weather_data,
+)
 from crop_optimization.normalization import normalize_district, normalize_season
 from crop_optimization.schemas import FarmerInput, WaterBudgetResult
 
@@ -87,16 +92,58 @@ def _estimate_pump_flow_lph(
     return low, high
 
 
+def _groundwater_stress(district: str) -> tuple[Optional[float], Optional[str]]:
+    """(stage_of_extraction_pct, category) for the district from GWRA 2023, or (None, None)."""
+    gw = load_groundwater_stress()
+    canonical = normalize_district(district) or district
+    if gw is None or canonical not in gw.index:
+        return None, None
+    row = gw.loc[canonical]
+    return float(row["stage_of_extraction_pct"]), str(row["category"])
+
+
+def _imd_row(district: str, season: str) -> Optional[pd.Series]:
+    """IMD district × season rainfall row (p25_mm, median_mm, ...), or None."""
+    imd = load_imd_rainfall()
+    if imd is None or imd.empty:
+        return None
+    canonical_district = normalize_district(district) or district
+    canonical_season = normalize_season(season)
+    imd_season = "summer" if canonical_season == "zaid" else canonical_season
+    hit = imd[(imd["district"] == canonical_district) & (imd["season"] == imd_season)]
+    return None if hit.empty else hit.iloc[0]
+
+
+def _get_dry_year_rainfall_mm(district: str, season: str) -> Optional[float]:
+    """Effective rainfall in a dry year (IMD 25th percentile × effective fraction), or None."""
+    row = _imd_row(district, season)
+    if row is None:
+        return None
+    return round(float(row["p25_mm"]) * EFFECTIVE_RAINFALL_FRACTION, 1)
+
+
 def _get_effective_rainfall_mm(
     district: str,
     season: str,
     multi_model_df: Optional[pd.DataFrame] = None,
 ) -> tuple[float, list[str]]:
     """
-    Retrieve real effective rainfall (USDA method) from multi-model dataset.
+    Effective seasonal rainfall (mm) = EFFECTIVE_RAINFALL_FRACTION × seasonal rainfall.
+
+    Preferred source: IMD gridded rainfall, MEDIAN over 10 years for the district and
+    season (a typical year) — plans are sized on this. The dry-year (25th percentile)
+    figure is reported separately by _get_dry_year_rainfall_mm for the risk warning.
+    Falls back to the multi-model dataset, then a regional baseline.
     Returns (effective_rainfall_mm, warnings).
     """
     warnings: list[str] = []
+
+    row = _imd_row(district, season)
+    if row is not None:
+        eff_rain = round(float(row["median_mm"]) * EFFECTIVE_RAINFALL_FRACTION, 1)
+        logger.debug("IMD median rainfall for %s (%s): %.1f mm (effective %.1f mm)",
+                     district, season, row["median_mm"], eff_rain)
+        return eff_rain, warnings
 
     if multi_model_df is None or multi_model_df.empty:
         warnings.append(
@@ -174,6 +221,27 @@ def calculate_water_budget(
     daily_eff_mid = daily_pumped_mid * eff_mid
     daily_eff_high = daily_pumped_high * eff_high
 
+    # 3b. Groundwater stress (CGWB GWRA 2023): derate borewell output where the
+    #     aquifer is over-drawn, since water tables and well yields are falling.
+    gw_stage, gw_category = _groundwater_stress(farmer_input.district)
+    derate = GROUNDWATER_PUMP_DERATE.get(gw_category or "", 1.0)
+    if derate < 1.0:
+        daily_eff_low *= derate
+        daily_eff_mid *= derate
+        daily_eff_high *= derate
+    if gw_category in ("over_exploited", "critical"):
+        warnings.append(
+            f"Groundwater in {farmer_input.district} is {gw_category.replace('_', '-')} "
+            f"(extraction is {gw_stage:.0f}% of the safe annual recharge, CGWB 2023). Borewell output "
+            f"is counted at {derate:.0%} because water tables are falling; avoid water-hungry crops "
+            "and prefer drip or sprinkler irrigation."
+        )
+    elif gw_category == "semi_critical":
+        warnings.append(
+            f"Groundwater in {farmer_input.district} is semi-critical (extraction at {gw_stage:.0f}% "
+            "of safe recharge, CGWB 2023). Use water-efficient irrigation to avoid over-drawing the borewell."
+        )
+
     # 4. Seasonal pumped water in mm
     norm_season = normalize_season(farmer_input.season)
     season_days = SEASON_DAYS.get(norm_season, 120)
@@ -194,6 +262,7 @@ def calculate_water_budget(
         weather_df,
     )
     warnings.extend(rain_warnings)
+    dry_rain_mm = _get_dry_year_rainfall_mm(farmer_input.district, farmer_input.season)
 
     # 6. Total available water
     total_available_mid_mm = seasonal_pumped_mid_mm + eff_rain_mm
@@ -223,7 +292,9 @@ def calculate_water_budget(
     )
     uncertainty_note = (
         "Motor HP alone does not uniquely fix flow rate. Flow rate uncertainty is estimated at +/- 25%. "
-        "Rainfall uses USDA empirical effective rainfall formula."
+        "Plans are sized on the median (typical-year) season rainfall from 10 years of IMD gridded data, "
+        f"of which {EFFECTIVE_RAINFALL_FRACTION:.0%} is counted as effective. The dry-year (25th percentile) "
+        "figure is used to warn when a drier season would leave crops short of water."
     )
 
     return WaterBudgetResult(
@@ -234,6 +305,11 @@ def calculate_water_budget(
         seasonal_pumped_mm_mid=round(seasonal_pumped_mid_mm, 1),
         seasonal_pumped_mm_high=round(seasonal_pumped_high_mm, 1),
         effective_rainfall_mm=round(eff_rain_mm, 1),
+        effective_rainfall_dry_year_mm=dry_rain_mm,
+        rainfall_basis="imd_median" if dry_rain_mm is not None else "fallback",
+        groundwater_stage_pct=gw_stage,
+        groundwater_category=gw_category,
+        groundwater_pump_derate=derate,
         total_available_mm_mid=round(total_available_mid_mm, 1),
         available_water_liters=round(available_water_liters, 0),
         available_water_m3=round(available_water_m3, 1),

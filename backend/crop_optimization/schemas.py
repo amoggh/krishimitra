@@ -132,7 +132,13 @@ class WaterBudgetResult(BaseModel):
     seasonal_pumped_mm_low: float   # mm over the farmer's total area
     seasonal_pumped_mm_mid: float
     seasonal_pumped_mm_high: float
-    effective_rainfall_mm: float
+    effective_rainfall_mm: float                              # typical (median) year — plans sized on this
+    effective_rainfall_dry_year_mm: Optional[float] = None    # 1-in-4 dry year (IMD P25) — risk warning
+    rainfall_basis: Optional[str] = None                      # "imd_median" | "fallback"
+    # District groundwater stress (CGWB GWRA 2023)
+    groundwater_stage_pct: Optional[float] = None             # extraction as % of safe annual recharge
+    groundwater_category: Optional[str] = None                # safe | semi_critical | critical | over_exploited
+    groundwater_pump_derate: Optional[float] = None           # multiplier applied to borewell output
     total_available_mm_mid: float   # pumped_mid + effective_rainfall
     available_water_liters: Optional[float] = None
     available_water_m3: Optional[float] = None
@@ -174,6 +180,9 @@ class YieldResult(BaseModel):
     confidence: Optional[str] = None
     available: bool = False
     unavailable_reason: Optional[str] = None
+    # Set when lower/upper come from split conformal prediction
+    interval_method: Optional[str] = None       # e.g. "split_conformal_crop"
+    coverage_target: Optional[float] = None     # e.g. 0.8 → 80% interval
 
 
 # ---------------------------------------------------------------------------
@@ -238,8 +247,8 @@ class CropAllocation(BaseModel):
 class CropValidation(BaseModel):
     """Ground-truth dataset counter-check from validate_output.py."""
 
-    is_ground_truth_verified: bool = True
-    badge: str = "Ground-Truth Verified"
+    is_ground_truth_verified: bool = False
+    badge: str = "Not verified"
     historical_yield_median_t_ha: Optional[float] = None
     historical_yield_range_str: Optional[str] = None
     yield_deviation_pct: Optional[float] = None
@@ -259,8 +268,9 @@ class PlanValidationSummary(BaseModel):
 
     datasets_checked: list[str] = Field(default_factory=list)
     total_datasets_count: int = 5
-    all_crops_verified: bool = True
-    verdict: str = "Verified with Karnataka Agricultural & APMC Mandi Records"
+    all_crops_verified: bool = False
+    verified_crops_count: int = 0
+    verdict: str = "Not verified"
 
 
 # ---------------------------------------------------------------------------
@@ -295,6 +305,11 @@ class CropResult(BaseModel):
     allocation_reason: Optional[str] = None
     # Ground-truth validation against real historical CSVs
     validation: Optional[CropValidation] = None
+
+    # Data-driven confidence (confidence/calibration.py)
+    confidence: Optional[str] = None            # "High" | "Medium" | "Low"
+    confidence_score: Optional[float] = None    # 0–1
+    confidence_factors: list[str] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -350,6 +365,8 @@ class RecommendationResult(BaseModel):
     why_this_plan: list[str] = Field(default_factory=list)
     confidence: str = "Medium"
     confidence_explanation: Optional[str] = None
+    confidence_score: Optional[float] = None    # 0–1
+    confidence_factors: list[str] = Field(default_factory=list)
     data_sources: list[str] = Field(default_factory=list)
 
     warnings: list[str] = Field(default_factory=list)

@@ -2,6 +2,9 @@
 yield_model/model.py — Real data-driven crop yield estimation interface.
 
 Hierarchy:
+  Level ML: Random Forest (crop × district, trained 2011–2017) with a split conformal
+           80% interval calibrated on 2021-22. Only for crops the model was trained on.
+           Source: "conformal_rf_model". See train_yield_model.py and conformal.py.
   Level A: Karnataka Government 2021-22 recent district-level observed yield.
            Confidence: "high", Source: "district_2021_22".
   Level B: ICRISAT district-level historical observations (quantiles: P10, median, P90).
@@ -11,13 +14,13 @@ Hierarchy:
            Notes: Yield estimate based on Karnataka-level historical data because
                   sufficient district-level observations were unavailable.
 
-Interface is modular: later can be replaced with XGBoost + Conformal Prediction
-without altering the optimizer.
+Levels A–C and the benchmark still use heuristic bands (not conformal).
 """
 
 from __future__ import annotations
 
 import logging
+import math
 from typing import Optional
 
 import pandas as pd
@@ -33,6 +36,8 @@ from crop_optimization.normalization import (
     normalize_season,
 )
 from crop_optimization.schemas import YieldResult
+from crop_optimization.yield_model.conformal import interval as conformal_interval
+from crop_optimization.yield_model.conformal import quantile_for as conformal_quantile_for
 
 logger = logging.getLogger(__name__)
 
@@ -61,23 +66,77 @@ ICRISAT_YIELD_COLUMN_MAP: dict[str, str] = {
 import warnings
 from pathlib import Path
 
-_CACHED_YIELD_PIPELINE = None
-_YIELD_PIPELINE_LOADED = False
+YIELD_MODEL_SOURCE = "conformal_rf_model"
 
-def _get_yield_pipeline():
-    global _CACHED_YIELD_PIPELINE, _YIELD_PIPELINE_LOADED
-    if not _YIELD_PIPELINE_LOADED:
-        _YIELD_PIPELINE_LOADED = True
-        ml_model_path = Path(__file__).parent.parent.parent / "artifacts" / "yield_model" / "yield_model.joblib"
-        if ml_model_path.exists():
+_CACHED_YIELD_MODEL: Optional[dict] = None
+_YIELD_MODEL_LOADED = False
+
+
+def _get_yield_model() -> Optional[dict]:
+    """
+    Load the trained model with its conformal calibration and metadata.
+
+    Returns None unless all three artifacts exist (written by train_yield_model.py),
+    so a model without calibrated intervals is never used.
+    """
+    global _CACHED_YIELD_MODEL, _YIELD_MODEL_LOADED
+    if not _YIELD_MODEL_LOADED:
+        _YIELD_MODEL_LOADED = True
+        model_dir = Path(__file__).parent.parent.parent / "artifacts" / "yield_model"
+        paths = {
+            "pipeline": model_dir / "yield_model.joblib",
+            "conformal": model_dir / "conformal.json",
+            "metadata": model_dir / "metadata.json",
+        }
+        if all(p.exists() for p in paths.values()):
             try:
+                import json
+
                 import joblib
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    _CACHED_YIELD_PIPELINE = joblib.load(ml_model_path)
+                    pipeline = joblib.load(paths["pipeline"])
+                # Single-row predictions: parallel workers only add overhead and warnings
+                regressor = getattr(pipeline, "named_steps", {}).get("regressor")
+                if regressor is not None and hasattr(regressor, "n_jobs"):
+                    regressor.n_jobs = 1
+                conformal = json.loads(paths["conformal"].read_text(encoding="utf-8"))
+                metadata = json.loads(paths["metadata"].read_text(encoding="utf-8"))
+                _CACHED_YIELD_MODEL = {
+                    "pipeline": pipeline,
+                    "conformal": conformal,
+                    "crops": set(metadata.get("crops_covered", [])),
+                    "features": metadata.get("features", ["crop", "district"]),
+                    "log_target": metadata.get("target_transform") == "log",
+                }
             except Exception as exc:
-                logger.debug("Could not load ML yield model: %s", exc)
-    return _CACHED_YIELD_PIPELINE
+                logger.warning("Could not load yield model artifacts: %s", exc)
+        else:
+            logger.info("Yield model artifacts incomplete; using data hierarchy only.")
+    return _CACHED_YIELD_MODEL
+
+
+FALLBACK_BAND_FRACTION = 0.15
+
+
+def _single_estimate_band(value: float) -> tuple[float, float, str]:
+    """
+    Uncertainty band for a single-number estimate (one observation or a benchmark).
+
+    Uses the calibrated all-crop conformal band when available, so these estimates
+    are not artificially narrower than model predictions; otherwise ±15%.
+    """
+    ml = _get_yield_model()
+    if ml is not None:
+        q = float(ml["conformal"]["global"]["q"])
+        if math.isfinite(q):
+            lower, upper = conformal_interval(value, q)
+            return round(lower, 2), round(upper, 2), "conformal_global_band"
+    return (
+        max(0.1, round(value * (1 - FALLBACK_BAND_FRACTION), 2)),
+        round(value * (1 + FALLBACK_BAND_FRACTION), 2),
+        "fixed_15pct",
+    )
 
 
 def predict_yield(
@@ -97,38 +156,42 @@ def predict_yield(
     canonical_season = normalize_season(season)
 
     # -----------------------------------------------------------------------
-    # Level ML: Trained Scikit-Learn Model (cached)
+    # Level ML: Random Forest + split conformal interval (only for crops it was trained on)
     # -----------------------------------------------------------------------
-    pipeline = _get_yield_pipeline()
-    if pipeline is not None:
+    ml = _get_yield_model()
+    if ml is not None and canonical_crop in ml["crops"]:
         try:
-            ph = getattr(farmer_input, "soil", None)
-            ph_val = ph.ph if ph and ph.ph else 6.5
-            sample = pd.DataFrame([{
-                "crop": canonical_crop,
-                "district": canonical_district,
-                "season": canonical_season,
-                "soil_ph": ph_val,
-                "rainfall_mm": 600.0,
-                "temperature_c": 26.0,
-            }])
+            sample = pd.DataFrame([{"crop": canonical_crop, "district": canonical_district}])[ml["features"]]
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                pred = float(pipeline.predict(sample)[0])
+                raw = float(ml["pipeline"].predict(sample)[0])
+            pred = math.exp(raw) if ml["log_target"] else raw
             if pred > 0:
-                logger.info("Using trained ML yield model for %s: %.2f t/ha", canonical_crop, pred)
-                return YieldResult(
-                    crop=canonical_crop,
-                    lower_t_per_ha=round(pred * 0.85, 2),
-                    expected_t_per_ha=round(pred, 2),
-                    upper_t_per_ha=round(pred * 1.15, 2),
-                    unit="tonnes/hectare",
-                    source="trained_random_forest_ml_model",
-                    confidence="high",
-                    available=True,
-                )
+                q, scope = conformal_quantile_for(ml["conformal"], canonical_crop)
+                if math.isfinite(q):
+                    lower, upper = conformal_interval(pred, q)
+                    coverage = ml["conformal"].get("coverage_target", 0.8)
+                    note = None if scope == "crop" else (
+                        f"Interval uses the all-crop calibration band because {canonical_crop} "
+                        "had too few calibration records of its own."
+                    )
+                    logger.info("Conformal yield for %s: %.2f t/ha [%.2f, %.2f] (%s band)",
+                                canonical_crop, pred, lower, upper, scope)
+                    return YieldResult(
+                        crop=canonical_crop,
+                        lower_t_per_ha=round(lower, 2),
+                        expected_t_per_ha=round(pred, 2),
+                        upper_t_per_ha=round(upper, 2),
+                        unit="tonnes/hectare",
+                        source=YIELD_MODEL_SOURCE,
+                        confidence="medium",
+                        available=True,
+                        interval_method=f"split_conformal_{scope}",
+                        coverage_target=coverage,
+                        unavailable_reason=note,
+                    )
         except Exception as exc:
-            logger.debug("ML yield model predict error for %s: %s", canonical_crop, exc)
+            logger.warning("Yield model prediction failed for %s: %s", canonical_crop, exc)
 
     # -----------------------------------------------------------------------
     # Level A: District 2021-22 recent observed yield
@@ -150,9 +213,8 @@ def predict_yield(
         active = use_df[use_df["yield_t_ha"] > 0]
         if not active.empty:
             obs_yield = float(active["yield_t_ha"].iloc[0])
-            lower = max(0.1, round(obs_yield * 0.85, 2))
             expected = round(obs_yield, 2)
-            upper = round(obs_yield * 1.15, 2)
+            lower, upper, method = _single_estimate_band(obs_yield)
 
             logger.debug(
                 "Level A yield for %s in %s: %.2f t/ha",
@@ -165,8 +227,10 @@ def predict_yield(
                 upper_t_per_ha=upper,
                 unit="tonnes/hectare",
                 source="district_2021_22",
-                confidence="high",
+                confidence="medium",
                 available=True,
+                interval_method=method,
+                unavailable_reason="Single-season (2021-22) observation; range uses the calibrated all-crop band.",
             )
 
     # -----------------------------------------------------------------------
@@ -268,15 +332,17 @@ def predict_yield(
     }
     exp_y = benchmark_yields.get(canonical_crop, 2.2)
     logger.info("Using regional baseline yield for '%s': %.2f t/ha", canonical_crop, exp_y)
+    lower, upper, method = _single_estimate_band(exp_y)
     return YieldResult(
         crop=canonical_crop,
-        lower_t_per_ha=round(exp_y * 0.85, 2),
+        lower_t_per_ha=lower,
         expected_t_per_ha=round(exp_y, 2),
-        upper_t_per_ha=round(exp_y * 1.15, 2),
+        upper_t_per_ha=upper,
         unit="tonnes/hectare",
         source="karnataka_state_benchmark",
-        confidence="medium",
+        confidence="low",
         available=True,
+        interval_method=method,
         unavailable_reason=f"Yield estimate based on regional agro-climatic baseline for '{canonical_crop}'.",
     )
 
