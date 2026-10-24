@@ -73,8 +73,12 @@ def test_pipeline_has_honest_warnings(pipeline_result):
 
 
 def test_data_quality_shows_available_models(pipeline_result):
+    from crop_optimization.config import PRICE_MODEL_DIR
+
     assert pipeline_result.data_quality.yield_model_trained is True
-    assert pipeline_result.data_quality.price_model_trained is True
+    # Only true when a trained price model artifact actually exists
+    expected_price_model = (PRICE_MODEL_DIR / "price_model.joblib").exists()
+    assert pipeline_result.data_quality.price_model_trained is expected_price_model
 
 
 def test_data_quality_shows_mandi_available(pipeline_result):
@@ -136,3 +140,60 @@ def test_pipeline_area_in_result():
     inp = make_input(area_acres=7.5)
     result = run_pipeline(inp)
     assert result.total_land_acres == 7.5
+
+
+# ---------------------------------------------------------------------------
+# Water-limited plans
+# ---------------------------------------------------------------------------
+
+
+def test_fit_allocations_to_water_scales_and_reports_fallow():
+    from crop_optimization.pipeline import fit_allocations_to_water
+    from crop_optimization.schemas import CropAllocation
+
+    allocs = [
+        CropAllocation(crop="A", area_acres=3.0, area_hectares=1.21, percentage_of_total=60.0),
+        CropAllocation(crop="B", area_acres=2.0, area_hectares=0.81, percentage_of_total=40.0),
+    ]
+    # need 400 mm, rain 100 mm → 300 mm irrigation per acre × 5 acres = 1500; pump gives 150 × 5 = 750
+    fitted, fallow, frac = fit_allocations_to_water(allocs, {"A": 400, "B": 400}, 5.0, pumped_mm=150, rain_mm=100)
+    assert sum(a.area_acres for a in fitted) == pytest.approx(2.5, abs=0.02)
+    assert fallow == pytest.approx(2.5, abs=0.02)
+    assert frac == pytest.approx(0.5, abs=0.01)
+    # land split preserved
+    assert fitted[0].area_acres / fitted[1].area_acres == pytest.approx(1.5, rel=0.02)
+
+
+def test_fit_allocations_to_water_leaves_feasible_plans_alone():
+    from crop_optimization.pipeline import fit_allocations_to_water
+    from crop_optimization.schemas import CropAllocation
+
+    allocs = [CropAllocation(crop="A", area_acres=5.0, area_hectares=2.02, percentage_of_total=100.0)]
+    fitted, fallow, frac = fit_allocations_to_water(allocs, {"A": 300}, 5.0, pumped_mm=200, rain_mm=200)
+    assert fitted == allocs and fallow == 0.0 and frac == 1.0
+
+
+def test_severe_water_shortage_returns_no_plan():
+    from crop_optimization.pipeline import _run_crop_optimization_internal
+
+    res = _run_crop_optimization_internal(FarmerInput(
+        area_acres=5, district="Kalaburagi", investment_inr=150000, motor_hp=1,
+        daily_electricity_hours=2, irrigation_type="flood", season="summer",
+    ))
+    assert res.status == "no_recommendation"
+    assert res.recommendations == []
+    assert "water" in (res.message or "").lower()
+    assert res.summary.get("water_limited") is True
+
+
+def test_planted_area_never_needs_more_water_than_available():
+    from crop_optimization.pipeline import _run_crop_optimization_internal
+
+    res = _run_crop_optimization_internal(FarmerInput(
+        area_acres=5, district="Mysuru", investment_inr=150000, motor_hp=5,
+        daily_electricity_hours=6, irrigation_type="drip", season="kharif",
+    ))
+    wb = res.water_budget
+    need = sum(c.area_acres * max(0.0, (c.water_requirement_mm or 0) - wb.effective_rainfall_mm)
+               for c in res.recommendations)
+    assert need <= wb.seasonal_pumped_mm_mid * res.total_land_acres * 1.01

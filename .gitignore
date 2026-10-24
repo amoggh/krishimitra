@@ -166,3 +166,8 @@ backend/demo_output.txt
 ehthumbs.db
 Thumbs.db
 desktop.ini
+
+# ------------------------------------------------------------------------------
+# Runtime data stores (rebuilt locally; see crop_optimization/data_pipeline/live_mandi.py)
+# ------------------------------------------------------------------------------
+backend/data/mandi_history.sqlite

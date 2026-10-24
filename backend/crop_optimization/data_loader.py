@@ -21,7 +21,10 @@ from typing import Any, Optional
 import pandas as pd
 
 from crop_optimization.config import (
+    CGWB_GROUNDWATER_CSV,
+    CULTIVATION_COSTS_CSV,
     DATA_DIR,
+    IMD_RAINFALL_CSV,
     HISTORICAL_YIELD_CSV,
     ICRISAT_YIELD_CSV,
     KARNATAKA_2021_CSV,
@@ -292,6 +295,62 @@ def load_soil_weather_data(force_reload: bool = False) -> Optional[pd.DataFrame]
 
 
 # ---------------------------------------------------------------------------
+# 6. Cultivation Cost Loader (DES Cost of Cultivation 2021-22)
+# ---------------------------------------------------------------------------
+
+def load_cultivation_costs(force_reload: bool = False) -> Optional[pd.DataFrame]:
+    """
+    Load per-crop cultivation costs (Rs/hectare), indexed by canonical crop name.
+
+    Columns: a2_inr_per_ha (cash costs), a2fl_inr_per_ha (+ family labour),
+    c2_inr_per_ha (+ land rent & interest), cost_basis, holdings_sampled, source.
+    Built by crop_optimization/data_pipeline/cultivation_costs.py.
+    """
+    if not force_reload and "cultivation_costs" in _CACHE:
+        return _CACHE["cultivation_costs"]
+
+    raw = _read_csv_safe(DATA_DIR / CULTIVATION_COSTS_CSV)
+    if raw is None:
+        return None
+
+    df = raw.dropna(subset=["crop", "a2_inr_per_ha"]).drop_duplicates("crop").set_index("crop")
+    _CACHE["cultivation_costs"] = df
+    logger.info("Loaded cultivation_costs: %d crops.", len(df))
+    return df
+
+
+def load_imd_rainfall(force_reload: bool = False) -> Optional[pd.DataFrame]:
+    """
+    District × season rainfall (mm) from IMD 0.25° gridded data: p25_mm, median_mm, n_years.
+    Built by crop_optimization/data_pipeline/imd_rainfall.py.
+    """
+    if not force_reload and "imd_rainfall" in _CACHE:
+        return _CACHE["imd_rainfall"]
+    df = _read_csv_safe(DATA_DIR / IMD_RAINFALL_CSV)
+    if df is None:
+        return None
+    _CACHE["imd_rainfall"] = df
+    logger.info("Loaded imd_rainfall: %d district-season rows.", len(df))
+    return df
+
+
+def load_groundwater_stress(force_reload: bool = False) -> Optional[pd.DataFrame]:
+    """
+    District groundwater stress (GWRA 2023): stage_of_extraction_pct, category, indexed by district.
+    Built by crop_optimization/data_pipeline/cgwb_groundwater.py.
+    """
+    if not force_reload and "groundwater" in _CACHE:
+        return _CACHE["groundwater"]
+    df = _read_csv_safe(DATA_DIR / CGWB_GROUNDWATER_CSV)
+    if df is None:
+        return None
+    df = df.drop_duplicates("district").set_index("district")
+    _CACHE["groundwater"] = df
+    logger.info("Loaded groundwater stress: %d districts.", len(df))
+    return df
+
+
+# ---------------------------------------------------------------------------
 # Master Loader
 # ---------------------------------------------------------------------------
 
@@ -306,4 +365,5 @@ def load_all_datasets(force_reload: bool = False) -> dict[str, Any]:
         "historical_yield": load_yield_data(force_reload),
         "mandi_prices": load_mandi_data(force_reload),
         "multi_model": load_soil_weather_data(force_reload),
+        "cultivation_costs": load_cultivation_costs(force_reload),
     }

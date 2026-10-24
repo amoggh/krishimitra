@@ -89,10 +89,25 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
         </View>
         <View className="flex-row items-center gap-1.5">
           <Chip label={risk.label} tone={risk.tone} />
+          {crop.confidence && (
+            <View
+              className={`rounded-full px-2 py-0.5 border ${
+                crop.confidence === "High"
+                  ? "bg-emerald-100 border-emerald-300"
+                  : crop.confidence === "Medium"
+                  ? "bg-amber-100 border-amber-300"
+                  : "bg-red-100 border-red-300"
+              }`}
+            >
+              <Text className="text-[10px] font-sans-bold text-ink">
+                {crop.confidence} conf.
+              </Text>
+            </View>
+          )}
           {val?.is_ground_truth_verified && (
             <View className="rounded-full bg-emerald-100 px-2 py-0.5 border border-emerald-300">
               <Text className="text-[10px] font-sans-bold text-emerald-800">
-                ✓ Verified
+                ✓ Matches history
               </Text>
             </View>
           )}
@@ -101,7 +116,14 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
 
       {/* Metrics grid */}
       <View className="flex-row flex-wrap gap-y-2 rounded-xl bg-cream-dark/25 p-2.5">
-        <Metric label="Yield" value={yieldText} />
+        <Metric
+          label={
+            crop.yield_result?.coverage_target
+              ? `Yield (${Math.round(crop.yield_result.coverage_target * 100)}% range)`
+              : "Yield"
+          }
+          value={yieldText}
+        />
         <Metric label="Water req." value={waterText} />
         <Metric label="Price" value={priceText} />
         <Metric label="Profit" value={profitText} />
@@ -127,7 +149,7 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
           </Text>
           {crop.reasons.map((r, i) => (
             <Text key={i} className="mb-1 text-[11px] leading-4 text-ink-muted">
-              {r.startsWith("•") || r.startsWith("💧") || r.startsWith("💰") || r.startsWith("🌱") || r.startsWith("📈") || r.startsWith("✓")
+              {r.startsWith("•") || r.startsWith("💧") || r.startsWith("💰") || r.startsWith("🌱") || r.startsWith("📈") || r.startsWith("✓") || r.startsWith("⚠")
                 ? r
                 : `• ${r}`}
             </Text>
@@ -140,10 +162,10 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
         <View className="mt-2.5 rounded-xl border border-emerald-200 bg-emerald-50/70 p-2.5">
           <View className="mb-1.5 flex-row items-center justify-between">
             <Text className="font-sans-bold text-[11px] text-emerald-900">
-              🛡️ Ground-Truth Counter-Check
+              🛡️ Historical Counter-Check
             </Text>
             <Text className="text-[10px] font-sans-bold text-emerald-700">
-              5 State Datasets ✓
+              {val.badge}
             </Text>
           </View>
 
@@ -154,7 +176,7 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
                 Yield Reality (t/ha)
               </Text>
               <Text className="text-[10px] font-sans-bold text-emerald-800">
-                {val.yield_verdict ?? "Verified in Historical Range"}
+                {val.yield_verdict ?? "Not checked"}
               </Text>
             </View>
             <Text className="mt-0.5 text-xs text-ink font-sans-medium">
@@ -174,7 +196,7 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
                 APMC Mandi Price (₹/qtl)
               </Text>
               <Text className="text-[10px] font-sans-bold text-emerald-800">
-                {val.price_verdict ?? "Verified in APMC Range"}
+                {val.price_verdict ?? "Not checked"}
               </Text>
             </View>
             <Text className="mt-0.5 text-xs text-ink font-sans-medium">

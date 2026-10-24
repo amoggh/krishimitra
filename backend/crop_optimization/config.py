@@ -26,6 +26,25 @@ MULTI_MODEL_CSV = "karnataka_production_multi_model_dataset_soil_and_mandi.csv"
 
 # Optional cultivation costs dataset (when available in future)
 INPUT_COSTS_CSV = "input_costs.csv"
+# Per-crop cultivation costs (Rs/ha) from DES Cost of Cultivation 2021-22,
+# built by crop_optimization/data_pipeline/cultivation_costs.py
+CULTIVATION_COSTS_CSV = "cultivation_costs_2021_22.csv"
+# Daily Agmarknet price history (data_pipeline/live_mandi.py)
+MANDI_HISTORY_DB = "mandi_history.sqlite"
+# Alert when the mandi price falls below this fraction of the expected harvest price
+PRICE_DROP_ALERT_FRACTION = 0.80
+# Minimum distinct price days before history replaces the static CSV snapshot
+MIN_MANDI_HISTORY_DAYS = 7
+# IMD gridded rainfall: district × season table (data_pipeline/imd_rainfall.py)
+IMD_RAINFALL_CSV = "imd_rainfall_district_season.csv"
+# District groundwater stress (data_pipeline/cgwb_groundwater.py, GWRA 2023)
+CGWB_GROUNDWATER_CSV = "cgwb_groundwater_district_2023.csv"
+# Precautionary derating of borewell output where groundwater is over-drawn:
+# falling water tables reduce yield and raise the risk of borewell failure.
+GROUNDWATER_PUMP_DERATE = {
+    "over_exploited": 0.80,
+    "critical": 0.90,
+}
 
 # Trained model artifacts
 ARTIFACTS_DIR = MODULE_ROOT.parent / "artifacts"
@@ -124,6 +143,14 @@ MAX_SINGLE_CROP_FRACTION = 0.60
 # Minimum area in acres worth allocating to a crop (below this is impractical)
 MIN_CROP_AREA_ACRES = 0.25
 
+# If water can support less than this fraction of the farm, no crop plan is offered
+MIN_IRRIGABLE_FRACTION = 0.10
+
+# Plans are sized on median rainfall; warn when a dry (IMD P25) year would leave
+# more than this fraction of the plan's water need unmet, and scale confidence down
+DRY_YEAR_SHORTFALL_WARN = 0.05
+DRY_YEAR_CONFIDENCE_PENALTY = 0.90
+
 # ---------------------------------------------------------------------------
 # Optimizer settings (NSGA-II via numpy)
 # ---------------------------------------------------------------------------
@@ -159,6 +186,13 @@ MIN_RECORDS_MEDIUM_CONFIDENCE = 5
 
 # Maximum age of mandi price data (days) before it is considered stale
 MANDI_DATA_STALE_DAYS = 180
+
+# Mandi data older than this (days) is "aging" and gets a mild penalty
+MANDI_DATA_AGING_DAYS = 30
+
+# Confidence score cut-offs (score is 0–1, see confidence/calibration.py)
+CONFIDENCE_HIGH_THRESHOLD = 0.65
+CONFIDENCE_MEDIUM_THRESHOLD = 0.40
 
 # ---------------------------------------------------------------------------
 # Unit conversion constants

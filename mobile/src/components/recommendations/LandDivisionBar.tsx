@@ -11,13 +11,19 @@ const CROP_COLORS = [
   "#16a085", // teal
 ];
 
-/** Convert CropResult[] into LandDivisionItem[] with assigned colors. */
-export function toLandDivision(crops: CropResult[]): LandDivisionItem[] {
-  return crops.map((c, i) => ({
+const FALLOW_COLOR = "#a8a29e"; // stone grey
+
+/** Convert CropResult[] into LandDivisionItem[] with assigned colors, plus any fallow land. */
+export function toLandDivision(crops: CropResult[], fallowAcres = 0): LandDivisionItem[] {
+  const items = crops.map((c, i) => ({
     crop: c.crop.charAt(0).toUpperCase() + c.crop.slice(1),
     acres: c.area_acres,
     color: CROP_COLORS[i % CROP_COLORS.length],
   }));
+  if (crops.length && fallowAcres > 0.01) {
+    items.push({ crop: "Fallow (water)", acres: fallowAcres, color: FALLOW_COLOR });
+  }
+  return items;
 }
 
 type Props = { division: LandDivisionItem[] };

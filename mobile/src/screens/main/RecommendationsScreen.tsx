@@ -43,7 +43,8 @@ export function RecommendationsScreen({ navigation, route }: Props) {
   };
 
   const hasRecommendations = result.recommendations.length > 0;
-  const division = toLandDivision(result.recommendations);
+  const fallowAcres = Number(result.summary?.fallow_acres ?? 0);
+  const division = toLandDivision(result.recommendations, fallowAcres);
 
 
   // Aggregate profit display from risk_results (if available)
@@ -156,6 +157,19 @@ export function RecommendationsScreen({ navigation, route }: Props) {
             <Text className="text-xs text-ink-muted">Pump output</Text>
           </View>
         </View>
+        {result.water_budget.groundwater_category && (
+          <Text
+            className={`mt-2 text-xs ${
+              result.water_budget.groundwater_category === "safe" ? "text-ink-muted" : "text-warning"
+            }`}
+          >
+            Groundwater: {result.water_budget.groundwater_category.replace("_", "-")} (
+            {result.water_budget.groundwater_stage_pct?.toFixed(0)}% of safe recharge extracted, CGWB 2023)
+            {(result.water_budget.groundwater_pump_derate ?? 1) < 1
+              ? ` · pump output counted at ${Math.round((result.water_budget.groundwater_pump_derate ?? 1) * 100)}%`
+              : ""}
+          </Text>
+        )}
       </Card>
 
       {/* ── Status / warnings ── */}
@@ -172,32 +186,49 @@ export function RecommendationsScreen({ navigation, route }: Props) {
         </View>
       )}
 
-      {/* ── Ground-Truth Counter-Check Banner (validate_output.py) ── */}
-      <Card className="mb-3 border border-emerald-300 bg-emerald-50/70 p-3">
-        <View className="flex-row items-center justify-between mb-1">
-          <View className="flex-row items-center gap-1.5">
-            <Text className="text-sm">🛡️</Text>
-            <Text className="font-sans-bold text-xs uppercase tracking-wide text-emerald-950">
-              Ground-Truth Validated
+      {/* ── Why is confidence at this level? ── */}
+      {(result.confidence_factors?.length ?? 0) > 0 && (
+        <View className="mb-3 rounded-xl border border-cream-dark bg-white/70 p-3">
+          <Text className="mb-1 font-sans-bold text-[11px] uppercase text-ink-light">
+            What limits confidence
+          </Text>
+          {result.confidence_factors!.slice(0, 5).map((f, i) => (
+            <Text key={i} className="text-xs leading-5 text-ink-muted">
+              • {f}
             </Text>
-          </View>
-          <View className="rounded-full bg-emerald-600 px-2 py-0.5">
-            <Text className="text-[10px] font-sans-bold text-white">5 State Datasets ✓</Text>
-          </View>
+          ))}
         </View>
-        <Text className="text-[11px] leading-4 text-emerald-900 font-sans-medium">
-          {result.validation_summary?.verdict ??
-            "All predicted crop yields, prices, and land allocations are counter-checked against 5 official Karnataka state agricultural & APMC mandi datasets."}
-        </Text>
+      )}
 
-        <View className="mt-2.5 flex-row flex-wrap gap-1.5">
-          <ValidationPill label="APY 2021-22 Yield ✓" />
-          <ValidationPill label="ICRISAT District History ✓" />
-          <ValidationPill label="APMC Mandi Prices ✓" />
-          <ValidationPill label="1997-2020 Historical ✓" />
-          <ValidationPill label="Agro-Climatic ETc ✓" />
-        </View>
-      </Card>
+      {/* ── Ground-Truth Counter-Check Banner (validate_output.py) ── */}
+      {result.validation_summary && (
+        <Card
+          className={`mb-3 border p-3 ${
+            result.validation_summary.all_crops_verified
+              ? "border-emerald-300 bg-emerald-50/70"
+              : "border-amber-300 bg-amber-50/70"
+          }`}
+        >
+          <View className="flex-row items-center justify-between mb-1">
+            <View className="flex-row items-center gap-1.5">
+              <Text className="text-sm">🛡️</Text>
+              <Text className="font-sans-bold text-xs uppercase tracking-wide text-ink">
+                {result.validation_summary.all_crops_verified
+                  ? "Matches historical records"
+                  : "Historical check"}
+              </Text>
+            </View>
+            <View className="rounded-full bg-ink/70 px-2 py-0.5">
+              <Text className="text-[10px] font-sans-bold text-white">
+                {result.validation_summary.verified_crops_count ?? 0}/{result.recommendations.length} crops matched
+              </Text>
+            </View>
+          </View>
+          <Text className="text-[11px] leading-4 text-ink font-sans-medium">
+            {result.validation_summary.verdict}
+          </Text>
+        </Card>
+      )}
 
       {/* ── Land division ── */}
       {hasRecommendations && (
@@ -222,12 +253,17 @@ export function RecommendationsScreen({ navigation, route }: Props) {
       ) : (
         <Card className="items-center py-6">
           <Text className="font-sans-bold text-base text-ink-muted">
-            No recommendations yet
+            {result.summary?.water_limited ? "No crop plan this season" : "No recommendations yet"}
           </Text>
           <Text className="mt-1 text-center text-xs text-ink-light">
             {result.message ??
               "Add crop data files to the data directory to enable recommendations."}
           </Text>
+          {(result.why_this_plan ?? []).map((tip, i) => (
+            <Text key={i} className="mt-2 text-center text-xs leading-5 text-ink">
+              {tip}
+            </Text>
+          ))}
         </Card>
       )}
 
@@ -355,14 +391,6 @@ function DataPill({ label, active }: { label: string; active: boolean }) {
       >
         {label}
       </Text>
-    </View>
-  );
-}
-
-function ValidationPill({ label }: { label: string }) {
-  return (
-    <View className="rounded-md bg-white border border-emerald-200 px-2 py-1 shadow-sm">
-      <Text className="text-[10px] font-sans-bold text-emerald-900">{label}</Text>
     </View>
   );
 }

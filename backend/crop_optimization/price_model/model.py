@@ -20,6 +20,7 @@ from typing import Optional
 
 import pandas as pd
 
+from crop_optimization.config import MIN_MANDI_HISTORY_DAYS
 from crop_optimization.data_loader import load_mandi_data, load_soil_weather_data
 from crop_optimization.normalization import normalize_crop, normalize_district
 from crop_optimization.schemas import PriceResult
@@ -91,6 +92,32 @@ def predict_price(
                 )
         except Exception as exc:
             logger.debug("Could not run ML price model: %s", exc)
+
+    # -----------------------------------------------------------------------
+    # 0. Daily Agmarknet history (data_pipeline/live_mandi.py), once it has enough days
+    # -----------------------------------------------------------------------
+    try:
+        from crop_optimization.data_pipeline.live_mandi import get_store, history_stats, volatility_report
+
+        store = get_store()
+        stats = history_stats(store, canonical_crop, days=90) if store else None
+        if stats and stats["n_days"] >= MIN_MANDI_HISTORY_DAYS:
+            vol = volatility_report(store, canonical_crop)
+            pvi = vol.get("pvi_30d")
+            note = f"Price volatility (30-day PVI): {pvi:.1f}% daily." if pvi is not None else None
+            return PriceResult(
+                crop=canonical_crop,
+                lower_inr_per_quintal=round(min(stats["p10"], stats["median"] * 0.95), 0),
+                expected_inr_per_quintal=round(stats["median"], 0),
+                upper_inr_per_quintal=round(max(stats["p90"], stats["median"] * 1.05), 0),
+                unit="INR/quintal",
+                source="karnataka_mandi_history",
+                confidence="high" if stats["n_days"] >= 30 else "medium",
+                available=True,
+                unavailable_reason=note,
+            )
+    except Exception as exc:
+        logger.debug("Mandi history unavailable for %s: %s", canonical_crop, exc)
 
     # -----------------------------------------------------------------------
     # 1. Check Karnataka Mandi records
