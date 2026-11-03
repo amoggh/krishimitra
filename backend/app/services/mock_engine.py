@@ -16,18 +16,18 @@ def get_dashboard() -> dict:
             "id": "1",
             "name": "Ramesh Patil",
             "phone": "+919876543210",
-            "location": "Baramati, Pune",
-            "acres": 4.5,
+            "location": "Mandya, Karnataka",
+            "acres": 5.0,
         },
         "weather": {
-            "location": "Baramati",
-            "temp_c": 32,
+            "location": "Mandya",
+            "temp_c": 30,
             "condition": "Partly cloudy",
-            "rain_chance_pct": 40,
+            "rain_chance_pct": 45,
         },
-        "soil": {"type": "Loam", "ph": 6.8, "npk": "balanced"},
-        "water_budget_litres_per_acre": 4200,
-        "market_trends": get_mandi_prices("Pune"),
+        "soil": {"type": "Red Loam", "ph": 6.5, "npk": "moderate"},
+        "water_budget_litres_per_acre": 16500,
+        "market_trends": get_mandi_prices("Mandya"),
     }
 
 
@@ -88,21 +88,22 @@ def get_risk(plan_id: str) -> RiskAnalysis:
 
 
 def get_mandi_prices(district: str | None) -> list[MandiPrice]:
+    loc = district or "Mandya"
     return [
         MandiPrice(
-            crop="Soybean",
-            mandi="Pune APMC",
-            price_inr=4520,
-            change_pct=4.1,
+            crop="Ragi",
+            mandi=f"{loc} APMC",
+            price_inr=3850,
+            change_pct=3.2,
             updated_at="2h ago",
-            trend_7d=[45, 48, 46, 50, 55, 60, 65],
+            trend_7d=[35, 36, 36, 37, 38, 38, 39],
         ),
         MandiPrice(
-            crop="Cotton",
-            mandi="Pune APMC",
-            price_inr=6850,
-            change_pct=-1.8,
+            crop="Maize",
+            mandi=f"{loc} APMC",
+            price_inr=2150,
+            change_pct=-1.2,
             updated_at="2h ago",
-            trend_7d=[70, 68, 65, 62, 60, 58, 55],
+            trend_7d=[23, 22, 22, 21, 21, 22, 22],
         ),
     ]

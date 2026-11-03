@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { apiClient } from "./client";
 
 // ---------------------------------------------------------------------------
@@ -34,12 +35,18 @@ export async function analyzeDisease(
 ): Promise<DiseaseResult> {
   const formData = new FormData();
 
-  // React Native / Expo FormData accepts this object shape for file uploads
-  formData.append("file", {
-    uri: imageUri,
-    type: mimeType,
-    name: "leaf.jpg",
-  } as unknown as Blob);
+  if (Platform.OS === "web") {
+    const res = await fetch(imageUri);
+    const blob = await res.blob();
+    formData.append("file", blob, "leaf.jpg");
+  } else {
+    // React Native / Expo FormData accepts this object shape for file uploads
+    formData.append("file", {
+      uri: imageUri,
+      type: mimeType,
+      name: "leaf.jpg",
+    } as unknown as Blob);
+  }
 
   const response = await apiClient.post<DiseaseResult>(
     "/disease/predict",

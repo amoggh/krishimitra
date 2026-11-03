@@ -111,6 +111,8 @@ def predict(image_bytes: bytes) -> dict:
         img = Image.open(io.BytesIO(image_bytes))
         img.verify()          # catches obviously corrupt files early
         img = Image.open(io.BytesIO(image_bytes))  # reopen after verify()
+        from PIL import ImageOps
+        img = ImageOps.exif_transpose(img)
     except (UnidentifiedImageError, Exception) as exc:
         raise DiseaseServiceError(f"Cannot decode image: {exc}") from exc
 

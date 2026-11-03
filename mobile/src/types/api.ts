@@ -200,10 +200,16 @@ export interface WeatherSummary {
   rain_chance_pct: number;
 }
 
+export interface SoilSummary {
+  type: string;
+  ph: number;
+  npk: string;
+}
+
 export interface DashboardSummary {
   farmer: FarmerProfile;
   weather: WeatherSummary;
-  soil: { type: string; ph: number; npk: string };
+  soil: SoilSummary;
   water_budget_litres_per_acre: number;
   active_recommendation?: RecommendationResult;
   market_trends: MandiPrice[];

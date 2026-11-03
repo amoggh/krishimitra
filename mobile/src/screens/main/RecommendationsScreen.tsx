@@ -215,7 +215,7 @@ export function RecommendationsScreen({ navigation, route }: Props) {
             <CropRecommendationCard
               key={crop.crop}
               crop={crop}
-              accent={i === 0 ? "green" : "earth"}
+              color={division[i]?.color}
             />
           ))}
         </>

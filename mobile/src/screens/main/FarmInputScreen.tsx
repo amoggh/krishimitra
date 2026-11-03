@@ -6,6 +6,9 @@ import { BackButton, Chip, FormInput, PrimaryButton, SelectDropdown } from "@/co
 import { KARNATAKA_DISTRICTS } from "@/constants/districts";
 import type { FarmInputPayload, SoilInput } from "@/types/api";
 
+import { useActiveDistrict } from "@/services/locationState";
+import { getDistrictProfile } from "@/constants/districtProfiles";
+
 type Props = RootStackScreenProps<"FarmInput">;
 
 const HP_OPTIONS = [1, 2, 3, 5, 7.5, 10] as const;
@@ -16,9 +19,11 @@ type IrrigationType = typeof IRRIGATION[number];
 type SeasonType = typeof SEASONS[number];
 
 export function FarmInputScreen({ navigation }: Props) {
+  const { district: activeDistrict, setDistrict: persistDistrict } = useActiveDistrict();
+
   // Core fields
   const [area, setArea] = useState("5.0");
-  const [district, setDistrict] = useState("Mandya");
+  const [district, setDistrict] = useState(activeDistrict || "Mandya");
   const [pincode, setPincode] = useState("");
   const [budget, setBudget] = useState("150000");
   const [motorHp, setMotorHp] = useState<number>(5);
@@ -29,10 +34,19 @@ export function FarmInputScreen({ navigation }: Props) {
 
   // Optional soil fields
   const [showSoil, setShowSoil] = useState(false);
-  const [soilPh, setSoilPh] = useState("6.5");
-  const [soilTexture, setSoilTexture] = useState("loamy");
+  const [soilPh, setSoilPh] = useState(() => getDistrictProfile(activeDistrict).soil.ph.toString());
+  const [soilTexture, setSoilTexture] = useState(() => getDistrictProfile(activeDistrict).soil.type);
+
+  function handleDistrictSelect(selected: string) {
+    setDistrict(selected);
+    persistDistrict(selected);
+    const profile = getDistrictProfile(selected);
+    setSoilPh(profile.soil.ph.toString());
+    setSoilTexture(profile.soil.type);
+  }
 
   function handleSubmit() {
+    persistDistrict(district);
     const soil: SoilInput | undefined = showSoil
       ? {
           ph: parseFloat(soilPh) || undefined,
@@ -78,7 +92,7 @@ export function FarmInputScreen({ navigation }: Props) {
           label="District (Karnataka)"
           value={district}
           options={KARNATAKA_DISTRICTS}
-          onSelect={setDistrict}
+          onSelect={handleDistrictSelect}
           placeholder="Select district"
           searchPlaceholder="Search district (e.g. Mandya, Mysuru)..."
         />

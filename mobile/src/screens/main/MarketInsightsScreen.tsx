@@ -5,6 +5,7 @@ import { Card, FormInput, ScreenContainer } from "@/components/ui";
 import { PriceTrendChart } from "@/components/charts/PriceTrendChart";
 import { MiniBarChart } from "@/components/charts/MiniBarChart";
 import { getMandiPrices } from "@/services/api";
+import { useActiveDistrict } from "@/services/locationState";
 import { mockMandiPrices } from "@/data/mockData";
 import type { MandiPrice } from "@/types/api";
 import { colors } from "@/theme/colors";
@@ -12,18 +13,19 @@ import { colors } from "@/theme/colors";
 type Props = MainTabScreenProps<"Market">;
 
 export function MarketInsightsScreen(_props: Props) {
+  const { district } = useActiveDistrict();
   const [prices, setPrices] = useState<MandiPrice[]>(mockMandiPrices);
 
   useEffect(() => {
-    getMandiPrices("Pune")
+    getMandiPrices(district || "Mandya")
       .then(setPrices)
       .catch(() => setPrices(mockMandiPrices));
-  }, []);
+  }, [district]);
 
   return (
     <ScreenContainer>
       <Text className="font-sans-extrabold text-2xl text-ink">Mandi insights</Text>
-      <Text className="mb-4 text-sm text-ink-muted">Pune · Live from Agmarknet</Text>
+      <Text className="mb-4 text-sm text-ink-muted">{district || "Mandya"} · Live from Agmarknet</Text>
       <FormInput label="Search crop" defaultValue="Soybean" />
 
       {prices.map((item) => (

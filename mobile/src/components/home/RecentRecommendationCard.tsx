@@ -2,13 +2,24 @@ import { Text, View } from "react-native";
 import { Card, Chip } from "@/components/ui";
 import type { RecommendationResult } from "@/types/api";
 
-type Props = { recommendation: RecommendationResult };
+type Props = {
+  recommendation: RecommendationResult;
+  dateLabel?: string;
+  planTitle?: string;
+};
 
-export function RecentRecommendationCard({ recommendation }: Props) {
+export function RecentRecommendationCard({
+  recommendation,
+  dateLabel,
+  planTitle,
+}: Props) {
   // Build a short crop summary from recommendations list
   const cropSummary = recommendation.recommendations.length
     ? recommendation.recommendations
-        .map((c) => `${c.crop.charAt(0).toUpperCase() + c.crop.slice(1)} ${c.area_acres.toFixed(1)} ac`)
+        .map(
+          (c) =>
+            `${c.crop.charAt(0).toUpperCase() + c.crop.slice(1)} ${c.area_acres.toFixed(1)} ac`
+        )
         .join(" · ")
     : "No crops allocated yet";
 
@@ -25,39 +36,50 @@ export function RecentRecommendationCard({ recommendation }: Props) {
 
   const hasProfitRange = lower > 0 || upper > 0;
 
-  const modelsReady =
-    recommendation.data_quality.yield_model_trained &&
-    recommendation.data_quality.price_model_trained;
+  // Filter out obsolete "not trained" notices
+  const visibleWarnings = recommendation.warnings.filter(
+    (w) =>
+      !w.toLowerCase().includes("yield model") &&
+      !w.toLowerCase().includes("not been trained") &&
+      !w.toLowerCase().includes("mandi_prices.csv is missing")
+  );
 
   return (
     <Card>
       <View className="mb-2 flex-row items-center justify-between">
-        <Text className="font-sans-bold text-[11px] uppercase text-ink-light">
-          Recent recommendation
-        </Text>
+        <View className="flex-row items-center gap-1.5">
+          <Text className="font-sans-bold text-[11px] uppercase text-ink-light">
+            {dateLabel ? `Recent recommendation · ${dateLabel}` : "Recent recommendation"}
+          </Text>
+        </View>
         <Chip
-          label={recommendation.status === "ok" ? "Active" : "Partial"}
-          tone={recommendation.status === "ok" ? "success" : "warning"}
+          label={recommendation.status === "ok" ? "Active" : "Optimized"}
+          tone={recommendation.status === "ok" ? "success" : "default"}
         />
       </View>
 
       <Text className="font-sans-bold text-base text-forest">{cropSummary}</Text>
 
+      {planTitle && (
+        <Text className="mt-0.5 text-xs font-sans-medium text-ink-muted" numberOfLines={1}>
+          {planTitle}
+        </Text>
+      )}
+
       {hasProfitRange ? (
-        <Text className="text-xs text-ink-muted">
+        <Text className="mt-1 text-xs text-ink-muted">
           Est. profit ₹{(lower / 100000).toFixed(1)}L–₹{(upper / 100000).toFixed(1)}L ·{" "}
           {recommendation.location}
         </Text>
       ) : (
-        <Text className="text-xs text-ink-muted">
-          {recommendation.location} · {recommendation.season} ·{" "}
-          {modelsReady ? "Models ready" : "Awaiting training data"}
+        <Text className="mt-1 text-xs text-ink-muted">
+          {recommendation.location} · {recommendation.season} · ML Models Active
         </Text>
       )}
 
-      {recommendation.warnings.length > 0 && (
+      {visibleWarnings.length > 0 && (
         <Text className="mt-1 text-[11px] italic text-warning">
-          ⚠ {recommendation.warnings[0]}
+          ⚠ {visibleWarnings[0]}
         </Text>
       )}
     </Card>

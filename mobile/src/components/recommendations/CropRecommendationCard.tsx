@@ -4,6 +4,7 @@ import type { CropResult } from "@/types/api";
 
 type Props = {
   crop: CropResult;
+  color?: string;
   accent?: "green" | "earth";
 };
 
@@ -24,8 +25,8 @@ function riskLabel(crop: CropResult): { label: string; tone: "success" | "warnin
   return { label: "High risk", tone: "danger" };
 }
 
-export function CropRecommendationCard({ crop, accent = "green" }: Props) {
-  const borderColor = accent === "earth" ? "border-earth-soft" : "border-green";
+export function CropRecommendationCard({ crop, color, accent = "green" }: Props) {
+  const cardColor = color ?? (accent === "earth" ? "#c4a35a" : "#2d8a57");
   const risk = riskLabel(crop);
   const val = crop.validation;
 
@@ -76,14 +77,25 @@ export function CropRecommendationCard({ crop, accent = "green" }: Props) {
     : "–";
 
   return (
-    <Card className={`border-l-4 ${borderColor} mb-3.5`}>
+    <Card
+      className="mb-3.5 border-l-4"
+      style={{
+        borderLeftColor: cardColor,
+      }}
+    >
       {/* Header row */}
       <View className="mb-2 flex-row items-start justify-between">
         <View className="flex-1 pr-2">
-          <Text className="font-sans-extrabold text-base text-forest">
-            {capitalize(crop.crop)}
-          </Text>
-          <Text className="text-xs text-ink-muted">
+          <View className="flex-row items-center gap-2">
+            <View
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: cardColor }}
+            />
+            <Text className="font-sans-extrabold text-base text-forest">
+              {capitalize(crop.crop)}
+            </Text>
+          </View>
+          <Text className="text-xs text-ink-muted mt-0.5">
             {crop.area_acres.toFixed(2)} acres ({crop.percentage_of_total.toFixed(0)}% of farm)
           </Text>
         </View>

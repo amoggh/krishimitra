@@ -7,6 +7,7 @@ import {
   getSavedPlansApi,
   savePlanApi,
 } from "./api/farmService";
+import { setActiveDistrict } from "./locationState";
 
 export interface SavedPlan {
   id: string;
@@ -175,6 +176,8 @@ export function buildSavedPlanFromRecommendation(
   }
 
   const now = new Date().toISOString();
+  const rawLoc = result.location || "Mandya";
+  const districtName = rawLoc.includes(",") ? rawLoc.split(",")[0].trim() : rawLoc.trim();
 
   return {
     id: `plan-${Date.now()}`,
@@ -182,7 +185,7 @@ export function buildSavedPlanFromRecommendation(
     subtitle,
     savedAt: now,
     formattedDate: "Saved just now",
-    district: result.location || "Karnataka",
+    district: districtName || "Mandya",
     season: result.season,
     totalAcres: result.total_land_acres,
     budgetInr: result.budget_inr,
@@ -245,6 +248,7 @@ export async function savePlan(
   inMemoryPlans = [newPlan, ...inMemoryPlans.filter((p) => p.id !== newPlan.id)];
   writeToLocalStorage(inMemoryPlans);
   notifyListeners();
+  setActiveDistrict(newPlan.district);
 
   // Sync with backend API in background
   try {

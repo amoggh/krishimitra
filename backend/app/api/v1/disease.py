@@ -79,7 +79,7 @@ async def _run_prediction(file: UploadFile) -> dict:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:
         logger.exception("Unexpected error during disease inference")
-        raise HTTPException(status_code=500, detail="Inference failed unexpectedly.") from exc
+        raise HTTPException(status_code=500, detail=f"Inference failed: {exc}") from exc
 
 
 # ---------------------------------------------------------------------------

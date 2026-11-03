@@ -9,6 +9,9 @@ import { RecentRecommendationCard } from "@/components/home/RecentRecommendation
 import { MiniBarChart } from "@/components/charts/MiniBarChart";
 import { FarmLocationMap } from "@/components/maps/FarmLocationMap";
 import { getDashboard } from "@/services/api";
+import { useSavedPlans } from "@/services/savedPlansService";
+import { useActiveDistrict } from "@/services/locationState";
+import { getDistrictProfile } from "@/constants/districtProfiles";
 import { mockDashboard, mockRecommendation } from "@/data/mockData";
 import type { DashboardSummary } from "@/types/api";
 
@@ -16,6 +19,8 @@ type Props = MainTabScreenProps<"Home">;
 
 export function HomeScreen({ navigation }: Props) {
   const [dashboard, setDashboard] = useState<DashboardSummary>(mockDashboard);
+  const { plans: savedPlans } = useSavedPlans();
+  const { district: activeDistrict } = useActiveDistrict();
 
   useEffect(() => {
     getDashboard()
@@ -23,7 +28,16 @@ export function HomeScreen({ navigation }: Props) {
       .catch(() => setDashboard(mockDashboard));
   }, []);
 
-  const recommendation = dashboard.active_recommendation ?? mockRecommendation;
+  // Use the most recently saved recommendation plan if available
+  const latestSavedPlan = savedPlans.length > 0 ? savedPlans[0] : null;
+  const recommendation =
+    latestSavedPlan?.result ?? dashboard.active_recommendation ?? mockRecommendation;
+  const recentDateLabel = latestSavedPlan?.formattedDate;
+  const planTitle = latestSavedPlan?.title;
+
+  // Dynamically resolve district and profile from recent selection or saved plan
+  const effectiveDistrict = activeDistrict || latestSavedPlan?.district || "Mandya";
+  const profile = getDistrictProfile(effectiveDistrict);
 
   return (
     <View className="flex-1 bg-cream">
@@ -31,20 +45,24 @@ export function HomeScreen({ navigation }: Props) {
         <Text className="text-xs text-white/85">Namaste</Text>
         <Text className="font-sans-extrabold text-xl text-white">{dashboard.farmer.name}</Text>
         <Text className="text-xs text-white/75">
-          {dashboard.farmer.location} · {dashboard.farmer.acres} acres
+          {profile.location} · {dashboard.farmer.acres} acres
         </Text>
       </GradientHeader>
       <ScreenContainer safe={false} className="px-4 pt-4">
-        <WeatherWidget weather={dashboard.weather} />
+        <WeatherWidget weather={profile.weather} />
         <View className="mb-3 flex-row gap-2.5">
           <SoilSummaryCard
-            type={dashboard.soil.type}
-            ph={dashboard.soil.ph}
-            npk={dashboard.soil.npk}
+            type={profile.soil.type}
+            ph={profile.soil.ph}
+            npk={profile.soil.npk}
           />
-          <WaterBudgetCard litresPerAcre={dashboard.water_budget_litres_per_acre} />
+          <WaterBudgetCard litresPerAcre={profile.water_budget_litres_per_acre} />
         </View>
-        <FarmLocationMap latitude={12.52} longitude={76.89} />
+        <FarmLocationMap
+          latitude={profile.coordinates.lat}
+          longitude={profile.coordinates.lon}
+          title={`${effectiveDistrict} Farm`}
+        />
         <SectionTitle>Quick actions</SectionTitle>
         <QuickActions
           actions={[
@@ -69,10 +87,20 @@ export function HomeScreen({ navigation }: Props) {
             { id: "help", label: "Help", emoji: "❓" },
           ]}
         />
-        <Pressable onPress={() => navigation.getParent()?.navigate("Recommendations", { result: recommendation })}>
-          <RecentRecommendationCard recommendation={recommendation} />
+        <Pressable
+          onPress={() =>
+            navigation
+              .getParent()
+              ?.navigate("Recommendations", { result: recommendation })
+          }
+        >
+          <RecentRecommendationCard
+            recommendation={recommendation}
+            dateLabel={recentDateLabel}
+            planTitle={planTitle}
+          />
         </Pressable>
-        <SectionTitle>Market trends · Mandya mandi</SectionTitle>
+        <SectionTitle>Market trends · {effectiveDistrict} mandi</SectionTitle>
         {dashboard.market_trends.map((item) => (
           <View key={item.crop} className="mb-1 flex-row justify-between">
             <Text className="text-sm text-ink">{item.crop}</Text>
