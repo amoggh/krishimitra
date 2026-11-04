@@ -64,6 +64,27 @@ def predict_price(
     canonical_district = normalize_district(district) or district
 
     # -----------------------------------------------------------------------
+    # Level Live: Live Agmarknet Mandi Price Cache (refreshed every 6-8 hours)
+    # -----------------------------------------------------------------------
+    try:
+        from app.services.mandi_live_service import get_current_mandi_price
+        live_mandi = get_current_mandi_price(canonical_crop, canonical_district)
+        if live_mandi and live_mandi.modal_price_rs_qtl > 100:
+            logger.info("Using live Mandi price for %s: Rs %.1f/q", canonical_crop, live_mandi.modal_price_rs_qtl)
+            return PriceResult(
+                crop=canonical_crop,
+                expected_inr_per_quintal=round(live_mandi.modal_price_rs_qtl, 1),
+                lower_inr_per_quintal=round(live_mandi.min_price_rs_qtl, 1),
+                upper_inr_per_quintal=round(live_mandi.max_price_rs_qtl, 1),
+                unit="INR/quintal",
+                source=f"{live_mandi.source}:{live_mandi.mandi}",
+                confidence="high",
+                available=True,
+            )
+    except Exception as exc:
+        logger.debug("Live Mandi lookup bypassed: %s", exc)
+
+    # -----------------------------------------------------------------------
     # Level ML: Trained Scikit-Learn Price Model (cached)
     # -----------------------------------------------------------------------
     pipeline = _get_price_pipeline()
