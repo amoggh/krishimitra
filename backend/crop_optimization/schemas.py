@@ -57,6 +57,8 @@ class FarmerInput(BaseModel):
         None, ge=0.0, description="Borewell depth in feet (optional)"
     )
     season: str = Field(..., description="Cropping season: kharif | rabi | zaid | summer")
+    sowing_month: Optional[int] = Field(None, ge=1, le=12, description="Month of sowing (1-12, optional)")
+    harvest_month: Optional[int] = Field(None, ge=1, le=12, description="Target harvest month (1-12, optional)")
     soil: Optional[SoilInput] = Field(None, description="Optional soil information")
 
     @model_validator(mode="before")

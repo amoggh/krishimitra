@@ -55,7 +55,7 @@ KrushiMitra/
 │   │       ├── farm.py            # Farm profile & advisory routes
 │   │       └── risk.py            # Dedicated risk analysis endpoints
 │   ├── validate_output.py         # Ground-truth automated counter-check tool against 5 historical CSVs
-│   └── train_price_model.py       # Training pipeline for commodity price forecasting
+│   └── train_ts_price_model.py    # Training pipeline for time-series commodity price forecasting
 ├── mobile/                        # React Native (Expo 52 + TypeScript + NativeWind / Tailwind)
 │   ├── App.tsx                    # Root navigation & theme provider
 │   ├── src/

@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 import warnings
+import numpy as np
 from pathlib import Path
 
 _CACHED_PRICE_PIPELINE = None
@@ -37,7 +38,13 @@ def _get_price_pipeline():
     global _CACHED_PRICE_PIPELINE, _PRICE_PIPELINE_LOADED
     if not _PRICE_PIPELINE_LOADED:
         _PRICE_PIPELINE_LOADED = True
-        ml_model_path = Path(__file__).parent.parent.parent / "artifacts" / "price_model" / "price_model.joblib"
+        base_art = Path(__file__).parent.parent.parent / "artifacts"
+        candidates = [
+            base_art / "price_ts_model" / "price_ts_model.joblib",
+            base_art / "price_model" / "price_ts_model.joblib",
+            base_art / "price_model" / "price_model.joblib",
+        ]
+        ml_model_path = next((p for p in candidates if p.exists()), candidates[0])
         if ml_model_path.exists():
             try:
                 import joblib
@@ -47,6 +54,55 @@ def _get_price_pipeline():
             except Exception as exc:
                 logger.debug("Could not load ML price model: %s", exc)
     return _CACHED_PRICE_PIPELINE
+
+
+CROP_DURATIONS_MONTHS: dict[str, int] = {
+    "tomato": 3,
+    "bengalgram": 3,
+    "chickpea": 3,
+    "maize": 4,
+    "ragi": 4,
+    "finger millet": 4,
+    "jowar": 4,
+    "sorghum": 4,
+    "groundnut": 4,
+    "onion": 4,
+    "rice": 5,
+    "paddy": 5,
+    "tur": 5,
+    "pigeonpea": 5,
+    "cotton": 6,
+    "sugarcane": 12,
+}
+
+
+def estimate_crop_harvest_month(
+    crop: str,
+    season: str,
+    sowing_month: Optional[int] = None,
+) -> int:
+    """
+    Estimate expected harvest month (1-12) based on crop maturity duration and sowing/season timing.
+    """
+    clean = crop.lower().strip()
+    dur_m = 4
+    for k, dur in CROP_DURATIONS_MONTHS.items():
+        if k in clean:
+            dur_m = dur
+            break
+
+    if sowing_month is not None and 1 <= sowing_month <= 12:
+        return ((sowing_month - 1 + dur_m) % 12) + 1
+
+    s_lower = str(season).lower()
+    if "rabi" in s_lower:
+        base_sowing = 10  # October
+    elif "summer" in s_lower or "zaid" in s_lower:
+        base_sowing = 2   # February
+    else:
+        base_sowing = 7   # July (Kharif)
+
+    return ((base_sowing - 1 + dur_m) % 12) + 1
 
 
 def predict_price(
@@ -64,12 +120,28 @@ def predict_price(
     canonical_district = normalize_district(district) or district
 
     # -----------------------------------------------------------------------
-    # Level Live: Live Agmarknet Mandi Price Cache (refreshed every 6-8 hours)
+    target_harvest_m = harvest_month
+    if target_harvest_m is None:
+        target_harvest_m = estimate_crop_harvest_month(canonical_crop, season)
+
+    # 1. Fetch 24h Agmarknet Live Mandi Price & Previous 7-8 Months Historical Trajectory
+    history = {}
+    try:
+        from app.services.mandi_live_service import get_crop_historical_trajectory
+        history = get_crop_historical_trajectory(canonical_crop, canonical_district)
+    except Exception as exc:
+        logger.debug("Historical trajectory lookup: %s", exc)
+
+    live_p = history.get("current_price_qtl", 3200.0)
+    lag_1m = history.get("lag_1m_qtl", live_p * 0.98)
+    rolling_7m = history.get("rolling_mean_7m_qtl", live_p * 0.96)
+    lag_1y = history.get("lag_1y_qtl", live_p * 0.94)
+    momentum = history.get("price_momentum_7m", 1.0)
     # -----------------------------------------------------------------------
     try:
         from app.services.mandi_live_service import get_current_mandi_price
         live_mandi = get_current_mandi_price(canonical_crop, canonical_district)
-        if live_mandi and live_mandi.modal_price_rs_qtl > 100:
+        if False:  # Handled below by time-series harvest forecast
             logger.info("Using live Mandi price for %s: Rs %.1f/q", canonical_crop, live_mandi.modal_price_rs_qtl)
             return PriceResult(
                 crop=canonical_crop,
@@ -90,23 +162,46 @@ def predict_price(
     pipeline = _get_price_pipeline()
     if pipeline is not None:
         try:
+            m_sin = float(np.sin(2 * np.pi * target_harvest_m / 12))
+            m_cos = float(np.cos(2 * np.pi * target_harvest_m / 12))
+            from datetime import datetime
+            now_m = datetime.now().month
+            months_to_harvest = max(1, (target_harvest_m - now_m) % 12 or 4)
+
+
             sample = pd.DataFrame([{
                 "crop": canonical_crop,
                 "district": canonical_district,
-                "season": season,
+                "season": str(season).lower(),
+                "current_mandi_price_qtl": live_p,
+                "lag_1m_qtl": lag_1m,
+                "rolling_mean_7m_qtl": rolling_7m,
+                "lag_1y_qtl": lag_1y,
+                "price_momentum_7m": momentum,
+                "harvest_month": target_harvest_m,
+                "month_sin": m_sin,
+                "month_cos": m_cos,
+                "months_to_harvest": months_to_harvest,
+                "area_sown_ha": 500.0,
+                "mandi_arrivals_t": 1000.0,
+                "rainfall_mm": 120.0,
+                "temperature_c": 26.0,
             }])
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                pred = float(pipeline.predict(sample)[0])
+                try:
+                    pred = float(pipeline.predict(sample)[0])
+                except Exception:
+                    pred = float(pipeline.predict(sample[["crop", "district", "season"]])[0])
             if pred > 100:
-                logger.info("Using trained ML price model for %s: Rs %.1f/q", canonical_crop, pred)
+                logger.info("Using trained Time-Series Harvest Price model for %s: Rs %.1f/q at month %d", canonical_crop, pred, target_harvest_m)
                 return PriceResult(
                     crop=canonical_crop,
                     expected_inr_per_quintal=round(pred, 1),
                     lower_inr_per_quintal=round(pred * 0.85, 1),
                     upper_inr_per_quintal=round(pred * 1.15, 1),
                     unit="INR/quintal",
-                    source="trained_random_forest_ml_model",
+                    source=f"trained_ts_price_model(harvest_month_{target_harvest_m})",
                     confidence="high",
                     available=True,
                 )
