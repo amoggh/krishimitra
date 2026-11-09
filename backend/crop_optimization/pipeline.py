@@ -142,10 +142,19 @@ def _run_crop_optimization_internal(farmer_input: FarmerInput) -> Recommendation
     price_results: dict[str, PriceResult] = {}
     for compat in compatible_crops:
         crop = compat.crop
+        target_harvest_m = getattr(farmer_input, "harvest_month", None)
+        if target_harvest_m is None:
+            from crop_optimization.price_model.model import estimate_crop_harvest_month
+            target_harvest_m = estimate_crop_harvest_month(
+                crop=crop,
+                season=farmer_input.season,
+                sowing_month=getattr(farmer_input, "sowing_month", None),
+            )
         price_results[crop] = predict_price(
             crop=crop,
             district=farmer_input.district,
             season=farmer_input.season,
+            harvest_month=target_harvest_m,
             mandi_df=mandi_df,
         )
 
