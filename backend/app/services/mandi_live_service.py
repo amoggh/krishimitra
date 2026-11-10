@@ -128,14 +128,52 @@ def _seed_from_local_mandi_data():
     if _PRICE_CACHE:
         return  # Cache already has entries
 
+    now = datetime.now(timezone.utc)
+
+    # 1. Seed from Karnataka multi-model dataset (Wholesale mandi prices per district & crop)
+    try:
+        from crop_optimization.data_loader import load_soil_weather_data
+        multi_df = load_soil_weather_data()
+        if multi_df is not None and not multi_df.empty:
+            for _, row in multi_df.iterrows():
+                crop_raw = str(row.get("crop") or row.get("Recommended_Crop", "")).strip().title()
+                dist_raw = str(row.get("district") or row.get("District", "")).strip().title()
+                if not crop_raw or not dist_raw:
+                    continue
+                # Price per tonne -> divide by 10 for price per quintal
+                tonne_price = _safe_float(row.get("Wholesale_Price_Modal_INR_per_Tonne"), 0.0)
+                if tonne_price <= 0:
+                    continue
+                price_qtl = round(tonne_price / 10.0, 1)
+                min_qtl = round(_safe_float(row.get("Wholesale_Price_Min_INR_per_Tonne"), tonne_price * 0.9) / 10.0, 1)
+                max_qtl = round(_safe_float(row.get("Wholesale_Price_Max_INR_per_Tonne"), tonne_price * 1.1) / 10.0, 1)
+                mandi_name = str(row.get("Mandi_Name", f"{dist_raw} APMC")).strip()
+
+                key = f"{crop_raw}_{dist_raw}".lower()
+                if key not in _PRICE_CACHE:
+                    _PRICE_CACHE[key] = CachedMandiPrice(
+                        crop=crop_raw,
+                        district=dist_raw,
+                        mandi=mandi_name,
+                        modal_price_rs_qtl=price_qtl,
+                        min_price_rs_qtl=min_qtl,
+                        max_price_rs_qtl=max_qtl,
+                        arrival_date="Karnataka Mandi Index",
+                        last_fetched_at=now,
+                        source="karnataka_verified_mandi_dataset",
+                    )
+            logger.info("Seeded %d Karnataka district records from multi-model mandi dataset.", len(_PRICE_CACHE))
+    except Exception as exc:
+        logger.debug("Could not seed from multi-model dataset: %s", exc)
+
+    # 2. Seed from mandi prices dataset (vegetables, pulses, and commodities)
     try:
         from crop_optimization.data_loader import load_mandi_data
         df = load_mandi_data()
         if df is not None and not df.empty:
-            now = datetime.now(timezone.utc)
             for _, row in df.iterrows():
-                crop = str(row.get("crop", "")).strip().title()
-                district = str(row.get("district", "Karnataka")).strip().title()
+                crop = str(row.get("crop") or row.get("Commodity", "")).strip().title()
+                district = str(row.get("district") or row.get("District", "Karnataka")).strip().title()
                 price = _safe_float(row.get("Modal_x0020_Price"), 0.0)
                 if crop and price > 100:
                     key = f"{crop}_{district}".lower()
@@ -143,16 +181,16 @@ def _seed_from_local_mandi_data():
                         _PRICE_CACHE[key] = CachedMandiPrice(
                             crop=crop,
                             district=district,
-                            mandi=str(row.get("Market", district)),
+                            mandi=str(row.get("Market", f"{district} APMC")),
                             modal_price_rs_qtl=price,
                             min_price_rs_qtl=_safe_float(row.get("Min_x0020_Price"), price * 0.9),
                             max_price_rs_qtl=_safe_float(row.get("Max_x0020_Price"), price * 1.1),
-                            arrival_date=str(row.get("Arrival_Date", "")),
+                            arrival_date=str(row.get("Arrival_Date", "Today")),
                             last_fetched_at=now,
                             source="local_verified_mandi_cache",
                         )
             _LAST_REFRESH_TIME = now
-            logger.info("Seeded %d mandi records from local dataset into cache.", len(_PRICE_CACHE))
+            logger.info("Total cached mandi records after seeding: %d", len(_PRICE_CACHE))
     except Exception as exc:
         logger.debug("Could not seed from local mandi data: %s", exc)
 

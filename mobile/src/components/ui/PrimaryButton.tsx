@@ -1,40 +1,50 @@
-import { Pressable, Text, type PressableProps } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "@/theme/colors";
+import React from "react";
+import { type PressableProps, type StyleProp, type ViewStyle } from "react-native";
+import { AppButton, type ButtonVariant, type ButtonSize } from "./AppButton";
 
-type Props = PressableProps & {
+export type PrimaryButtonProps = PressableProps & {
   label: string;
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "secondary";
+  size?: ButtonSize;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  loading?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  style?: StyleProp<ViewStyle>;
 };
 
 export function PrimaryButton({
   label,
   variant = "primary",
+  size = "md",
+  leftIcon,
+  rightIcon,
+  loading,
   disabled,
+  fullWidth = true,
+  className = "",
+  style,
   ...rest
-}: Props) {
-  if (variant === "outline") {
-    return (
-      <Pressable
-        className="rounded-btn border-2 border-green-pale bg-white py-3.5"
-        disabled={disabled}
-        {...rest}
-      >
-        <Text className="text-center font-sans-bold text-base text-forest">{label}</Text>
-      </Pressable>
-    );
-  }
+}: PrimaryButtonProps) {
+  const mappedVariant: ButtonVariant =
+    variant === "outline" ? "outline" : variant === "secondary" ? "secondary" : "primary";
 
   return (
-    <Pressable disabled={disabled} className="overflow-hidden rounded-btn" {...rest}>
-      <LinearGradient
-        colors={[colors.forest, colors.green]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="py-3.5"
-      >
-        <Text className="text-center font-sans-bold text-base text-white">{label}</Text>
-      </LinearGradient>
-    </Pressable>
+    <AppButton
+      label={label}
+      variant={mappedVariant}
+      size={size}
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
+      loading={loading}
+      disabled={disabled}
+      fullWidth={fullWidth}
+      className={className}
+      style={style}
+      {...rest}
+    />
   );
 }
+
+export default PrimaryButton;

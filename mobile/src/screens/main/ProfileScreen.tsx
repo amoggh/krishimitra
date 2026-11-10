@@ -8,7 +8,7 @@ type Props = MainTabScreenProps<"Profile">;
 
 export function ProfileScreen({ navigation }: Props) {
   const farmer = mockDashboard.farmer;
-  const { plans, removePlan, sharePlan } = useSavedPlans();
+  const { plans, activePlan, setActivePlan, removePlan, sharePlan } = useSavedPlans();
 
   const handleOpenPlan = (plan: SavedPlan) => {
     // Navigate to RecommendationsScreen with this plan's result
@@ -18,15 +18,18 @@ export function ProfileScreen({ navigation }: Props) {
   };
 
   const handleDelete = (plan: SavedPlan) => {
+    const planName = plan.title || "this plan";
     if (Platform.OS === "web") {
-      const confirmed = window.confirm(`Remove plan "${plan.title}" from saved plans?`);
+      const confirmed = typeof window !== "undefined" && window.confirm
+        ? window.confirm("Remove plan " + planName + " from saved plans?")
+        : true;
       if (confirmed) {
         removePlan(plan.id);
       }
     } else {
       Alert.alert(
         "Delete Plan",
-        `Are you sure you want to remove "${plan.title}"?`,
+        "Are you sure you want to remove " + planName + "?",
         [
           { text: "Cancel", style: "cancel" },
           {
@@ -81,11 +84,11 @@ export function ProfileScreen({ navigation }: Props) {
         ) : (
           plans.map((plan, index) => {
             const timeAgo = formatTimeAgo(plan.savedAt);
-            const isLatest = index === 0;
+            const isActive = activePlan?.id === plan.id;
 
             return (
               <Card key={plan.id} className="mb-3">
-                {/* Header row: Title & Date pill */}
+                {/* Header row: Title & Active / Date pill */}
                 <View className="mb-1.5 flex-row items-start justify-between gap-2">
                   <View className="flex-1">
                     <Text className="font-sans-bold text-sm text-ink" numberOfLines={1}>
@@ -95,18 +98,28 @@ export function ProfileScreen({ navigation }: Props) {
                       {plan.subtitle}
                     </Text>
                   </View>
-                  <View
-                    className={`rounded-full px-2 py-0.5 ${
-                      isLatest ? "bg-forest/15" : "bg-ink-muted/15"
-                    }`}
-                  >
-                    <Text
-                      className={`text-[10px] font-sans-bold ${
-                        isLatest ? "text-forest" : "text-ink-muted"
-                      }`}
-                    >
-                      {timeAgo}
-                    </Text>
+                  <View className="flex-row items-center gap-1.5">
+                    {isActive ? (
+                      <View className="rounded-full bg-forest px-2 py-0.5">
+                        <Text className="text-[10px] font-sans-bold text-white">
+                          Current Plan
+                        </Text>
+                      </View>
+                    ) : (
+                      <Pressable
+                        onPress={() => setActivePlan(plan.id)}
+                        className="rounded-full bg-cream-dark/60 px-2 py-0.5"
+                      >
+                        <Text className="text-[10px] font-sans-bold text-ink-muted">
+                          Set as Current
+                        </Text>
+                      </Pressable>
+                    )}
+                    <View className="rounded-full bg-ink-muted/15 px-2 py-0.5">
+                      <Text className="text-[10px] font-sans-bold text-ink-muted">
+                        {timeAgo}
+                      </Text>
+                    </View>
                   </View>
                 </View>
 

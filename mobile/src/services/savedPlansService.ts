@@ -27,6 +27,7 @@ export interface SavedPlan {
 }
 
 const STORAGE_KEY = "@krushimitra_saved_plans_v1";
+const ACTIVE_PLAN_KEY = "@krushimitra_active_plan_id_v1";
 
 const DEFAULT_SEEDED_PLANS: SavedPlan[] = [
   {
@@ -75,7 +76,36 @@ const DEFAULT_SEEDED_PLANS: SavedPlan[] = [
 ];
 
 let inMemoryPlans: SavedPlan[] | null = null;
+let inMemoryActivePlanId: string | null = null;
 const listeners = new Set<() => void>();
+
+function readActivePlanIdFromStorage(): string | null {
+  if (typeof window !== "undefined" && window.localStorage) {
+    try {
+      return window.localStorage.getItem(ACTIVE_PLAN_KEY);
+    } catch {
+      // Ignore
+    }
+  }
+  return null;
+}
+
+function writeActivePlanIdToStorage(id: string | null) {
+  if (typeof window !== "undefined" && window.localStorage) {
+    try {
+      if (id) {
+        window.localStorage.setItem(ACTIVE_PLAN_KEY, id);
+      } else {
+        window.localStorage.removeItem(ACTIVE_PLAN_KEY);
+      }
+    } catch {
+      // Ignore
+    }
+  }
+}
+
+// Initialize active plan ID
+inMemoryActivePlanId = readActivePlanIdFromStorage();
 
 function notifyListeners() {
   listeners.forEach((listener) => {
@@ -231,7 +261,8 @@ export function formatPlanForSharing(plan: SavedPlan): string {
 }
 
 /**
- * Save a new plan to local storage, memory, and backend API
+ * Save a new plan to local storage, memory, and backend API.
+ * Automatically marks this plan as the current active recommendation.
  */
 export async function savePlan(
   result: RecommendationResult,
@@ -247,6 +278,11 @@ export async function savePlan(
   // Prepend to list
   inMemoryPlans = [newPlan, ...inMemoryPlans.filter((p) => p.id !== newPlan.id)];
   writeToLocalStorage(inMemoryPlans);
+
+  // Mark as the current active recommendation
+  inMemoryActivePlanId = newPlan.id;
+  writeActivePlanIdToStorage(newPlan.id);
+
   notifyListeners();
   setActiveDistrict(newPlan.district);
 
@@ -259,6 +295,38 @@ export async function savePlan(
   }
 
   return newPlan;
+}
+
+/**
+ * Explicitly switch the current active plan
+ */
+export function setActivePlan(id: string) {
+  inMemoryActivePlanId = id;
+  writeActivePlanIdToStorage(id);
+  if (inMemoryPlans) {
+    const plan = inMemoryPlans.find((p) => p.id === id);
+    if (plan) {
+      setActiveDistrict(plan.district);
+    }
+  }
+  notifyListeners();
+}
+
+/**
+ * Get the currently active plan
+ */
+export function getActivePlan(): SavedPlan | null {
+  if (!inMemoryPlans) {
+    inMemoryPlans = readFromLocalStorage() ?? [...DEFAULT_SEEDED_PLANS];
+  }
+  if (!inMemoryActivePlanId) {
+    inMemoryActivePlanId = readActivePlanIdFromStorage();
+  }
+  if (inMemoryActivePlanId && inMemoryPlans) {
+    const found = inMemoryPlans.find((p) => p.id === inMemoryActivePlanId);
+    if (found) return found;
+  }
+  return inMemoryPlans && inMemoryPlans.length > 0 ? inMemoryPlans[0] : null;
 }
 
 /**
@@ -332,10 +400,11 @@ export async function sharePlan(plan: SavedPlan): Promise<void> {
 }
 
 /**
- * React hook for components (e.g. ProfileScreen) to subscribe to saved plans
+ * React hook for components to subscribe to saved plans and active plan
  */
 export function useSavedPlans() {
   const [plans, setPlans] = useState<SavedPlan[]>(() => inMemoryPlans ?? readFromLocalStorage() ?? DEFAULT_SEEDED_PLANS);
+  const [activePlanId, setActivePlanIdState] = useState<string | null>(() => inMemoryActivePlanId ?? readActivePlanIdFromStorage());
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -345,7 +414,10 @@ export function useSavedPlans() {
       setLoading(true);
       try {
         const loaded = await getSavedPlans();
-        if (mounted) setPlans([...loaded]);
+        if (mounted) {
+          setPlans([...loaded]);
+          setActivePlanIdState(inMemoryActivePlanId ?? readActivePlanIdFromStorage());
+        }
       } finally {
         if (mounted) setLoading(false);
       }
@@ -354,8 +426,11 @@ export function useSavedPlans() {
     load();
 
     const onUpdate = () => {
-      if (mounted && inMemoryPlans) {
-        setPlans([...inMemoryPlans]);
+      if (mounted) {
+        if (inMemoryPlans) {
+          setPlans([...inMemoryPlans]);
+        }
+        setActivePlanIdState(inMemoryActivePlanId ?? readActivePlanIdFromStorage());
       }
     };
 
@@ -370,8 +445,14 @@ export function useSavedPlans() {
     await deleteSavedPlan(id);
   };
 
+  const activePlan: SavedPlan | null =
+    (activePlanId ? plans.find((p) => p.id === activePlanId) : null) ??
+    (plans.length > 0 ? plans[0] : null);
+
   return {
     plans,
+    activePlan,
+    setActivePlan,
     loading,
     removePlan,
     sharePlan,

@@ -1,18 +1,21 @@
-import { Pressable, Text } from "react-native";
+import { Pressable, Text, type ViewStyle, type StyleProp } from "react-native";
+import { radii } from "@/theme/tokens";
 
-type Tone = "default" | "success" | "warning" | "danger" | "active";
+type Tone = "default" | "success" | "warning" | "danger" | "active" | "gold";
 
 const toneStyles: Record<Tone, string> = {
-  default: "bg-green-pale",
-  success: "bg-green-pale",
-  warning: "bg-amber-50",
-  danger: "bg-red-50",
-  active: "bg-forest",
+  default: "bg-sage border border-sage-dark/40",
+  success: "bg-sage border border-sage-dark/50",
+  gold: "bg-gold-light border border-gold/30",
+  warning: "bg-amber-50 border border-amber-200",
+  danger: "bg-red-50 border border-red-200",
+  active: "bg-primary border border-primary-dark",
 };
 
 const textStyles: Record<Tone, string> = {
-  default: "text-forest",
-  success: "text-success",
+  default: "text-primary",
+  success: "text-primary",
+  gold: "text-ink",
   warning: "text-warning",
   danger: "text-danger",
   active: "text-white",
@@ -23,16 +26,31 @@ type Props = {
   tone?: Tone;
   selected?: boolean;
   onPress?: () => void;
+  className?: string;
+  style?: StyleProp<ViewStyle>;
 };
 
-export function Chip({ label, tone = "default", selected, onPress }: Props) {
+export function Chip({
+  label,
+  tone = "default",
+  selected,
+  onPress,
+  className = "",
+  style,
+}: Props) {
   const resolved = selected ? "active" : tone;
   return (
     <Pressable
       onPress={onPress}
-      className={`rounded-full px-3 py-1.5 ${toneStyles[resolved]}`}
+      accessibilityRole="button"
+      className={`rounded-full px-3 py-1.5 active:opacity-75 ${toneStyles[resolved]} ${className}`}
+      style={[{ borderRadius: radii.full }, style]}
     >
-      <Text className={`font-sans-semibold text-xs ${textStyles[resolved]}`}>{label}</Text>
+      <Text className={`font-sans-bold text-xs ${textStyles[resolved]}`}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
+
+export default Chip;

@@ -1,32 +1,28 @@
-import { Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
 import type { WeatherSummary } from "@/types/api";
+import { WeatherHeroCard } from "@/components/ui/WeatherHeroCard";
 
-type Props = { weather: WeatherSummary };
+type Props = {
+  weather: WeatherSummary;
+  variant?: "hero" | "detail";
+};
 
 export function WeatherWidget({ weather }: Props) {
   return (
-    <LinearGradient
-      colors={["#4a90c2", "#2980b9"]}
-      style={{
-        borderRadius: 20,
-        marginBottom: 12,
-        shadowColor: "#2980b9",
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.18,
-        shadowRadius: 10,
-        elevation: 3,
-      }}
-      className="flex-row items-start justify-between p-3.5"
-    >
-      <View>
-        <Text className="text-xs text-white/90">Today · {weather.location}</Text>
-        <Text className="font-sans-extrabold text-3xl text-white">{weather.temp_c}°C</Text>
-        <Text className="text-xs text-white/90">
-          {weather.condition} · Rain {weather.rain_chance_pct}% Fri
-        </Text>
-      </View>
-      <Text className="text-4xl">⛅</Text>
-    </LinearGradient>
+    <WeatherHeroCard
+      location={weather.location}
+      dateStr="Today"
+      tempC={weather.temp_c}
+      condition={weather.condition}
+      humidityPct={weather.rain_chance_pct > 0 ? 68 : 55}
+      advisoryText={
+        weather.rain_chance_pct > 40
+          ? `Rain probability ${weather.rain_chance_pct}%. Monitor fields and postpone chemical spraying.`
+          : `Favorable weather conditions today (${weather.condition}). Optimal for fieldwork.`
+      }
+      className="mb-3.5"
+    />
   );
 }
+
+export default WeatherWidget;

@@ -1,5 +1,8 @@
+import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, type StyleProp, type ViewStyle } from "react-native";
+import { ArrowLeft } from "lucide-react-native";
+import { colors, radii, shadows } from "@/theme/tokens";
 
 export type BackButtonProps = {
   label?: string;
@@ -13,7 +16,7 @@ export type BackButtonProps = {
 /**
  * Universal back button designed for web and mobile.
  * Guarantees that users on web (and native) can always return to the previous page,
- * falling back safely to the main screen if there is no previous history (e.g. on direct URL / refresh).
+ * falling back safely to the main screen if there is no previous history.
  */
 export function BackButton({
   label = "Back",
@@ -30,12 +33,14 @@ export function BackButton({
       onPress();
       return;
     }
-    if (navigation.canGoBack()) {
+    if (navigation?.canGoBack?.()) {
       navigation.goBack();
-    } else {
+    } else if (navigation?.navigate) {
       navigation.navigate(fallbackRoute);
     }
   }
+
+  const iconColor = light ? colors.white : colors.primary;
 
   return (
     <Pressable
@@ -45,24 +50,26 @@ export function BackButton({
       className={`self-start flex-row items-center rounded-full px-3 py-1.5 active:opacity-75 ${
         light
           ? "bg-white/20 active:bg-white/30"
-          : "border border-cream-dark bg-white active:bg-cream"
+          : "border border-[#183B2B]/[0.08] bg-white active:bg-cream"
       } ${className}`}
-      style={style}
+      style={[
+        !light ? shadows.subtle : {},
+        { borderRadius: radii.full },
+        style,
+      ]}
     >
-      <Text
-        className={`mr-1.5 text-base leading-none ${
-          light ? "text-white" : "text-forest"
-        }`}
-      >
-        ←
-      </Text>
-      <Text
-        className={`font-sans-semibold text-xs ${
-          light ? "text-white" : "text-forest"
-        }`}
-      >
-        {label}
-      </Text>
+      <ArrowLeft size={14} color={iconColor} />
+      {label ? (
+        <Text
+          className={`ml-1.5 font-sans-bold text-xs ${
+            light ? "text-white" : "text-primary"
+          }`}
+        >
+          {label}
+        </Text>
+      ) : null}
     </Pressable>
   );
 }
+
+export default BackButton;

@@ -23,22 +23,30 @@ export function RecommendationsScreen({ navigation, route }: Props) {
   const [isSaving, setIsSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
 
-  const handleSaveAndShare = async () => {
+  const handleSavePlan = async () => {
     try {
       setIsSaving(true);
-      const saved = await savePlan(result);
+      await savePlan(result);
       setSavedSuccess(true);
-      // Trigger native share
-      await sharePlan(saved);
-      // Navigate to user profile so the farmer sees their newly saved plan
+      // Navigate to Home screen so the farmer immediately sees their current recommendation
       setTimeout(() => {
-        navigation.navigate("Main", { screen: "Profile" });
-      }, 700);
+        navigation.navigate("Main", { screen: "Home" });
+      }, 600);
     } catch (error) {
-      console.warn("Failed to save or share plan:", error);
-      navigation.navigate("Main", { screen: "Profile" });
+      console.warn("Failed to save plan:", error);
+      navigation.navigate("Main", { screen: "Home" });
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleSharePlan = async () => {
+    try {
+      const saved = await savePlan(result);
+      setSavedSuccess(true);
+      await sharePlan(saved);
+    } catch (error) {
+      console.warn("Failed to share plan:", error);
     }
   };
 
@@ -296,17 +304,17 @@ export function RecommendationsScreen({ navigation, route }: Props) {
         <View className="mb-3 flex-row items-center justify-between rounded-xl border border-forest/40 bg-forest/10 px-3.5 py-2.5">
           <View className="flex-1">
             <Text className="font-sans-bold text-xs text-forest">
-              ✓ Plan saved to your Profile!
+              ✓ Saved as Current Recommendation!
             </Text>
             <Text className="text-[11px] text-ink-muted">
-              Redirecting to your Profile view...
+              Redirecting to your Home page...
             </Text>
           </View>
           <Pressable
-            onPress={() => navigation.navigate("Main", { screen: "Profile" })}
+            onPress={() => navigation.navigate("Main", { screen: "Home" })}
             className="rounded-lg bg-forest px-2.5 py-1"
           >
-            <Text className="font-sans-bold text-xs text-white">View Now</Text>
+            <Text className="font-sans-bold text-xs text-white">Go to Home</Text>
           </Pressable>
         </View>
       )}
@@ -314,14 +322,23 @@ export function RecommendationsScreen({ navigation, route }: Props) {
       <PrimaryButton
         label={
           isSaving
-            ? "Saving plan…"
+            ? "Saving recommendation…"
             : savedSuccess
-            ? "Plan Saved to Profile ✓"
-            : "Save & share plan"
+            ? "Saved as Current Plan ✓"
+            : "Save as Current Recommendation"
         }
-        onPress={handleSaveAndShare}
+        onPress={handleSavePlan}
         disabled={isSaving}
       />
+
+      <Pressable
+        onPress={handleSharePlan}
+        className="mt-2.5 rounded-xl border border-forest/30 bg-white py-3 shadow-xs active:bg-sand/30"
+      >
+        <Text className="text-center font-sans-bold text-sm text-forest">
+          📤 Share Plan (WhatsApp / SMS)
+        </Text>
+      </Pressable>
 
       <Pressable
         onPress={() =>
@@ -329,7 +346,7 @@ export function RecommendationsScreen({ navigation, route }: Props) {
             ? navigation.goBack()
             : navigation.navigate("FarmInput")
         }
-        className="mt-3 py-2"
+        className="mt-2.5 py-2"
       >
         <Text className="text-center font-sans-semibold text-sm text-ink-muted">
           ← Edit farm details
