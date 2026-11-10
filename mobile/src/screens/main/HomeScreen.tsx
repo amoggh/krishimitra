@@ -20,7 +20,7 @@ import {
   MarketIntelligenceSection,
   FarmInsightsSection,
 } from "@/components/home";
-import { getDashboard, getMandiPrices } from "@/services/api";
+import { getDashboard, getMandiPrices, getLiveWeather, type ExtendedWeatherData } from "@/services/api";
 import { useSavedPlans } from "@/services/savedPlansService";
 import { useActiveDistrict } from "@/services/locationState";
 import { getDistrictProfile } from "@/constants/districtProfiles";
@@ -77,6 +77,36 @@ export function HomeScreen({ navigation }: Props) {
   // 3. Resolve location and profile dynamically
   const effectiveDistrict = currentPlan?.district || activeDistrict || "Mandya";
   const profile = getDistrictProfile(effectiveDistrict);
+
+  // Live real-time weather fetched from API (OpenWeather / WeatherAPI / Open-Meteo)
+  const [liveWeather, setLiveWeather] = useState<ExtendedWeatherData | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getLiveWeather(profile.coordinates.lat, profile.coordinates.lon, effectiveDistrict)
+      .then((data) => {
+        if (mounted && data) {
+          setLiveWeather(data);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      mounted = false;
+    };
+  }, [profile.coordinates.lat, profile.coordinates.lon, effectiveDistrict]);
+
+  const activeWeather = useMemo(() => {
+    if (liveWeather) {
+      return {
+        location: liveWeather.location || effectiveDistrict,
+        temp_c: liveWeather.temp_c,
+        condition: liveWeather.condition,
+        rain_chance_pct: liveWeather.rain_chance_pct,
+      };
+    }
+    return profile.weather;
+  }, [liveWeather, profile.weather, effectiveDistrict]);
 
   // 4. Recommended crops for price filtering
   const recommendedCrops = useMemo(() => {
@@ -208,8 +238,8 @@ export function HomeScreen({ navigation }: Props) {
         farmerName={dashboard.farmer.name}
         location={`${effectiveDistrict}, Karnataka`}
         totalAcres={totalAcres}
-        tempC={profile.weather.temp_c}
-        weatherCondition={profile.weather.condition}
+        tempC={activeWeather.temp_c}
+        weatherCondition={activeWeather.condition}
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
         onProfilePress={handleNavigateProfile}
@@ -265,7 +295,7 @@ export function HomeScreen({ navigation }: Props) {
 
                 {/* 6. Today's Farm Insights */}
                 <FarmInsightsSection
-                  weather={profile.weather}
+                  weather={activeWeather}
                   mandiPrices={mandiPrices}
                   soilType={profile.soil.type}
                   soilPh={profile.soil.ph}
@@ -292,15 +322,15 @@ export function HomeScreen({ navigation }: Props) {
 
                 {/* Detailed Weather Card */}
                 <WeatherDetailCard
-                  location={`${effectiveDistrict} Agro-Climate Area`}
-                  tempC={profile.weather.temp_c}
-                  condition={profile.weather.condition}
-                  humidityPct={profile.weather.rain_chance_pct > 0 ? 68 : 55}
-                  precipitationMm={profile.weather.rain_chance_pct > 40 ? 5.2 : 0}
-                  pressureHpa={1012}
-                  windSpeedKmh={14}
-                  sunrise="5:45 am"
-                  sunset="6:15 pm"
+                  location={`${effectiveDistrict} Farm Zone`}
+                  tempC={activeWeather.temp_c}
+                  condition={activeWeather.condition}
+                  humidityPct={liveWeather?.humidity_pct ?? (activeWeather.rain_chance_pct > 0 ? 68 : 55)}
+                  precipitationMm={liveWeather?.precipitation_mm ?? (activeWeather.rain_chance_pct > 40 ? 5.2 : 0)}
+                  pressureHpa={liveWeather?.pressure_hpa ?? 1012}
+                  windSpeedKmh={liveWeather?.wind_speed_kmh ?? 14}
+                  sunrise={liveWeather?.sunrise ?? "5:45 am"}
+                  sunset={liveWeather?.sunset ?? "6:15 pm"}
                 />
 
                 {/* 5. Market Intelligence */}
@@ -379,7 +409,7 @@ export function HomeScreen({ navigation }: Props) {
 
               {/* 6. Today's Farm Insights */}
               <FarmInsightsSection
-                weather={profile.weather}
+                weather={activeWeather}
                 mandiPrices={mandiPrices}
                 soilType={profile.soil.type}
                 soilPh={profile.soil.ph}

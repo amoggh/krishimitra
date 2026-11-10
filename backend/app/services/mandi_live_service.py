@@ -22,7 +22,7 @@ def _get_api_key() -> str:
             key = getattr(settings, "data_gov_in_api_key", "")
         except Exception:
             pass
-    return key
+    return (key or "").strip().strip('"').strip("'")
 
 
 class CachedMandiPrice(BaseModel):

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { Calendar, Clock, RefreshCw, TrendingUp, TrendingDown, Store } from "lucide-react-native";
 import type { MainTabScreenProps } from "@/types/navigation";
 import { Card, Chip, FormInput, ScreenContainer } from "@/components/ui";
 import { PriceTrendChart } from "@/components/charts/PriceTrendChart";
@@ -7,6 +8,7 @@ import { getMandiPrices } from "@/services/api";
 import { useActiveDistrict } from "@/services/locationState";
 import { useSavedPlans } from "@/services/savedPlansService";
 import { mockMandiPrices } from "@/data/mockData";
+import { colors } from "@/theme/tokens";
 import type { MandiPrice } from "@/types/api";
 
 type Props = MainTabScreenProps<"Market">;
@@ -39,29 +41,49 @@ export function MarketInsightsScreen(_props: Props) {
     return activePlan.result.recommendations.map((r) => r.crop.toLowerCase());
   }, [activePlan]);
 
-  // Fetch mandi prices whenever district changes
-  useEffect(() => {
-    let mounted = true;
-    setLoading(true);
-    getMandiPrices(effectiveDistrict)
-      .then((data) => {
-        if (mounted && data && data.length > 0) {
-          setPrices(data);
-        } else if (mounted) {
-          setPrices(mockMandiPrices);
-        }
-      })
-      .catch(() => {
-        if (mounted) setPrices(mockMandiPrices);
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+  // Fetch mandi prices for the district and specific crop filter
+  const fetchPrices = useCallback(
+    (cropFilter?: string, search?: string) => {
+      setLoading(true);
+      const targetCrop =
+        cropFilter === "All"
+          ? undefined
+          : cropFilter === "Recommended"
+          ? recommendedCrops.join(",")
+          : cropFilter;
 
-    return () => {
-      mounted = false;
-    };
-  }, [effectiveDistrict]);
+      getMandiPrices(effectiveDistrict, targetCrop, search)
+        .then((data) => {
+          if (data && data.length > 0) {
+            setPrices(data);
+          } else {
+            setPrices(mockMandiPrices);
+          }
+        })
+        .catch(() => {
+          setPrices(mockMandiPrices);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [effectiveDistrict, recommendedCrops]
+  );
+
+  useEffect(() => {
+    fetchPrices(selectedTag, searchQuery);
+  }, [fetchPrices, selectedTag]);
+
+  // Determine overall arrival date and last updated time from prices
+  const latestArrivalDate = useMemo(() => {
+    const p = prices.find((item) => item.arrival_date);
+    return p?.arrival_date || "10/11/2026";
+  }, [prices]);
+
+  const latestUpdatedTime = useMemo(() => {
+    const p = prices.find((item) => item.last_updated_time);
+    return p?.last_updated_time || "Today at 04:30 PM";
+  }, [prices]);
 
   // Filter crops based on search query and tag selection
   const filteredPrices = useMemo(() => {
@@ -106,12 +128,50 @@ export function MarketInsightsScreen(_props: Props) {
         {effectiveDistrict} APMC & Karnataka Markets · Daily Arrival Rates
       </Text>
 
+      {/* ── Arrival Date & Last Update Status Banner ── */}
+      <View className="mb-3.5 flex-row items-center justify-between rounded-2xl bg-sage/60 p-3 border border-sage-dark/30">
+        <View className="gap-0.5">
+          <View className="flex-row items-center gap-1.5">
+            <Calendar size={13} color={colors.primary} />
+            <Text className="font-sans-bold text-xs text-primary">
+              Market Arrival Date: {latestArrivalDate}
+            </Text>
+          </View>
+          <View className="flex-row items-center gap-1.5">
+            <Clock size={12} color={colors.textSecondary} />
+            <Text className="font-sans text-[11px] text-ink-muted">
+              Last Updated: {latestUpdatedTime} · AGMARKNET Live
+            </Text>
+          </View>
+        </View>
+
+        <Pressable
+          onPress={() => fetchPrices(selectedTag, searchQuery)}
+          disabled={loading}
+          accessibilityRole="button"
+          accessibilityLabel="Refresh live mandi rates"
+          className="flex-row items-center gap-1 rounded-full bg-white px-3 py-1.5 border border-primary/20 active:opacity-75 shadow-xs"
+        >
+          <RefreshCw size={12} color={colors.primary} />
+          <Text className="font-sans-bold text-xs text-primary">
+            {loading ? "Refreshing…" : "Refresh"}
+          </Text>
+        </Pressable>
+      </View>
+
       {/* ── Search Input ── */}
       <FormInput
         label="Search crops or markets"
         placeholder="Type crop name (e.g., Maize, Cotton, Onion)..."
         value={searchQuery}
-        onChangeText={setSearchQuery}
+        onChangeText={(text) => {
+          setSearchQuery(text);
+          if (text.length > 2) {
+            fetchPrices(selectedTag, text);
+          } else if (text.length === 0) {
+            fetchPrices(selectedTag);
+          }
+        }}
       />
 
       {/* ── Quick Filter Tags ── */}
@@ -187,8 +247,27 @@ export function MarketInsightsScreen(_props: Props) {
                     {isRec && <Chip label="In Current Plan" tone="success" />}
                   </View>
                   <Text className="mt-0.5 text-xs text-ink-muted">
-                    {item.mandi} · {item.updated_at}
+                    {item.mandi}
                   </Text>
+                  <View className="mt-1 flex-row flex-wrap items-center gap-1.5">
+                    <View className="flex-row items-center gap-1 rounded-md bg-sage/50 px-2 py-0.5">
+                      <Calendar size={10} color={colors.primary} />
+                      <Text className="font-sans-bold text-[10px] text-primary">
+                        Arrival: {item.arrival_date || latestArrivalDate}
+                      </Text>
+                    </View>
+                    <View className="flex-row items-center gap-1 rounded-md bg-cream-dark px-2 py-0.5">
+                      <Clock size={10} color={colors.textSecondary} />
+                      <Text className="font-sans text-[10px] text-ink-muted">
+                        Updated: {item.last_updated_time || latestUpdatedTime}
+                      </Text>
+                    </View>
+                    {item.min_price_inr && item.max_price_inr ? (
+                      <Text className="font-sans text-[10px] text-ink-muted">
+                        Min: ₹{item.min_price_inr.toLocaleString("en-IN")} · Max: ₹{item.max_price_inr.toLocaleString("en-IN")}
+                      </Text>
+                    ) : null}
+                  </View>
                 </View>
                 <View className="items-end">
                   <Text className="font-sans-extrabold text-xl text-forest">

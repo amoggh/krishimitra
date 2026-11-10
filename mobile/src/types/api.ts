@@ -191,6 +191,10 @@ export interface MandiPrice {
   change_pct: number;
   updated_at: string;
   trend_7d: number[];
+  min_price_inr?: number;
+  max_price_inr?: number;
+  arrival_date?: string;
+  last_updated_time?: string;
 }
 
 export interface WeatherSummary {

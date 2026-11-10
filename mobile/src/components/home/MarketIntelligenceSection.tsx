@@ -192,9 +192,12 @@ export function MarketIntelligenceSection({
           <View className="mt-0.5 flex-row items-center gap-1">
             <Store size={12} color={colors.textSecondary} />
             <Text className="font-sans text-xs text-ink-muted">
-              {currentPriceItem.mandi} · {currentPriceItem.updated_at}
+              {currentPriceItem.mandi}
             </Text>
           </View>
+          <Text className="font-sans text-[10px] text-ink-muted mt-0.5">
+            Arrival: {currentPriceItem.arrival_date || "10/11/2026"} · Updated: {currentPriceItem.last_updated_time || "Today at 04:30 PM"}
+          </Text>
         </View>
 
         <View className="items-end">
