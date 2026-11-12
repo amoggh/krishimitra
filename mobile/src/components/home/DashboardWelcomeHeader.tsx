@@ -69,23 +69,32 @@ export function DashboardWelcomeHeader({
     .slice(0, 2)
     .toUpperCase() || "RP";
 
+  const safeTemp = typeof tempC === "number" ? Number(tempC.toFixed(1)) : 28;
+
   return (
     <LinearGradient
       colors={[colors.primaryDark, colors.primary]}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
       style={{
-        borderBottomLeftRadius: isDesktop ? 0 : 24,
-        borderBottomRightRadius: isDesktop ? 0 : 24,
+        borderBottomLeftRadius: 32,
+        borderBottomRightRadius: 32,
+        overflow: "hidden",
       }}
     >
       <SafeAreaView
         edges={["top"]}
-        className="w-full px-4 pb-4 pt-1"
-        style={isDesktop ? { maxWidth: contentMaxWidth, alignSelf: "center", paddingHorizontal: 32 } : isTablet ? { paddingHorizontal: 24 } : {}}
+        className="w-full px-5 pb-5 pt-2"
+        style={
+          isDesktop
+            ? { maxWidth: contentMaxWidth, alignSelf: "center", paddingHorizontal: 36, paddingBottom: 24, paddingTop: 16 }
+            : isTablet
+            ? { paddingHorizontal: 24, paddingBottom: 20, paddingTop: 12 }
+            : { paddingBottom: 18 }
+        }
       >
         {/* Top User Bar */}
-        <View className="mb-2.5 flex-row items-center justify-between">
+        <View className="mb-3 flex-row items-center justify-between">
           <View className="flex-1 pr-3">
             <Text className="font-sans-medium text-[11px] text-white/80">
               {greeting}
@@ -114,7 +123,7 @@ export function DashboardWelcomeHeader({
               onPress={onProfilePress}
               accessibilityRole="button"
               accessibilityLabel="Open profile"
-              className="h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-gold active:opacity-85 shadow-sm"
+              className="h-9 w-9 items-center justify-center rounded-full border border-white/40 bg-gold active:opacity-85 shadow-sm"
             >
               <Text className="font-sans-extrabold text-xs text-ink tracking-tight">
                 {initials}
@@ -123,8 +132,23 @@ export function DashboardWelcomeHeader({
           </View>
         </View>
 
+        {/* ── Search Bar: Centered in the middle with generous room ── */}
+        {onSearchChange ? (
+          <View className="my-3.5 w-full items-center justify-center">
+            <View className="w-full max-w-xl">
+              <SearchBar
+                value={searchValue}
+                onChangeText={onSearchChange}
+                variant="dark"
+                placeholder="Search crops, mandis, advisories..."
+                onClear={() => onSearchChange("")}
+              />
+            </View>
+          </View>
+        ) : null}
+
         {/* Quick Location & Weather Status Pill */}
-        <View className="mb-3 flex-row items-center justify-between rounded-full bg-white/10 px-3 py-1.5 backdrop-blur-md">
+        <View className="mb-1 flex-row items-center justify-between rounded-full bg-white/12 px-4 py-2 backdrop-blur-md border border-white/25 shadow-xs">
           <View className="flex-row items-center gap-1.5 flex-1 pr-2">
             <MapPin size={12} color="rgba(255, 255, 255, 0.9)" />
             <Text className="font-sans-bold text-[11px] text-white/95" numberOfLines={1}>
@@ -135,24 +159,13 @@ export function DashboardWelcomeHeader({
           <View className="flex-row items-center gap-1.5">
             {getWeatherIcon(weatherCondition)}
             <Text className="font-sans-bold text-[11px] text-white">
-              {tempC > 0 ? `+${tempC}` : `${tempC}`}°C
+              {safeTemp > 0 ? `+${safeTemp}` : `${safeTemp}`}°C
             </Text>
             <Text className="font-sans text-[10px] text-white/80">
               {weatherCondition}
             </Text>
           </View>
         </View>
-
-        {/* Search Bar matching Reference Screen 1 */}
-        {onSearchChange ? (
-          <SearchBar
-            value={searchValue}
-            onChangeText={onSearchChange}
-            variant="dark"
-            placeholder="Search crops, mandis, advisories..."
-            onClear={() => onSearchChange("")}
-          />
-        ) : null}
       </SafeAreaView>
     </LinearGradient>
   );

@@ -64,11 +64,11 @@ export async function getLiveWeather(
           pressure_hpa: Math.round(main.pressure || 1012),
           wind_speed_kmh: Math.round((wind.speed || 3) * 3.6),
           sunrise: d.sys?.sunrise
-            ? new Date(d.sys.sunrise * 1000).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }).toLowerCase()
-            : "05:45 am",
+            ? new Date(d.sys.sunrise * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+            : "06:15 am",
           sunset: d.sys?.sunset
-            ? new Date(d.sys.sunset * 1000).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }).toLowerCase()
-            : "06:15 pm",
+            ? new Date(d.sys.sunset * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+            : "06:00 pm",
           source: "OpenWeatherMap (Client)",
           updated_at: "Just now",
         };
@@ -105,8 +105,12 @@ export async function getLiveWeather(
         precipitation_mm: Math.round((curr.precipitation || 0) * 10) / 10,
         pressure_hpa: Math.round(curr.surface_pressure || 1012),
         wind_speed_kmh: Math.round(curr.wind_speed_10m || 12),
-        sunrise: sunriseRaw.includes("T") ? sunriseRaw.split("T")[1] : "05:45 am",
-        sunset: sunsetRaw.includes("T") ? sunsetRaw.split("T")[1] : "06:15 pm",
+        sunrise: sunriseRaw.includes("T")
+          ? new Date(sunriseRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+          : "06:15 am",
+        sunset: sunsetRaw.includes("T")
+          ? new Date(sunsetRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+          : "06:00 pm",
         source: "Open-Meteo Live API",
         updated_at: "Live (Satellite)",
       };

@@ -58,7 +58,7 @@ export function DesktopSidebar({
 
   return (
     <View
-      className={`h-full w-[260px] flex-col justify-between bg-white border-r border-[#183B2B]/[0.08] ${className}`}
+      className={`h-full w-[260px] flex-col justify-between bg-white border-r border-[#183B2B]/20 ${className}`}
       style={{
         ...shadows.subtle,
       }}
@@ -84,7 +84,8 @@ export function DesktopSidebar({
           onPress={() => onNavigate("FarmInput", true)}
           accessibilityRole="button"
           accessibilityLabel="Start new farm plan"
-          className="mb-6 flex-row items-center justify-center gap-2 rounded-full bg-primary py-3 px-4 active:bg-primary-dark shadow-sm"
+          className="mb-6 flex-row items-center justify-center gap-2 rounded-full bg-primary py-3 px-4 active:bg-primary-dark shadow-sm border border-[#0F4A2C]"
+          style={{ cursor: "pointer" as any }}
         >
           <Plus size={16} color={colors.white} strokeWidth={2.5} />
           <Text className="font-sans-bold text-xs text-white">
@@ -93,7 +94,7 @@ export function DesktopSidebar({
         </Pressable>
 
         {/* Navigation Items List */}
-        <View className="gap-1.5">
+        <View className="gap-2">
           <Text className="mb-1 font-sans-bold text-[10px] uppercase tracking-wider text-ink-muted px-3">
             Main Navigation
           </Text>
@@ -110,10 +111,11 @@ export function DesktopSidebar({
                 onPress={() => onNavigate(item.route, item.isStack)}
                 accessibilityRole="button"
                 accessibilityLabel={item.label}
-                className={`flex-row items-center gap-3 rounded-xl px-3.5 py-2.5 active:opacity-85 ${
+                style={{ cursor: "pointer" as any }}
+                className={`flex-row items-center gap-3 rounded-xl px-3.5 py-2.5 active:opacity-85 border transition-all ${
                   isSelected
-                    ? "bg-sage border border-sage-dark/60"
-                    : "bg-transparent hover:bg-cream"
+                    ? "bg-sage border-[#145C3A]/30 shadow-xs"
+                    : "bg-white/60 border-[#183B2B]/12 hover:bg-cream hover:border-[#183B2B]/25"
                 }`}
               >
                 <Icon
@@ -135,10 +137,10 @@ export function DesktopSidebar({
       </View>
 
       {/* Footer Area: Location Indicator & Profile Summary */}
-      <View className="border-t border-cream-muted p-4">
+      <View className="border-t border-[#183B2B]/15 p-4">
         {/* Active District Pill */}
-        <View className="mb-3 flex-row items-center gap-1.5 rounded-lg bg-cream px-2.5 py-1.5 border border-cream-muted">
-          <MapPin size={12} color={colors.primary} />
+        <View className="mb-3 flex-row items-center gap-2 rounded-xl bg-cream px-3 py-2 border border-[#183B2B]/15 shadow-xs">
+          <MapPin size={13} color={colors.primary} />
           <Text className="font-sans text-[11px] text-ink-muted">
             Location: <Text className="font-sans-bold text-ink">{effectiveDistrict}</Text>
           </Text>
@@ -149,7 +151,8 @@ export function DesktopSidebar({
           onPress={() => onNavigate("Profile", false)}
           accessibilityRole="button"
           accessibilityLabel="Open profile"
-          className="flex-row items-center gap-2.5 rounded-xl bg-sage/50 p-2.5 active:bg-sage border border-sage-dark/40"
+          style={{ cursor: "pointer" as any }}
+          className="flex-row items-center gap-2.5 rounded-xl bg-sage/60 p-2.5 active:bg-sage border border-[#145C3A]/25 shadow-xs"
         >
           <View className="h-9 w-9 items-center justify-center rounded-full bg-gold">
             <Text className="font-sans-extrabold text-xs text-ink">{initials}</Text>

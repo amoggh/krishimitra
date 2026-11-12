@@ -46,19 +46,25 @@ export function MainTabNavigator() {
   const currentTab = useNavigationState((state) => {
     if (!state) return "Home";
     const currentRoute = state.routes[state.index];
-    if (currentRoute?.name === "Main" && currentRoute.state) {
-      const childState = currentRoute.state;
+    const mainRoute =
+      currentRoute?.name === "Main"
+        ? currentRoute
+        : state.routes.find((r) => r.name === "Main");
+
+    if (mainRoute?.state) {
+      const childState = mainRoute.state as any;
       const idx = typeof childState.index === "number" ? childState.index : 0;
-      return (childState.routes as any[])[idx]?.name || "Home";
+      return childState.routes?.[idx]?.name || "Home";
     }
     return currentRoute?.name || "Home";
   });
 
   const handleSidebarNavigate = (route: string, isStack?: boolean) => {
-    if (isStack) {
-      navigation.getParent()?.navigate(route);
+    const tabRoutes = ["Home", "Plan", "Market", "Profile"];
+    if (tabRoutes.includes(route)) {
+      navigation.navigate("Main", { screen: route });
     } else {
-      navigation.navigate(route);
+      navigation.navigate(route as any);
     }
   };
 

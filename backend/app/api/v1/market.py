@@ -35,10 +35,10 @@ async def mandi_prices(
 
     # Parse crop filters if provided (e.g. from recommended crops)
     requested_crops: list[str] = []
-    if crop:
+    if crop and isinstance(crop, str):
         requested_crops = [c.strip().lower() for c in crop.split(",") if c.strip()]
 
-    search_term = (search or "").strip().lower()
+    search_term = search.strip().lower() if search and isinstance(search, str) else ""
 
     results: list[MandiPrice] = []
     seen_crops: set[str] = set()

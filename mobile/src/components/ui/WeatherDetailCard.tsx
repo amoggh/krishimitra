@@ -44,8 +44,8 @@ export function WeatherDetailCard({
   location,
   tempC,
   condition = "Partly Cloudy",
-  highC = tempC + 4,
-  lowC = tempC - 6,
+  highC,
+  lowC,
   humidityPct = 65,
   precipitationMm = 0,
   pressureHpa = 1012,
@@ -56,6 +56,11 @@ export function WeatherDetailCard({
   style,
   ...rest
 }: WeatherDetailCardProps) {
+  // Format temperatures to 1 decimal place to prevent floating-point precision leaks (e.g. 15.899999999999)
+  const safeTemp = typeof tempC === "number" ? Number(tempC.toFixed(1)) : 28;
+  const safeHigh = typeof highC === "number" ? Number(highC.toFixed(1)) : Number((safeTemp + 4).toFixed(1));
+  const safeLow = typeof lowC === "number" ? Number(lowC.toFixed(1)) : Number((safeTemp - 6).toFixed(1));
+
   return (
     <View
       className={`mb-3.5 bg-white p-4 ${className}`}
@@ -64,7 +69,7 @@ export function WeatherDetailCard({
           borderRadius: radii.card,
           ...shadows.card,
           borderWidth: 1,
-          borderColor: "rgba(24, 59, 43, 0.06)",
+          borderColor: "rgba(24, 59, 43, 0.08)",
         },
         style,
       ]}
@@ -82,10 +87,10 @@ export function WeatherDetailCard({
       <View className="my-2.5 flex-row items-center justify-between">
         <View>
           <Text className="font-sans-extrabold text-4xl text-ink tracking-tight">
-            {tempC > 0 ? `+${tempC}` : `${tempC}`}°C
+            {safeTemp > 0 ? `+${safeTemp}` : `${safeTemp}`}°C
           </Text>
           <Text className="font-sans-medium text-xs text-ink-muted">
-            H: {highC}°C  ·  L: {lowC}°C
+            H: {safeHigh}°C  ·  L: {safeLow}°C
           </Text>
         </View>
 

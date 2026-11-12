@@ -73,15 +73,20 @@ async def fetch_live_mandi_prices_task(
         "api-key": api_key,
         "format": "json",
         "limit": 1000,
-        "filters[state]": "Karnataka",
+        "filters[state.keyword]": "Karnataka",
     }
     if district:
         params["filters[district]"] = district.strip().title()
     if commodity:
         params["filters[commodity]"] = commodity.strip().title()
 
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+    }
+
     try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
+        async with httpx.AsyncClient(headers=headers, timeout=25.0) as client:
             resp = await client.get(AGMARKNET_API_URL, params=params)
             if resp.status_code == 200:
                 data = resp.json().get("records", [])
@@ -90,19 +95,20 @@ async def fetch_live_mandi_prices_task(
                 for row in data:
                     c_name = str(row.get("commodity", "")).strip().title()
                     d_name = str(row.get("district", "")).strip().title()
+                    m_name = str(row.get("market", "")).strip().title()
                     if not c_name:
                         continue
 
-                    key = f"{c_name}_{d_name}".lower()
+                    key = f"{c_name}_{d_name}_{m_name}".lower()
                     modal_p = _safe_float(row.get("modal_price"), 0.0)
                     min_p = _safe_float(row.get("min_price"), modal_p * 0.9)
                     max_p = _safe_float(row.get("max_price"), modal_p * 1.1)
 
-                    if modal_p > 100:
+                    if modal_p > 50:
                         _PRICE_CACHE[key] = CachedMandiPrice(
                             crop=c_name,
                             district=d_name,
-                            mandi=str(row.get("market", d_name)).strip().title(),
+                            mandi=m_name or f"{d_name} APMC",
                             modal_price_rs_qtl=modal_p,
                             min_price_rs_qtl=min_p,
                             max_price_rs_qtl=max_p,
@@ -115,10 +121,50 @@ async def fetch_live_mandi_prices_task(
                 _LAST_REFRESH_TIME = now
                 logger.info(f"Refreshed {count} live Karnataka Mandi prices from Agmarknet API.")
             else:
-                logger.warning("Agmarknet API returned status %s. Falling back to cached data.", resp.status_code)
+                logger.warning("Agmarknet API returned status %s: %s. Falling back to cached data.", resp.status_code, resp.text[:200])
                 _seed_from_local_mandi_data()
     except Exception as exc:
-        logger.error(f"Failed to fetch live Mandi prices: {exc}. Retaining cache.")
+        logger.warning(f"Async HTTPX fetch failed ({exc!r}), attempting fallback urllib fetch...")
+        try:
+            import urllib.request
+            import urllib.parse
+            import json
+
+            query_str = urllib.parse.urlencode(params)
+            req = urllib.request.Request(f"{AGMARKNET_API_URL}?{query_str}", headers=headers)
+            with urllib.request.urlopen(req, timeout=25.0) as u_resp:
+                if u_resp.status == 200:
+                    data = json.loads(u_resp.read().decode()).get("records", [])
+                    now = datetime.now(timezone.utc)
+                    count = 0
+                    for row in data:
+                        c_name = str(row.get("commodity", "")).strip().title()
+                        d_name = str(row.get("district", "")).strip().title()
+                        m_name = str(row.get("market", "")).strip().title()
+                        if not c_name:
+                            continue
+                        key = f"{c_name}_{d_name}_{m_name}".lower()
+                        modal_p = _safe_float(row.get("modal_price"), 0.0)
+                        min_p = _safe_float(row.get("min_price"), modal_p * 0.9)
+                        max_p = _safe_float(row.get("max_price"), modal_p * 1.1)
+                        if modal_p > 50:
+                            _PRICE_CACHE[key] = CachedMandiPrice(
+                                crop=c_name,
+                                district=d_name,
+                                mandi=m_name or f"{d_name} APMC",
+                                modal_price_rs_qtl=modal_p,
+                                min_price_rs_qtl=min_p,
+                                max_price_rs_qtl=max_p,
+                                arrival_date=str(row.get("arrival_date", "")),
+                                last_fetched_at=now,
+                                source="agmarknet_live_api",
+                            )
+                            count += 1
+                    _LAST_REFRESH_TIME = now
+                    logger.info(f"Refreshed {count} live Karnataka Mandi prices from Agmarknet API via urllib.")
+                    return
+        except Exception as exc2:
+            logger.error(f"Both HTTPX and urllib live Mandi fetches failed: {exc2!r}. Retaining local cache.")
         _seed_from_local_mandi_data()
 
 

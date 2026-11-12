@@ -32,8 +32,8 @@ export function SearchBar({
   const isDark = variant === "dark";
 
   const containerBg = isDark
-    ? "bg-white/15 border border-white/20"
-    : "bg-white border border-[#183B2B]/[0.08]";
+    ? "bg-white/15 border border-white/30 shadow-xs"
+    : "bg-white border border-[#183B2B]/[0.10]";
 
   const placeholderColor = isDark
     ? "rgba(255, 255, 255, 0.65)"

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from typing import Optional
 import httpx
 from pydantic import BaseModel
@@ -93,17 +93,21 @@ async def fetch_live_weather(
                     weather_desc = d.get("weather", [{}])[0].get("description", "Clear").title()
                     sys = d.get("sys", {})
 
+                    # Convert sunrise & sunset to local farm time using OpenWeather timezone offset (IST = +19800s)
+                    tz_offset = d.get("timezone", 19800)
+                    local_tz = timezone(timedelta(seconds=tz_offset))
+
                     sunrise_ts = sys.get("sunrise")
                     sunset_ts = sys.get("sunset")
                     sunrise_str = (
-                        datetime.fromtimestamp(sunrise_ts, timezone.utc).strftime("%I:%M %p").lower()
+                        datetime.fromtimestamp(sunrise_ts, local_tz).strftime("%I:%M %p").lower()
                         if sunrise_ts
-                        else "05:45 am"
+                        else "06:15 am"
                     )
                     sunset_str = (
-                        datetime.fromtimestamp(sunset_ts, timezone.utc).strftime("%I:%M %p").lower()
+                        datetime.fromtimestamp(sunset_ts, local_tz).strftime("%I:%M %p").lower()
                         if sunset_ts
-                        else "06:15 pm"
+                        else "06:00 pm"
                     )
 
                     rain_mm = d.get("rain", {}).get("1h", 0.0)
@@ -192,11 +196,20 @@ async def fetch_live_weather(
                 weather_code = int(curr.get("weather_code", 0))
                 cond_text = _wmo_code_to_condition(weather_code)
 
-                # Format sunrise/sunset from ISO if available
+                # Format sunrise/sunset to 12-hour AM/PM format
                 sunrise_raw = (daily.get("sunrise") or [""])[0]
                 sunset_raw = (daily.get("sunset") or [""])[0]
-                sunrise_str = sunrise_raw.split("T")[-1] if "T" in sunrise_raw else "05:45 am"
-                sunset_str = sunset_raw.split("T")[-1] if "T" in sunset_raw else "06:15 pm"
+                try:
+                    s_rise = datetime.fromisoformat(sunrise_raw)
+                    sunrise_str = s_rise.strftime("%I:%M %p").lower()
+                except Exception:
+                    sunrise_str = "06:15 am"
+
+                try:
+                    s_set = datetime.fromisoformat(sunset_raw)
+                    sunset_str = s_set.strftime("%I:%M %p").lower()
+                except Exception:
+                    sunset_str = "06:00 pm"
 
                 precip_prob = (daily.get("precipitation_probability_max") or [15])[0]
 
