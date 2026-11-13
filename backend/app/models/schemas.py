@@ -79,3 +79,7 @@ class MandiPrice(BaseModel):
     change_pct: float
     updated_at: str
     trend_7d: list[float]
+    min_price_inr: float | None = None
+    max_price_inr: float | None = None
+    arrival_date: str | None = None
+    last_updated_time: str | None = None

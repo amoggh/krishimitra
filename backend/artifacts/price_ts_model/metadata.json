@@ -1,0 +1,49 @@
+{
+  "training_date": "2026-11-04T23:33:36.848201",
+  "state": "Karnataka",
+  "historical_window": "7-8 months rolling mean + 1-year lag",
+  "refresh_cadence": "24 hours (Agmarknet Daily Update)",
+  "model_type": "Auto-Regressive Forward Harvest Price Pipeline (RandomForestRegressor)",
+  "sample_count": 10000,
+  "crops_covered": [
+    "Coconut",
+    "Cotton",
+    "Groundnut",
+    "Jowar / Sorghum",
+    "Maize",
+    "Onion",
+    "Pulses",
+    "Ragi / Finger Millet",
+    "Rice / Paddy",
+    "Sugarcane"
+  ],
+  "metrics": {
+    "mae": 409.89,
+    "rmse": 558.39,
+    "r2": 0.9406
+  },
+  "features": {
+    "numerical": [
+      "current_mandi_price_qtl",
+      "lag_1m_qtl",
+      "rolling_mean_7m_qtl",
+      "lag_1y_qtl",
+      "price_momentum_7m",
+      "harvest_month",
+      "month_sin",
+      "month_cos",
+      "months_to_harvest",
+      "area_sown_ha",
+      "mandi_arrivals_t",
+      "rainfall_mm",
+      "temperature_c"
+    ],
+    "categorical": [
+      "crop",
+      "district",
+      "season"
+    ]
+  },
+  "target": "harvest_price_qtl",
+  "status": "trained"
+}

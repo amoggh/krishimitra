@@ -7,12 +7,48 @@ import {
   PlusJakartaSans_700Bold,
   PlusJakartaSans_800ExtraBold,
 } from "@expo-google-fonts/plus-jakarta-sans";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
+} from "@expo-google-fonts/manrope";
+import { NavigationContainer, type LinkingOptions } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootNavigator } from "@/navigation/RootNavigator";
+import type { RootStackParamList } from "@/types/navigation";
 import { colors } from "@/theme/colors";
+
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: ["/"],
+  config: {
+    screens: {
+      Auth: {
+        screens: {
+          Splash: "splash",
+          Login: "login",
+        },
+      },
+      Main: {
+        screens: {
+          Home: "",
+          Plan: "plan",
+          Market: "market",
+          Profile: "profile",
+        },
+      },
+      FarmInput: "farm-input",
+      AIProcessing: "ai-processing",
+      Recommendations: "recommendations",
+      RiskAnalysis: "risk-analysis",
+      DiseaseDetection: "disease-detection",
+      Settings: "settings",
+    },
+  },
+};
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -21,6 +57,11 @@ export default function App() {
     PlusJakartaSans_600SemiBold,
     PlusJakartaSans_700Bold,
     PlusJakartaSans_800ExtraBold,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
   });
 
   if (!fontsLoaded && !fontError) {
@@ -37,7 +78,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <StatusBar style="dark" />
         <RootNavigator />
       </NavigationContainer>

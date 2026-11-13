@@ -1,25 +1,36 @@
+import React from "react";
+import { View, type ViewProps } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { type ViewProps } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "@/theme/colors";
+import { colors, radii } from "@/theme/tokens";
 
-export function GradientHeader({ children, className, ...rest }: ViewProps) {
+export type GradientHeaderProps = ViewProps & {
+  children: React.ReactNode;
+  className?: string;
+};
+
+export function GradientHeader({ children, className = "", style, ...rest }: GradientHeaderProps) {
   return (
     <LinearGradient
-      colors={[colors.forestDark, colors.forest, colors.green]}
+      colors={[colors.primaryDark, colors.primary]}
       start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={{ borderBottomLeftRadius: 28, borderBottomRightRadius: 28 }}
+      end={{ x: 0, y: 1 }}
+      style={[
+        {
+          borderBottomLeftRadius: 24,
+          borderBottomRightRadius: 24,
+        },
+        style,
+      ]}
       {...rest}
     >
       <SafeAreaView edges={["top"]}>
-        <LinearGradient
-          colors={["transparent", "transparent"]}
-          className={`px-4 pb-6 pt-3 ${className ?? ""}`}
-        >
+        <View className={`px-4 pb-5 pt-2 ${className}`}>
           {children}
-        </LinearGradient>
+        </View>
       </SafeAreaView>
     </LinearGradient>
   );
 }
+
+export default GradientHeader;

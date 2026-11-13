@@ -216,12 +216,6 @@ class DiseaseService:
         class_index: int
     ) -> str:
 
-        # Example:
-        # [
-        #   "Apple___Apple_scab",
-        #   "Apple___Black_rot"
-        # ]
-
         if isinstance(
             self.label_map,
             list
@@ -264,11 +258,6 @@ class DiseaseService:
                 "does not contain a string class_name."
             )
 
-        # Example:
-        # {
-        #   "0": "Apple___Apple_scab"
-        # }
-
         if isinstance(
             self.label_map,
             dict
@@ -284,11 +273,6 @@ class DiseaseService:
 
                 if isinstance(label, str):
                     return label
-
-            # Example:
-            # {
-            #   "Apple___Apple_scab": 0
-            # }
 
             for class_name, index in (
                 self.label_map.items()
@@ -345,14 +329,14 @@ class DiseaseService:
         """
         Run MobileNetV2 disease prediction.
 
-        This function ONLY performs:
-        image validation
-        image preprocessing
-        model inference
-        disease classification
+        This function performs:
+        - image validation
+        - image preprocessing
+        - model inference
+        - disease classification
 
         Pesticide recommendation and price lookup
-        are handled separately.
+        are handled in the API layer.
         """
 
         self._load_resources()

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   FlatList,
   Modal,
@@ -8,7 +8,8 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { colors } from "@/theme/colors";
+import { ChevronDown, Search, X, Check } from "lucide-react-native";
+import { colors, radii, shadows } from "@/theme/tokens";
 
 export type SelectDropdownOption = {
   label: string;
@@ -58,8 +59,8 @@ export function SelectDropdown({
     );
   }, [normalizedOptions, search]);
 
-  function handleSelect(selectedValue: string) {
-    onSelect(selectedValue);
+  function handleSelect(val: string) {
+    onSelect(val);
     setModalVisible(false);
     setSearch("");
   }
@@ -71,26 +72,26 @@ export function SelectDropdown({
 
   return (
     <View className="mb-3.5">
-      <Text className="mb-1.5 font-sans-semibold text-xs text-ink-muted">
-        {label}
-      </Text>
+      <Text className="mb-1.5 font-sans-bold text-xs text-ink">{label}</Text>
 
-      {/* Dropdown Field Trigger */}
+      {/* Trigger Button */}
       <Pressable
         onPress={() => setModalVisible(true)}
         accessibilityRole="button"
-        accessibilityLabel={`${label}: ${selectedOption?.label ?? placeholder}`}
-        className={`flex-row items-center justify-between rounded-xl border border-cream-dark bg-white px-3.5 py-3 active:bg-cream/40 ${className ?? ""}`}
+        accessibilityLabel={`${label}: ${selectedOption ? selectedOption.label : placeholder}`}
+        className={`flex-row items-center justify-between rounded-xl border border-[#183B2B]/[0.12] bg-white px-3.5 py-3 active:border-primary ${
+          className ?? ""
+        }`}
+        style={{ borderRadius: radii.md }}
       >
         <Text
           className={`font-sans text-base ${
-            selectedOption ? "text-ink" : "text-ink-light"
+            selectedOption ? "text-ink font-sans-medium" : "text-ink-muted"
           }`}
-          numberOfLines={1}
         >
           {selectedOption ? selectedOption.label : placeholder}
         </Text>
-        <Text className="ml-2 text-xs text-ink-light">▼</Text>
+        <ChevronDown size={18} color={colors.textSecondary} />
       </Pressable>
 
       {/* Dropdown Modal Selection Dialog */}
@@ -106,11 +107,17 @@ export function SelectDropdown({
           onPress={handleClose}
         >
           <Pressable
-            className="max-h-[82%] w-full max-w-md rounded-2xl bg-white p-4 shadow-2xl"
+            className="max-h-[82%] w-full max-w-md bg-white p-4"
+            style={[
+              {
+                borderRadius: radii.card,
+                ...shadows.elevated,
+              },
+            ]}
             onPress={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <View className="mb-3 flex-row items-center justify-between border-b border-cream-dark pb-3">
+            <View className="mb-3 flex-row items-center justify-between border-b border-cream-muted pb-3">
               <View>
                 <Text className="font-sans-bold text-lg text-ink">
                   {label}
@@ -122,19 +129,19 @@ export function SelectDropdown({
               <Pressable
                 onPress={handleClose}
                 hitSlop={10}
-                className="h-8 w-8 items-center justify-center rounded-full bg-cream"
+                className="h-8 w-8 items-center justify-center rounded-full bg-cream active:bg-cream-dark"
               >
-                <Text className="font-sans-bold text-sm text-ink-muted">✕</Text>
+                <X size={16} color={colors.textPrimary} />
               </Pressable>
             </View>
 
             {/* Search Input for Quick Filtering */}
-            <View className="mb-3 flex-row items-center rounded-xl border border-cream-dark bg-cream/50 px-3 py-2">
-              <Text className="mr-2 text-xs text-ink-light">🔍</Text>
+            <View className="mb-3 flex-row items-center rounded-xl border border-cream-muted bg-cream/60 px-3 py-2">
+              <Search size={15} color={colors.textSecondary} className="mr-2" />
               <TextInput
-                className="flex-1 font-sans text-sm text-ink"
+                className="flex-1 font-sans text-sm text-ink ml-1.5"
                 placeholder={searchPlaceholder}
-                placeholderTextColor={colors.inkLight}
+                placeholderTextColor={colors.textMuted}
                 value={search}
                 onChangeText={setSearch}
                 autoCorrect={false}
@@ -143,7 +150,7 @@ export function SelectDropdown({
               />
               {search.length > 0 && (
                 <Pressable onPress={() => setSearch("")} hitSlop={8}>
-                  <Text className="text-xs text-ink-light">✕</Text>
+                  <X size={14} color={colors.textSecondary} />
                 </Pressable>
               )}
             </View>
@@ -159,37 +166,32 @@ export function SelectDropdown({
                 return (
                   <Pressable
                     onPress={() => handleSelect(item.value)}
-                    className={`flex-row items-center justify-between rounded-lg px-3 py-3 active:bg-cream ${
-                      isSelected ? "bg-green-pale" : ""
+                    className={`flex-row items-center justify-between rounded-xl px-3 py-3 active:bg-cream ${
+                      isSelected ? "bg-sage" : ""
                     }`}
                   >
                     <Text
                       className={`text-base ${
                         isSelected
-                          ? "font-sans-bold text-forest"
+                          ? "font-sans-bold text-primary"
                           : "font-sans text-ink"
                       }`}
                     >
                       {item.label}
                     </Text>
                     {isSelected && (
-                      <Text className="font-sans-bold text-sm text-forest">
-                        ✓
-                      </Text>
+                      <Check size={18} color={colors.primary} />
                     )}
                   </Pressable>
                 );
               }}
-              ItemSeparatorComponent={() => (
-                <View className="h-[1px] bg-cream-dark/50" />
-              )}
-              ListEmptyComponent={() => (
-                <View className="items-center py-8">
-                  <Text className="font-sans text-sm text-ink-muted">
-                    No results for "{search}"
+              ListEmptyComponent={
+                <View className="py-8 items-center justify-center">
+                  <Text className="text-center font-sans text-sm text-ink-muted">
+                    No matches found for "{search}"
                   </Text>
                 </View>
-              )}
+              }
             />
           </Pressable>
         </Pressable>
@@ -197,3 +199,5 @@ export function SelectDropdown({
     </View>
   );
 }
+
+export default SelectDropdown;

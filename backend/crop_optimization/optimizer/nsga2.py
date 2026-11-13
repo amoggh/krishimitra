@@ -67,6 +67,13 @@ class CropCandidate:
     water_requirement_mm: float   # seasonal water need (mm over 1 acre)
     cost_per_acre_inr: float      # cultivation cost per acre
     risk_result: Optional[RiskResult]  # None when risk model unavailable
+    is_perishable: bool = False
+
+    def __post_init__(self):
+        if not self.is_perishable:
+            clean = self.crop.lower()
+            if any(p in clean for p in ("tomato", "onion", "potato", "chilli", "brinjal", "vegetable", "fruit")):
+                self.is_perishable = True
 
 
 # ---------------------------------------------------------------------------
@@ -153,6 +160,7 @@ def _evaluate(
     # Pre-extract crop attributes for vectorised ops
     costs    = np.array([c.cost_per_acre_inr      for c in crops])  # ₹/acre
     water    = np.array([c.water_requirement_mm    for c in crops])  # mm/acre
+    betas    = np.array([0.18 if c.is_perishable else 0.05 for c in crops])  # price elasticity of supply
     rap      = np.array([
         c.risk_result.risk_adjusted_profit_inr or 0.0
         if c.risk_result and c.risk_result.available else 0.0
@@ -180,8 +188,18 @@ def _evaluate(
 
         # Objectives (weighted by fraction of land each crop gets)
         weights = alloc / total_acres if total_acres > 0 else np.ones(n_crops) / n_crops
-        objectives[i, 0] = -(rap      * weights).sum()   # -profit (minimise)
-        objectives[i, 1] =  (variance * weights).sum()   # variance (minimise)
+        # Coupling dynamic price prediction with crop allocation:
+        # High allocation concentration creates a local supply surge, penalising
+        # the realized market price by price elasticity factor (betas).
+        supply_price_factor = np.clip(1.0 - (betas * weights), 0.70, 1.0)
+        coupled_rap = rap * supply_price_factor
+
+        # Portfolio concentration risk increases variance
+        concentration_risk = 1.0 + (0.25 * weights)
+        coupled_variance = variance * concentration_risk
+
+        objectives[i, 0] = -(coupled_rap * weights).sum()   # -profit (minimise)
+        objectives[i, 1] =  (coupled_variance * weights).sum()   # variance (minimise)
 
         # Constraint violations (amount by which constraint is exceeded)
         v = 0.0
@@ -415,7 +433,13 @@ def optimize_allocation(
         r2 = c2.risk_result.risk_adjusted_profit_inr if (c2.risk_result and c2.risk_result.available) else 0.0
         
         # Primary crop gets MAX_SINGLE_CROP_FRACTION (default 60%), secondary gets remaining (40%)
-        if r1 >= r2:
+        # Consider supply price elasticity decay for 2 crops:
+        beta1 = 0.18 if c1.is_perishable else 0.05
+        beta2 = 0.18 if c2.is_perishable else 0.05
+        eff_r1 = r1 * (1.0 - beta1 * MAX_SINGLE_CROP_FRACTION)
+        eff_r2 = r2 * (1.0 - beta2 * MAX_SINGLE_CROP_FRACTION)
+
+        if eff_r1 >= eff_r2:
             a1 = round(total_acres * MAX_SINGLE_CROP_FRACTION, 2)
             a2 = round(total_acres - a1, 2)
             first, second, a_first, a_second = c1, c2, a1, a2
@@ -558,6 +582,43 @@ def optimize_allocation(
             )
         )
 
+    # If NSGA-II returned 0 allocations or crops, trigger fallback allocator
+    if not allocations and crops:
+        logger.info("NSGA-II found 0 above-threshold allocations; activating fallback allocator.")
+        allocations = _equal_allocation_fallback(crops, total_acres, budget_inr)
+
+    # Secondary guarantee: split between top 2 crops if still empty
+    if not allocations and crops:
+        c1 = crops[0]
+        c2 = crops[1] if len(crops) > 1 else crops[0]
+        if c1.crop == c2.crop or len(crops) == 1:
+            allocations = [
+                CropAllocation(
+                    crop=c1.crop,
+                    area_acres=round(float(total_acres), 2),
+                    area_hectares=round(acres_to_hectares(float(total_acres)), 4),
+                    percentage_of_total=100.0,
+                )
+            ]
+        else:
+            a1 = round(float(total_acres) * 0.60, 2)
+            a2 = round(float(total_acres) - a1, 2)
+            allocations = [
+                CropAllocation(crop=c1.crop, area_acres=a1, area_hectares=round(acres_to_hectares(a1), 4), percentage_of_total=60.0),
+                CropAllocation(crop=c2.crop, area_acres=a2, area_hectares=round(acres_to_hectares(a2), 4), percentage_of_total=40.0),
+            ]
+
+    # Encourage diversification: if only 1 crop got allocated but multiple candidates exist
+    if len(allocations) == 1 and len(crops) > 1 and total_acres >= 1.0:
+        other_candidate = next((c for c in crops if c.crop != allocations[0].crop), None)
+        if other_candidate:
+            a1 = round(float(total_acres) * 0.60, 2)
+            a2 = round(float(total_acres) - a1, 2)
+            allocations = [
+                CropAllocation(crop=allocations[0].crop, area_acres=a1, area_hectares=round(acres_to_hectares(a1), 4), percentage_of_total=60.0),
+                CropAllocation(crop=other_candidate.crop, area_acres=a2, area_hectares=round(acres_to_hectares(a2), 4), percentage_of_total=40.0),
+            ]
+
     # Scale allocations so total farm land is 100% utilized while respecting MAX_SINGLE_CROP_FRACTION
     if allocations:
         tot = sum(a.area_acres for a in allocations)
@@ -568,7 +629,6 @@ def optimize_allocation(
 
             # If the primary crop exceeds max single crop fraction, cap it and redistribute remainder
             if max(scaled_areas) > max_allowed and len(scaled_areas) > 1:
-                # Sort indices by area
                 order = sorted(range(len(scaled_areas)), key=lambda k: scaled_areas[k], reverse=True)
                 primary_idx = order[0]
                 scaled_areas[primary_idx] = max_allowed
@@ -588,8 +648,17 @@ def optimize_allocation(
                 for k in range(len(allocations))
             ]
 
+            # Reconcile any tiny rounding delta onto the primary crop
+            current_tot = sum(a.area_acres for a in allocations)
+            diff = round(total_acres - current_tot, 2)
+            if abs(diff) > 0.001:
+                allocations[0].area_acres = round(allocations[0].area_acres + diff, 2)
+                allocations[0].area_hectares = round(acres_to_hectares(allocations[0].area_acres), 4)
+                allocations[0].percentage_of_total = round(allocations[0].area_acres / total_acres * 100, 1)
+
     # Sort largest to smallest
     allocations.sort(key=lambda a: a.area_acres, reverse=True)
 
-    logger.info("NSGA-II complete. %d crops allocated.", len(allocations))
+    logger.info("NSGA-II complete. %d crops allocated, total=%.2f acres.", len(allocations), sum(a.area_acres for a in allocations))
     return allocations
+

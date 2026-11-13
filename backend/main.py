@@ -276,7 +276,7 @@ def run_demo() -> None:
     print("  To replace demo data with real data:")
     print("  1. Place CSV files in crop_optimization/data/")
     print("  2. Run: python train_yield_model.py")
-    print("  3. Run: python train_price_model.py")
+    print("  3. Run: python train_ts_price_model.py")
     print("  4. Start API: uvicorn app.main:app --reload")
     print()
 

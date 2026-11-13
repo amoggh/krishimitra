@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-
 import {
   ActivityIndicator,
   Alert,
   Image,
   Linking,
+  Pressable,
   ScrollView,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-
+import type { RootStackScreenProps } from "@/types/navigation";
+import { BackButton, Card, PrimaryButton, ScreenContainer, SectionTitle } from "@/components/ui";
+import { colors } from "@/theme/colors";
 import {
   analyzeDisease,
   type DiseaseResult,
-} from "../../services/api/diseaseService";
-import type { RootStackScreenProps } from "../../types/navigation";
+} from "@/services/api/diseaseService";
 
 type Props = RootStackScreenProps<"DiseaseDetection">;
 
 export function DiseaseDetectionScreen({ route, navigation }: Props) {
-  const [selectedImageUri, setSelectedImageUri] = useState(
-    route.params?.imageUri ?? null,
+  const [selectedImageUri, setSelectedImageUri] = useState<string | null>(
+    route.params?.imageUri ?? null
   );
   const [selectedImageType, setSelectedImageType] = useState("image/jpeg");
   const [loading, setLoading] = useState(false);
@@ -35,12 +34,14 @@ export function DiseaseDetectionScreen({ route, navigation }: Props) {
   const district = route.params?.district?.trim() || "Haveri";
 
   const openExternalLink = async (url: string | null) => {
-    if (!url) {
-      return;
-    }
-
+    if (!url) return;
     try {
-      await Linking.openURL(url);
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert("Link error", "Cannot open this link on your device.");
+      }
     } catch (error) {
       console.warn("Unable to open reference URL", error);
       Alert.alert("Unable to open link", "Please try again later.");
@@ -72,36 +73,39 @@ export function DiseaseDetectionScreen({ route, navigation }: Props) {
       setErrorMessage(null);
     } catch (error) {
       console.warn("Unable to select disease image", error);
-      setErrorMessage("Unable to open the image picker. Please try again.");
+      setErrorMessage("Unable to open the camera/gallery. Please check permissions and try again.");
     }
   };
 
   const detectDisease = async () => {
     if (!selectedImageUri) {
-      setErrorMessage("Select or capture a clear leaf image to continue.");
+      setErrorMessage("Please capture or choose a clear leaf photo to continue.");
       return;
     }
 
     setLoading(true);
-    setLoadingMessage("Analyzing leaf...");
+    setLoadingMessage("Analyzing crop leaf...");
     setErrorMessage(null);
 
     const loadingTimer = setTimeout(() => {
-      setLoadingMessage("Fetching current pesticide prices...");
-    }, 1500);
+      setLoadingMessage("Fetching verified remedies & live prices...");
+    }, 1600);
 
     try {
       const response = await analyzeDisease(
         selectedImageUri,
         selectedImageType,
         state,
-        district,
+        district
       );
       setResult(response);
     } catch (error) {
       console.warn("Disease detection request failed", error);
+      const msg = error instanceof Error ? error.message : "Network error";
       setErrorMessage(
-        "We couldn't analyze this image right now. Check your connection and try again.",
+        msg.includes("Failed to connect") || msg.includes("Network")
+          ? "Cannot connect to Krishimitra AI backend. Please verify your connection."
+          : `Diagnosis failed: ${msg}`
       );
     } finally {
       clearTimeout(loadingTimer);
@@ -109,986 +113,383 @@ export function DiseaseDetectionScreen({ route, navigation }: Props) {
     }
   };
 
+  const resetAll = () => {
+    setSelectedImageUri(null);
+    setResult(null);
+    setErrorMessage(null);
+  };
 
-  // ==========================================================
-  // CONFIDENCE
-  // ==========================================================
-
-  const confidence =
-    result
-      ? (result.prediction.confidence * 100).toFixed(2)
-      : 0;
-
-
-  // ==========================================================
-  // RENDER
-  // ==========================================================
+  const confidencePct = result?.prediction?.confidence
+    ? (result.prediction.confidence * 100).toFixed(1)
+    : "0";
 
   return (
-
-    <ScrollView
-      style={
-        styles.container
-      }
-
-      contentContainerStyle={
-        styles.content
-      }
-    >
-
-      {/* ================================================== */}
-      {/* HEADER */}
-      {/* ================================================== */}
-
-      <Text
-        style={
-          styles.title
-        }
+    <ScreenContainer>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName="pb-32"
       >
-        Disease Detection
-      </Text>
-
-
-      <Text
-        style={
-          styles.subtitle
-        }
-      >
-        AI-powered crop disease detection
-      </Text>
-
-
-      {/* ================================================== */}
-      {/* IMAGE */}
-      {/* ================================================== */}
-
-      {selectedImageUri && (
-
-        <Image
-          source={{
-            uri: selectedImageUri,
-          }}
-
-          style={
-            styles.image
-          }
-        />
-
-      )}
-
-      {!loading && (
-        <View style={styles.imageActions}>
-          <TouchableOpacity
-            style={styles.imageActionButton}
-            onPress={() => void selectImage(false)}
-          >
-            <Text style={styles.imageActionText}>Choose Photo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.imageActionButton}
-            onPress={() => void selectImage(true)}
-          >
-            <Text style={styles.imageActionText}>Take Photo</Text>
-          </TouchableOpacity>
+        {/* Navigation & Header */}
+        <View className="mb-4">
+          <BackButton />
         </View>
-      )}
 
-      {/* ================================================== */}
-      {/* DETECT BUTTON */}
-      {/* ================================================== */}
+        <View className="mb-4">
+          <Text className="font-sans-extrabold text-2xl text-ink">
+            Crop Disease Detection
+          </Text>
+          <Text className="text-sm font-sans-medium text-ink-muted mt-0.5">
+            AI-powered plant disease diagnosis, verified CIBRC remedies & live market pricing
+          </Text>
+        </View>
 
-      {!result &&
-        !loading && (
-
-          <TouchableOpacity
-            style={
-              styles.detectButton
-            }
-
-            onPress={
-              detectDisease
-            }
-          >
-
-            <Text
-              style={
-                styles.buttonText
-              }
-            >
-              Detect Disease
+        {/* Location Badge */}
+        <View className="flex-row items-center gap-2 mb-4">
+          <View className="rounded-full bg-secondary px-3 py-1 border border-border">
+            <Text className="text-xs font-sans-bold text-forest">
+              📍 {district}, {state}
             </Text>
+          </View>
+        </View>
 
-          </TouchableOpacity>
-
+        {/* Selected Image Preview */}
+        {selectedImageUri && (
+          <View className="mb-4 rounded-2xl overflow-hidden bg-black/5 border border-border shadow-sm">
+            <Image
+              source={{ uri: selectedImageUri }}
+              className="w-full h-64"
+              resizeMode="cover"
+            />
+          </View>
         )}
 
-
-      {/* ================================================== */}
-      {/* LOADING */}
-      {/* ================================================== */}
-
-      {loading && (
-
-        <View
-          style={
-            styles.loadingBox
-          }
-        >
-
-          <ActivityIndicator
-            size="large"
-          />
-
-
-          <Text
-            style={
-              styles.loadingText
-            }
-          >
-            {loadingMessage}
-          </Text>
-
-        </View>
-
-      )}
-
-      {errorMessage && (
-        <View style={styles.warningCard}>
-          <Text style={styles.warningText}>{errorMessage}</Text>
-        </View>
-      )}
-
-
-      {/* ================================================== */}
-      {/* RESULT */}
-      {/* ================================================== */}
-
-      {result && (
-
-        <>
-
-          {/* ============================================== */}
-          {/* DISEASE RESULT */}
-          {/* ============================================== */}
-
-          <View
-            style={
-              styles.card
-            }
-          >
-
-            <Text
-              style={
-                styles.sectionTitle
-              }
+        {/* Action Buttons to Select Photo */}
+        {!loading && (
+          <View className="flex-row gap-3 mb-4">
+            <Pressable
+              onPress={() => void selectImage(true)}
+              className="flex-1 rounded-xl bg-forest py-3.5 items-center justify-center shadow-sm active:opacity-90"
             >
-              {result.prediction.is_healthy ? "Crop Status" : "Disease Detected"}
-            </Text>
-
-
-            {/* CROP */}
-
-            <Text
-              style={
-                styles.label
-              }
+              <Text className="font-sans-bold text-sm text-white">📷 Take Photo</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => void selectImage(false)}
+              className="flex-1 rounded-xl bg-white border border-forest py-3.5 items-center justify-center shadow-sm active:bg-secondary/40"
             >
-              Crop
-            </Text>
-
-
-            <Text
-              style={
-                styles.value
-              }
-            >
-              {result.prediction.crop ||
-                "Unknown"}
-            </Text>
-
-
-            {/* DISEASE */}
-
-            <Text
-              style={
-                styles.label
-              }
-            >
-              Disease
-            </Text>
-
-
-            <Text
-              style={
-                styles.disease
-              }
-            >
-              {
-                result.prediction.condition
-              }
-            </Text>
-
-
-            {/* CONFIDENCE */}
-
-            <Text
-              style={
-                styles.label
-              }
-            >
-              Confidence
-            </Text>
-
-
-            <Text
-              style={
-                styles.confidence
-              }
-            >
-              {confidence}%
-            </Text>
-
-            <Text style={styles.label}>Status</Text>
-            <Text style={styles.value}>
-              {result.prediction.is_healthy === null
-                ? "Unknown"
-                : result.prediction.is_healthy
-                  ? "Healthy"
-                  : "Unhealthy"}
-            </Text>
-
-
-            {/* LOCATION */}
-
-            <Text
-              style={
-                styles.location
-              }
-            >
-              Location:{" "}
-              {state}
-
-              {district
-                ? `, ${district}`
-                : ""}
-            </Text>
-
+              <Text className="font-sans-bold text-sm text-forest">🖼️ Gallery</Text>
+            </Pressable>
           </View>
+        )}
 
+        {/* Analyze Button */}
+        {!result && !loading && selectedImageUri && (
+          <View className="mb-4">
+            <PrimaryButton
+              label="Detect Crop Disease"
+              onPress={detectDisease}
+            />
+          </View>
+        )}
 
-          {/* ============================================== */}
-          {/* LOW CONFIDENCE */}
-          {/* ============================================== */}
+        {/* Loading Indicator */}
+        {loading && (
+          <Card className="items-center justify-center py-8 mb-4">
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text className="mt-3 text-sm font-sans-bold text-forest">
+              {loadingMessage}
+            </Text>
+            <Text className="mt-1 text-xs text-ink-muted">
+              Running deep neural model & querying verified agri-databases
+            </Text>
+          </Card>
+        )}
 
-          {
-            result.prediction.status ===
-              "uncertain" && (
+        {/* Error Card */}
+        {errorMessage && (
+          <View className="rounded-2xl bg-danger-bg p-4 border border-danger-border mb-4">
+            <View className="flex-row items-center gap-2 mb-1">
+              <Text style={{ fontSize: 18 }}>⚠️</Text>
+              <Text className="font-sans-bold text-sm text-danger">Diagnosis Alert</Text>
+            </View>
+            <Text className="text-xs font-sans-medium text-danger leading-5">
+              {errorMessage}
+            </Text>
+          </View>
+        )}
 
-              <View
-                style={
-                  styles.warningCard
-                }
-              >
-
-                <Text
-                  style={
-                    styles.warningTitle
-                  }
-                >
-                  Low Confidence
-                </Text>
-
-
-                <Text
-                  style={
-                    styles.warningText
-                  }
-                >
-                  The model is not sufficiently
-                  confident about this diagnosis.
-                  Please capture a clear image of
-                  the affected leaf.
-                </Text>
-
-              </View>
-
-            )
-          }
-
-
-          {/* ============================================== */}
-          {/* HEALTHY */}
-          {/* ============================================== */}
-
-          {
-            result.prediction.is_healthy && (
-
-              <View
-                style={
-                  styles.successCard
-                }
-              >
-
-                <Text
-                  style={
-                    styles.successTitle
-                  }
-                >
-                  Healthy Crop
-                </Text>
-
-
-                <Text
-                  style={
-                    styles.successText
-                  }
-                >
-                  No disease was detected by
-                  the model.
-                </Text>
-
-              </View>
-
-            )
-          }
-
-
-          {/* ============================================== */}
-          {/* PESTICIDES */}
-          {/* ============================================== */}
-
-          {
-            !result.prediction.is_healthy && (
-
-              <View
-                style={
-                  styles.card
-                }
-              >
-
-                <Text
-                  style={
-                    styles.sectionTitle
-                  }
-                >
-                  Pesticide Recommendation
-                </Text>
-
-
-                {result.pesticides.length ===
-                  0 ? (
-
-                  <Text
-                    style={
-                      styles.emptyText
-                    }
-                  >
-                    No pesticide recommendation is currently available for this disease.
+        {/* ========================================================== */}
+        {/* RESULTS SECTION                                            */}
+        {/* ========================================================== */}
+        {result && (
+          <>
+            {/* Primary Diagnosis Card */}
+            <Card className="mb-4">
+              <View className="flex-row items-center justify-between mb-3 border-b border-border pb-3">
+                <View className="flex-row items-center gap-2">
+                  <Text style={{ fontSize: 20 }}>
+                    {result.prediction.is_healthy ? "✅" : "🔬"}
                   </Text>
-
-                ) : (
-
-                  result.pesticides.map(
-                    (
-                      pesticide,
-                      index
-                    ) => (
-
-                      <View
-                        key={
-                          `${pesticide.active_ingredient}-${index}`
-                        }
-
-                        style={
-                          styles.pesticideCard
-                        }
-                      >
-
-                        {/* PRODUCT */}
-
-                        <Text
-                          style={
-                            styles.productName
-                          }
-                        >
-                          {
-                            pesticide.product_type
-                          }
-                        </Text>
-
-
-                        {/* ACTIVE INGREDIENT */}
-
-                        <Text
-                          style={
-                            styles.detail
-                          }
-                        >
-                          Active ingredient:{" "}
-                          {
-                            pesticide.active_ingredient
-                          }
-                        </Text>
-
-
-                        {/* FORMULATION */}
-
-                        {
-                          pesticide.formulation && (
-
-                            <Text
-                              style={
-                                styles.detail
-                              }
-                            >
-                              Formulation:{" "}
-                              {
-                                pesticide.formulation
-                              }
-                            </Text>
-
-                          )
-                        }
-
-
-                        {/* SOURCE */}
-
-                        <Text
-                          style={
-                            styles.source
-                          }
-                        >
-                          Recommendation status:{" "}
-                          {
-                            pesticide.recommendation_status
-                          }
-                        </Text>
-
-                        <Text style={styles.source}>
-                          Reference source: {pesticide.verification_source}
-                        </Text>
-
-                        <Text style={styles.referenceNote}>
-                          Reference only. This is not a confirmation of Indian product registration or approval. Follow current Indian label directions and local extension guidance.
-                        </Text>
-
-                        {pesticide.note ? (
-                          <Text style={styles.detail}>{pesticide.note}</Text>
-                        ) : null}
-
-                        {pesticide.source_url ? (
-                          <TouchableOpacity
-                            onPress={() => void openExternalLink(pesticide.source_url)}
-                          >
-                            <Text style={styles.linkText}>View reference</Text>
-                          </TouchableOpacity>
-                        ) : null}
-
-                      </View>
-
-                    )
-                  )
-
-                )}
-
+                  <Text className="font-sans-extrabold text-base text-ink">
+                    {result.prediction.is_healthy ? "Crop Status" : "Disease Diagnosis"}
+                  </Text>
+                </View>
+                <View
+                  className={`rounded-full px-2.5 py-0.5 border ${
+                    result.prediction.is_healthy
+                      ? "bg-success-bg border-success-border"
+                      : "bg-danger-bg border-danger-border"
+                  }`}
+                >
+                  <Text
+                    className={`text-xs font-sans-bold ${
+                      result.prediction.is_healthy ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    {result.prediction.is_healthy ? "Healthy" : "Infected"}
+                  </Text>
+                </View>
               </View>
 
-            )
-          }
+              <View className="flex-row justify-between mb-3">
+                <View className="flex-1 mr-2">
+                  <Text className="text-xs font-sans-medium text-ink-muted">Identified Crop</Text>
+                  <Text className="font-sans-bold text-lg text-ink">
+                    {result.prediction.crop || "Unknown"}
+                  </Text>
+                </View>
+                <View className="items-end">
+                  <Text className="text-xs font-sans-medium text-ink-muted">Model Confidence</Text>
+                  <Text className="font-sans-extrabold text-lg text-forest">
+                    {confidencePct}%
+                  </Text>
+                </View>
+              </View>
 
+              <View className="mb-2">
+                <Text className="text-xs font-sans-medium text-ink-muted">Diagnosed Condition</Text>
+                <Text className="font-sans-extrabold text-xl text-ink mt-0.5">
+                  {result.prediction.condition}
+                </Text>
+              </View>
+            </Card>
 
-          {/* ============================================== */}
-          {/* ONLINE PRICES */}
-          {/* ============================================== */}
+            {/* Low Confidence / Uncertain Notice */}
+            {result.prediction.status === "uncertain" && (
+              <View className="rounded-2xl bg-warning-bg p-4 border border-warning-border mb-4">
+                <View className="flex-row items-center gap-2 mb-1">
+                  <Text style={{ fontSize: 18 }}>⚠️</Text>
+                  <Text className="font-sans-bold text-sm text-warning">
+                    Low Model Confidence
+                  </Text>
+                </View>
+                <Text className="text-xs font-sans-medium text-ink-muted leading-5">
+                  The AI model is not fully certain about this diagnosis. Please take a clear, well-lit photo of the affected leaf area from 15-20 cm away and try again.
+                </Text>
+              </View>
+            )}
 
-          {
-            !result.prediction.is_healthy && (
+            {/* Healthy Crop Success Message */}
+            {result.prediction.is_healthy && (
+              <View className="rounded-2xl bg-success-bg p-4 border border-success-border mb-4">
+                <View className="flex-row items-center gap-2 mb-1">
+                  <Text style={{ fontSize: 18 }}>🌱</Text>
+                  <Text className="font-sans-bold text-sm text-success">
+                    Healthy Crop Confirmed
+                  </Text>
+                </View>
+                <Text className="text-xs font-sans-medium text-ink leading-5">
+                  No visual pathogens, fungal blights, or viral symptoms were detected on this leaf sample. Maintain standard preventive agronomic practices and balanced irrigation.
+                </Text>
+              </View>
+            )}
 
-              <View
-                style={
-                  styles.card
-                }
-              >
-
-                <Text
-                  style={
-                    styles.sectionTitle
-                  }
-                >
-                  Online Price Reference
+            {/* ========================================================== */}
+            {/* PESTICIDE RECOMMENDATIONS                                  */}
+            {/* ========================================================== */}
+            {!result.prediction.is_healthy && (
+              <Card className="mb-4">
+                <SectionTitle>Verified Pesticide Recommendations</SectionTitle>
+                <Text className="text-xs text-ink-muted mb-3">
+                  Scientifically validated treatments based on CIBRC & agricultural extension registries
                 </Text>
 
-
-                {
-                  result.pesticide_prices.slice(0, 3).map(
-                    (
-                      price,
-                      index
-                    ) => (
-
-                      <View
-                        key={
-                          `${price.product}-${price.pack_size || ""}-${index}`
-                        }
-
-                        style={
-                          styles.priceCard
-                        }
-                      >
-
-                        {/* PRODUCT */}
-
-                        <Text
-                          style={
-                            styles.productName
-                          }
-                        >
-                          {
-                            price.product
-                          }
+                {result.pesticides.length === 0 ? (
+                  <View className="rounded-xl bg-secondary/50 p-3.5 border border-border">
+                    <Text className="text-xs font-sans-medium text-ink-muted">
+                      No registered pesticide is currently available for this specific disease record. Please consult your local Krishi Vigyan Kendra (KVK).
+                    </Text>
+                  </View>
+                ) : (
+                  result.pesticides.map((pesticide, index) => (
+                    <View
+                      key={`${pesticide.active_ingredient}-${index}`}
+                      className="rounded-xl border border-border bg-white p-3.5 mb-3 last:mb-0 shadow-xs"
+                    >
+                      <View className="flex-row items-center justify-between mb-1.5">
+                        <Text className="font-sans-bold text-sm text-ink">
+                          {pesticide.product_type}
                         </Text>
-
-
-                        {/* PRICE */}
-
-                        <Text
-                          style={
-                            styles.price
-                          }
-                        >
-                          {price.price == null
-                            ? "Price unavailable"
-                            : new Intl.NumberFormat("en-IN", {
-                                style: "currency",
-                                currency: price.currency || "INR",
-                                maximumFractionDigits: 2,
-                              }).format(price.price)}
-                        </Text>
-
-                        {price.mrp != null ? (
-                          <Text style={styles.detail}>
-                            MRP: {new Intl.NumberFormat("en-IN", {
-                              style: "currency",
-                              currency: price.currency || "INR",
-                              maximumFractionDigits: 2,
-                            }).format(price.mrp)}
+                        <View className="rounded-full bg-secondary px-2 py-0.5">
+                          <Text className="text-2xs font-sans-bold text-forest">
+                            {pesticide.recommendation_status}
                           </Text>
-                        ) : null}
-
-                        {(price.pack_size || price.pack_sizes[0]) ? (
-                          <Text style={styles.detail}>
-                            Pack size: {price.pack_size || price.pack_sizes[0]}
-                          </Text>
-                        ) : null}
-
-                        <Text style={styles.detail}>Seller: {price.seller}</Text>
-                        <Text style={styles.onlineLabel}>Online reference price</Text>
-
-                        {price.checked_at ? (
-                          <Text style={styles.timestamp}>
-                            Checked: {new Date(price.checked_at).toLocaleString()}
-                          </Text>
-                        ) : null}
-
-                        {price.source_url ? (
-                          <TouchableOpacity
-                            style={styles.viewProductButton}
-                            onPress={() => void openExternalLink(price.source_url)}
-                          >
-                            <Text style={styles.viewProductText}>View Product</Text>
-                          </TouchableOpacity>
-                        ) : null}
-
+                        </View>
                       </View>
 
-                    )
-                  )
-                }
+                      <Text className="text-xs font-sans-semibold text-ink leading-5">
+                        Active Ingredient:{" "}
+                        <Text className="font-sans-bold text-forest">
+                          {pesticide.active_ingredient}
+                        </Text>
+                      </Text>
+
+                      {pesticide.formulation && (
+                        <Text className="text-xs text-ink-muted mt-0.5">
+                          Formulation: {pesticide.formulation}
+                        </Text>
+                      )}
+
+                      {pesticide.note ? (
+                        <Text className="text-xs text-ink-muted mt-1 leading-4">
+                          Note: {pesticide.note}
+                        </Text>
+                      ) : null}
+
+                      <Text className="text-2xs text-ink-muted mt-2">
+                        Authority Source: {pesticide.verification_source}
+                      </Text>
+
+                      <Text className="text-2xs text-amber-800 bg-amber-50 rounded p-1.5 mt-2 leading-4">
+                        ⚠️ Reference only. Follow local Indian label regulations and extension guidelines.
+                      </Text>
+
+                      {pesticide.source_url && (
+                        <Pressable
+                          onPress={() => void openExternalLink(pesticide.source_url)}
+                          className="mt-2.5 flex-row items-center gap-1"
+                        >
+                          <Text className="text-xs font-sans-bold text-forest underline">
+                            View Official Reference Document →
+                          </Text>
+                        </Pressable>
+                      )}
+                    </View>
+                  ))
+                )}
+              </Card>
+            )}
+
+            {/* ========================================================== */}
+            {/* ONLINE PESTICIDE PRICES                                    */}
+            {/* ========================================================== */}
+            {!result.prediction.is_healthy && (
+              <Card className="mb-4">
+                <SectionTitle>Online Market Price Reference</SectionTitle>
+                <Text className="text-xs text-ink-muted mb-3">
+                  Live pricing tracked across verified online agri-input marketplaces
+                </Text>
 
                 {result.pesticide_prices.length === 0 ? (
-                  <Text style={styles.emptyText}>
-                    Live pesticide prices are currently unavailable.
-                  </Text>
-                ) : null}
+                  <View className="rounded-xl bg-secondary/50 p-3.5 border border-border">
+                    <Text className="text-xs font-sans-medium text-ink-muted">
+                      Live online price quotes are temporarily unavailable. Check local input dealers for current retail rates.
+                    </Text>
+                  </View>
+                ) : (
+                  result.pesticide_prices.slice(0, 3).map((price, index) => {
+                    const formattedPrice =
+                      price.price != null
+                        ? new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: price.currency || "INR",
+                            maximumFractionDigits: 0,
+                          }).format(price.price)
+                        : "Price unavailable";
 
-                {/* PRICE NOTE */}
+                    const formattedMrp =
+                      price.mrp != null
+                        ? new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: price.currency || "INR",
+                            maximumFractionDigits: 0,
+                          }).format(price.mrp)
+                        : null;
 
-                <Text
-                  style={
-                    styles.priceNote
-                  }
-                >
-                  {
-                    result.price_note ||
-                    "Online reference price. Actual local dealer price may differ."
-                  }
+                    return (
+                      <View
+                        key={`${price.product}-${price.pack_size || ""}-${index}`}
+                        className="rounded-xl border border-border bg-white p-3.5 mb-3 last:mb-0 shadow-xs"
+                      >
+                        <View className="flex-row items-start justify-between">
+                          <View className="flex-1 mr-2">
+                            <Text className="font-sans-bold text-sm text-ink">
+                              {price.product}
+                            </Text>
+                            {(price.pack_size || price.pack_sizes?.[0]) && (
+                              <Text className="text-xs text-ink-muted mt-0.5">
+                                Pack Size: {price.pack_size || price.pack_sizes[0]}
+                              </Text>
+                            )}
+                            <Text className="text-xs text-ink-muted mt-0.5">
+                              Seller: {price.seller}
+                            </Text>
+                          </View>
+
+                          <View className="items-end">
+                            <Text className="font-sans-extrabold text-base text-forest">
+                              {formattedPrice}
+                            </Text>
+                            {formattedMrp && (
+                              <Text className="text-2xs text-ink-muted line-through">
+                                MRP {formattedMrp}
+                              </Text>
+                            )}
+                          </View>
+                        </View>
+
+                        <View className="flex-row items-center justify-between mt-2 pt-2 border-t border-border">
+                          <Text className="text-2xs text-ink-muted">
+                            Verified Agri-Supplier
+                          </Text>
+
+                          {price.source_url ? (
+                            <Pressable
+                              onPress={() => void openExternalLink(price.source_url)}
+                              className="rounded-lg bg-forest px-3 py-1.5 active:opacity-90"
+                            >
+                              <Text className="text-xs font-sans-bold text-white">
+                                View Product ↗
+                              </Text>
+                            </Pressable>
+                          ) : null}
+                        </View>
+                      </View>
+                    );
+                  })
+                )}
+
+                <Text className="text-2xs text-ink-muted mt-2">
+                  {result.price_note || "Online reference prices; actual dealer counter prices may vary by region."}
                 </Text>
+              </Card>
+            )}
 
-              </View>
-
-            )
-          }
-
-
-          {/* ============================================== */}
-          {/* BACK */}
-          {/* ============================================== */}
-
-          <TouchableOpacity
-            style={
-              styles.secondaryButton
-            }
-
-            onPress={() =>
-              navigation.goBack()
-            }
-          >
-
-            <Text
-              style={
-                styles.secondaryButtonText
-              }
-            >
-              Back
-            </Text>
-
-          </TouchableOpacity>
-
-        </>
-
-      )}
-
-    </ScrollView>
+            {/* Reset / Analyze Another Photo */}
+            <View className="mt-2 mb-6">
+              <Pressable
+                onPress={resetAll}
+                className="rounded-xl border border-forest py-3.5 items-center justify-center bg-white shadow-xs active:bg-secondary/40"
+              >
+                <Text className="font-sans-bold text-sm text-forest">
+                  🔄 Analyze Another Leaf
+                </Text>
+              </Pressable>
+            </View>
+          </>
+        )}
+      </ScrollView>
+    </ScreenContainer>
   );
 }
 
-
-// ============================================================
-// STYLES
-// ============================================================
-
-const styles =
-  StyleSheet.create({
-
-    container: {
-      flex: 1,
-      backgroundColor:
-        "#F5F7FA",
-    },
-
-
-    content: {
-      padding: 20,
-      paddingBottom: 40,
-    },
-
-
-    title: {
-      fontSize: 26,
-      fontWeight: "700",
-      marginBottom: 5,
-    },
-
-
-    subtitle: {
-      fontSize: 14,
-      color: "#666",
-      marginBottom: 20,
-    },
-
-
-    image: {
-      width: "100%",
-      height: 280,
-      borderRadius: 16,
-      marginBottom: 20,
-    },
-
-    imageActions: {
-      flexDirection: "row",
-      gap: 10,
-      marginBottom: 12,
-    },
-
-    imageActionButton: {
-      flex: 1,
-      borderWidth: 1,
-      borderColor: "#2E7D32",
-      borderRadius: 10,
-      padding: 12,
-      alignItems: "center",
-    },
-
-    imageActionText: {
-      color: "#2E7D32",
-      fontWeight: "700",
-    },
-
-    detectButton: {
-      padding: 16,
-      borderRadius: 12,
-      alignItems: "center",
-      backgroundColor:
-        "#2E7D32",
-    },
-
-
-    buttonText: {
-      color: "#FFFFFF",
-      fontSize: 16,
-      fontWeight: "700",
-    },
-
-
-    loadingBox: {
-      alignItems: "center",
-      padding: 30,
-    },
-
-
-    loadingText: {
-      marginTop: 12,
-      color: "#555",
-    },
-
-
-    card: {
-      backgroundColor:
-        "#FFFFFF",
-
-      borderRadius: 16,
-
-      padding: 18,
-
-      marginBottom: 16,
-
-      shadowOpacity: 0.05,
-
-      shadowRadius: 5,
-
-      elevation: 2,
-    },
-
-
-    sectionTitle: {
-      fontSize: 19,
-      fontWeight: "700",
-      marginBottom: 16,
-    },
-
-
-    label: {
-      fontSize: 13,
-      color: "#777",
-      marginTop: 10,
-    },
-
-
-    value: {
-      fontSize: 18,
-      fontWeight: "600",
-      marginTop: 3,
-    },
-
-
-    disease: {
-      fontSize: 21,
-      fontWeight: "700",
-      marginTop: 3,
-    },
-
-
-    confidence: {
-      fontSize: 25,
-      fontWeight: "800",
-      marginTop: 3,
-    },
-
-
-    location: {
-      marginTop: 15,
-      fontSize: 13,
-      color: "#666",
-    },
-
-
-    warningCard: {
-      backgroundColor:
-        "#FFF4E5",
-
-      borderRadius: 14,
-
-      padding: 16,
-
-      marginBottom: 16,
-    },
-
-
-    warningTitle: {
-      fontSize: 17,
-      fontWeight: "700",
-      marginBottom: 6,
-    },
-
-
-    warningText: {
-      color: "#555",
-      lineHeight: 20,
-    },
-
-
-    successCard: {
-      backgroundColor:
-        "#E8F5E9",
-
-      borderRadius: 14,
-
-      padding: 16,
-
-      marginBottom: 16,
-    },
-
-
-    successTitle: {
-      fontSize: 18,
-      fontWeight: "700",
-      marginBottom: 5,
-    },
-
-
-    successText: {
-      color: "#444",
-    },
-
-
-    pesticideCard: {
-      borderWidth: 1,
-
-      borderColor:
-        "#E0E0E0",
-
-      borderRadius: 12,
-
-      padding: 14,
-
-      marginBottom: 12,
-    },
-
-
-    productName: {
-      fontSize: 16,
-      fontWeight: "700",
-      marginBottom: 6,
-    },
-
-
-    detail: {
-      fontSize: 13,
-      color: "#666",
-      marginTop: 3,
-    },
-
-
-    source: {
-      fontSize: 12,
-      color: "#2E7D32",
-      marginTop: 8,
-    },
-
-    referenceNote: {
-      color: "#76551B",
-      fontSize: 12,
-      lineHeight: 18,
-      marginTop: 8,
-    },
-
-    linkText: {
-      color: "#2E7D32",
-      fontWeight: "700",
-      marginTop: 10,
-      textDecorationLine: "underline",
-    },
-
-    priceCard: {
-      borderWidth: 1,
-
-      borderColor:
-        "#E0E0E0",
-
-      borderRadius: 12,
-
-      padding: 14,
-
-      marginBottom: 12,
-    },
-
-    onlineLabel: {
-      color: "#2E7D32",
-      fontSize: 12,
-      fontWeight: "700",
-      marginTop: 8,
-    },
-
-    viewProductButton: {
-      backgroundColor: "#2E7D32",
-      borderRadius: 9,
-      alignItems: "center",
-      padding: 12,
-      marginTop: 12,
-    },
-
-    viewProductText: {
-      color: "#FFFFFF",
-      fontWeight: "700",
-    },
-
-    price: {
-      fontSize: 24,
-      fontWeight: "800",
-      marginVertical: 5,
-    },
-
-
-    timestamp: {
-      fontSize: 11,
-      color: "#888",
-      marginTop: 7,
-    },
-
-
-    priceNote: {
-      fontSize: 12,
-      color: "#777",
-      lineHeight: 18,
-      marginTop: 5,
-    },
-
-
-    emptyText: {
-      color: "#666",
-      lineHeight: 20,
-    },
-
-
-    secondaryButton: {
-      borderWidth: 1,
-
-      borderColor:
-        "#2E7D32",
-
-      borderRadius: 12,
-
-      padding: 15,
-
-      alignItems: "center",
-
-      marginTop: 5,
-    },
-
-
-    secondaryButtonText: {
-      color: "#2E7D32",
-      fontSize: 16,
-      fontWeight: "700",
-    },
-  });
+export default DiseaseDetectionScreen;

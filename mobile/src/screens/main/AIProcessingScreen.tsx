@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import type { RootStackScreenProps } from "@/types/navigation";
+import { BackButton } from "@/components/ui";
 import { getCropRecommendation } from "@/services/api";
-import { mockRecommendation } from "@/data/mockData";
+import { buildInputAwareRecommendation } from "@/utils/dynamicFallbackRecommendation";
 import { colors } from "@/theme/colors";
 
 type Props = RootStackScreenProps<"AIProcessing">;
@@ -34,15 +35,22 @@ export function AIProcessingScreen({ navigation, route }: Props) {
       try {
         // Direct call — synchronous backend response
         const result = await getCropRecommendation(route.params.farmInput);
-        // Ensure farmer sees a couple animation steps then navigate
+        if (result && result.recommendations && result.recommendations.length > 0) {
+          setTimeout(() => {
+            navigation.replace("Recommendations", { result });
+          }, 1200);
+          return;
+        }
+        throw new Error("No recommendations returned");
+      } catch (err) {
+        console.warn("Using input-tailored recommendation generator:", err);
+        // Resilient fallback strictly matching the user's input
+        const tailoredResult = buildInputAwareRecommendation(
+          route.params.farmInput
+        );
         setTimeout(() => {
-          navigation.replace("Recommendations", { result });
-        }, 1200);
-      } catch {
-        // Fallback to mock data so UI stays resilient if backend is unreachable
-        setTimeout(() => {
-          navigation.replace("Recommendations", { result: mockRecommendation });
-        }, 1500);
+          navigation.replace("Recommendations", { result: tailoredResult });
+        }, 1400);
       }
     }
 
@@ -50,8 +58,10 @@ export function AIProcessingScreen({ navigation, route }: Props) {
     return () => clearInterval(interval);
   }, [navigation, route.params.farmInput]);
 
+
   return (
-    <LinearGradient colors={[colors.forestDark, "#0a2818"]} className="flex-1 px-6 pt-16">
+    <LinearGradient colors={[colors.forestDark, "#0a2818"]} className="flex-1 px-6 pt-12">
+      <BackButton light label="Cancel" fallbackRoute="FarmInput" className="mb-4" />
       <View className="mb-8 items-center">
         <View className="h-28 w-28 items-center justify-center rounded-full border-2 border-green-light/30">
           <ActivityIndicator size="large" color={colors.greenLight} />

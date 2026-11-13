@@ -2,9 +2,12 @@ import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { RootStackScreenProps } from "@/types/navigation";
-import { Chip, FormInput, PrimaryButton, SelectDropdown } from "@/components/ui";
+import { BackButton, Chip, FormInput, PrimaryButton, SelectDropdown } from "@/components/ui";
 import { KARNATAKA_DISTRICTS } from "@/constants/districts";
 import type { FarmInputPayload, SoilInput } from "@/types/api";
+
+import { useActiveDistrict } from "@/services/locationState";
+import { getDistrictProfile } from "@/constants/districtProfiles";
 
 type Props = RootStackScreenProps<"FarmInput">;
 
@@ -16,9 +19,11 @@ type IrrigationType = typeof IRRIGATION[number];
 type SeasonType = typeof SEASONS[number];
 
 export function FarmInputScreen({ navigation }: Props) {
+  const { district: activeDistrict, setDistrict: persistDistrict } = useActiveDistrict();
+
   // Core fields
   const [area, setArea] = useState("5.0");
-  const [district, setDistrict] = useState("Mandya");
+  const [district, setDistrict] = useState(activeDistrict || "Mandya");
   const [pincode, setPincode] = useState("");
   const [budget, setBudget] = useState("150000");
   const [motorHp, setMotorHp] = useState<number>(5);
@@ -29,10 +34,19 @@ export function FarmInputScreen({ navigation }: Props) {
 
   // Optional soil fields
   const [showSoil, setShowSoil] = useState(false);
-  const [soilPh, setSoilPh] = useState("6.5");
-  const [soilTexture, setSoilTexture] = useState("loamy");
+  const [soilPh, setSoilPh] = useState(() => getDistrictProfile(activeDistrict).soil.ph.toString());
+  const [soilTexture, setSoilTexture] = useState(() => getDistrictProfile(activeDistrict).soil.type);
+
+  function handleDistrictSelect(selected: string) {
+    setDistrict(selected);
+    persistDistrict(selected);
+    const profile = getDistrictProfile(selected);
+    setSoilPh(profile.soil.ph.toString());
+    setSoilTexture(profile.soil.type);
+  }
 
   function handleSubmit() {
+    persistDistrict(district);
     const soil: SoilInput | undefined = showSoil
       ? {
           ph: parseFloat(soilPh) || undefined,
@@ -58,6 +72,7 @@ export function FarmInputScreen({ navigation }: Props) {
   return (
     <SafeAreaView className="flex-1 bg-cream">
       <ScrollView contentContainerClassName="px-4 pb-10 pt-4">
+        <BackButton className="mb-3" />
         <Text className="font-sans-bold text-xs uppercase text-green">Step 1 of 2</Text>
         <Text className="font-sans-extrabold text-2xl text-ink">Your farm details</Text>
         <Text className="mb-5 text-sm text-ink-muted">
@@ -77,7 +92,7 @@ export function FarmInputScreen({ navigation }: Props) {
           label="District (Karnataka)"
           value={district}
           options={KARNATAKA_DISTRICTS}
-          onSelect={setDistrict}
+          onSelect={handleDistrictSelect}
           placeholder="Select district"
           searchPlaceholder="Search district (e.g. Mandya, Mysuru)..."
         />
