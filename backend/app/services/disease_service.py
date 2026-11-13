@@ -1,159 +1,468 @@
-"""
-Disease detection service.
-
-Loads the MobileNetV2 model ONCE at import time (i.e. when the FastAPI
-application starts) and exposes a single predict() function that reuses
-the exact same preprocessing logic as test_disease_model.py.
-
-Nothing here knows about HTTP – it is pure ML / IO logic.
-"""
-
-from __future__ import annotations
-
 import io
 import json
 import logging
 from pathlib import Path
+from typing import Any, Dict
 
 import numpy as np
 from PIL import Image, UnidentifiedImageError
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from tensorflow.keras.models import load_model
+
 
 logger = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# Paths  (resolved relative to this file so the service works from any cwd)
-# ---------------------------------------------------------------------------
-_BACKEND_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
-_PROJECT_ROOT = _BACKEND_DIR.parent                           # KrushiMitra/
-_ARTIFACTS_DIR = _PROJECT_ROOT / "artifacts" / "disease_detection"
 
-_MODEL_PATH = _ARTIFACTS_DIR / "disease_classifier.keras"
-_LABEL_MAP_PATH = _ARTIFACTS_DIR / "label_map.json"
-_CONFIG_PATH = _ARTIFACTS_DIR / "inference_config.json"
+# ============================================================
+# PATHS
+# ============================================================
 
-# ---------------------------------------------------------------------------
-# Load inference config
-# ---------------------------------------------------------------------------
-with open(_CONFIG_PATH, "r") as _f:
-    _cfg = json.load(_f)
+BASE_DIR = Path(__file__).resolve().parents[3]
 
-CONFIDENCE_THRESHOLD: float = float(_cfg["confidence_threshold"])   # 0.55
-IMAGE_SIZE: tuple[int, int] = tuple(_cfg["image_size"])              # (224, 224)
-SUPPORTED_EXTENSIONS: frozenset[str] = frozenset(_cfg["supported_extensions"])
+MODEL_DIR = (
+    BASE_DIR
+    / "artifacts"
+    / "disease_detection"
+)
 
-MAX_UPLOAD_BYTES: int = 10 * 1024 * 1024  # 10 MB – sensible hard cap
+MODEL_PATH = (
+    MODEL_DIR
+    / "disease_classifier.keras"
+)
 
-# ---------------------------------------------------------------------------
-# Load label map
-# ---------------------------------------------------------------------------
-with open(_LABEL_MAP_PATH, "r") as _f:
-    # list index == class_id, so we can use direct indexing
-    _label_map: list[dict] = json.load(_f)
+LABEL_MAP_PATH = (
+    MODEL_DIR
+    / "label_map.json"
+)
 
-_model = None
+INFERENCE_CONFIG_PATH = (
+    MODEL_DIR
+    / "inference_config.json"
+)
 
 
-def _get_model():
-    global _model
-    if _model is None:
-        logger.info("Loading disease detection model from %s …", _MODEL_PATH)
-        import tensorflow as tf
-        _model = tf.keras.models.load_model(str(_MODEL_PATH))
-        logger.info(
-            "Disease model loaded. input=%s  output=%s  classes=%d",
-            _model.input_shape,
-            _model.output_shape,
-            len(_label_map),
-        )
-    return _model
+# ============================================================
+# EXCEPTION
+# ============================================================
 
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
-
-class DiseaseServiceError(ValueError):
-    """Raised for invalid/corrupt input images."""
+class DiseaseServiceError(Exception):
+    """Raised when disease model inference fails."""
 
 
-def predict(image_bytes: bytes) -> dict:
-    """
-    Run the MobileNetV2 plant-disease classifier on raw image bytes.
+# ============================================================
+# SERVICE
+# ============================================================
 
-    Parameters
-    ----------
-    image_bytes : bytes
-        Raw bytes of the uploaded image file.
+class DiseaseService:
 
-    Returns
-    -------
-    dict with keys:
-        success        bool
-        prediction     dict (see below) or None on error
-        error          str | None
+    def __init__(self):
+        self.model = None
+        self.label_map = None
+        self.config = None
 
-    prediction dict:
-        crop           str | None
-        condition      str
-        class_name     str | None
-        is_healthy     bool | None
-        confidence     float
-        status         "confident" | "uncertain"
-    """
-    # ---- 1. Validate size ------------------------------------------------
-    if len(image_bytes) > MAX_UPLOAD_BYTES:
+    # --------------------------------------------------------
+    # LOAD MODEL
+    # --------------------------------------------------------
+
+    def _load_resources(self):
+
+        if self.model is not None:
+            return
+
+        try:
+
+            if not MODEL_PATH.exists():
+                raise DiseaseServiceError(
+                    f"Disease model not found: {MODEL_PATH}"
+                )
+
+            if not LABEL_MAP_PATH.exists():
+                raise DiseaseServiceError(
+                    f"Label map not found: {LABEL_MAP_PATH}"
+                )
+
+            if not INFERENCE_CONFIG_PATH.exists():
+                raise DiseaseServiceError(
+                    f"Inference config not found: {INFERENCE_CONFIG_PATH}"
+                )
+
+            logger.info(
+                "Loading disease detection model..."
+            )
+
+            self.model = load_model(
+                MODEL_PATH
+            )
+
+            with open(
+                LABEL_MAP_PATH,
+                "r",
+                encoding="utf-8"
+            ) as file:
+
+                self.label_map = json.load(
+                    file
+                )
+
+            with open(
+                INFERENCE_CONFIG_PATH,
+                "r",
+                encoding="utf-8"
+            ) as file:
+
+                self.config = json.load(
+                    file
+                )
+
+            logger.info(
+                "Disease detection model loaded successfully"
+            )
+
+        except DiseaseServiceError:
+            raise
+
+        except Exception as exc:
+
+            logger.exception(
+                "Failed to load disease detection model"
+            )
+
+            raise DiseaseServiceError(
+                f"Failed to load disease model: {exc}"
+            ) from exc
+
+    # --------------------------------------------------------
+    # VALIDATE IMAGE
+    # --------------------------------------------------------
+
+    def _validate_image(
+        self,
+        image_bytes: bytes
+    ):
+
+        if not image_bytes:
+            raise DiseaseServiceError(
+                "Empty image received"
+            )
+
+        try:
+
+            image = Image.open(
+                io.BytesIO(image_bytes)
+            )
+
+            image.verify()
+
+        except (
+            UnidentifiedImageError,
+            OSError
+        ) as exc:
+
+            raise DiseaseServiceError(
+                "Uploaded file is not a valid image"
+            ) from exc
+
+    # --------------------------------------------------------
+    # PREPROCESS IMAGE
+    # --------------------------------------------------------
+
+    def _prepare_image(
+        self,
+        image_bytes: bytes
+    ):
+
+        try:
+
+            image = Image.open(
+                io.BytesIO(image_bytes)
+            )
+
+            image = image.convert(
+                "RGB"
+            )
+
+            image = image.resize(
+                (224, 224)
+            )
+
+            image_array = np.asarray(
+                image,
+                dtype=np.float32
+            )
+
+            image_array = np.expand_dims(
+                image_array,
+                axis=0
+            )
+
+            image_array = preprocess_input(
+                image_array
+            )
+
+            return image_array
+
+        except Exception as exc:
+
+            raise DiseaseServiceError(
+                f"Unable to preprocess image: {exc}"
+            ) from exc
+
+    # --------------------------------------------------------
+    # CLASS NAME
+    # --------------------------------------------------------
+
+    def _get_class_name(
+        self,
+        class_index: int
+    ) -> str:
+
+        # Example:
+        # [
+        #   "Apple___Apple_scab",
+        #   "Apple___Black_rot"
+        # ]
+
+        if isinstance(
+            self.label_map,
+            list
+        ):
+
+            if (
+                class_index < 0
+                or class_index >= len(
+                    self.label_map
+                )
+            ):
+
+                raise DiseaseServiceError(
+                    f"Invalid class index: {class_index}"
+                )
+
+            label = self.label_map[
+                class_index
+            ]
+
+            if isinstance(label, dict):
+                if label.get("class_id") != class_index:
+                    label = next(
+                        (
+                            item
+                            for item in self.label_map
+                            if isinstance(item, dict)
+                            and item.get("class_id") == class_index
+                        ),
+                        label,
+                    )
+
+                label = label.get("class_name")
+
+            if isinstance(label, str):
+                return label
+
+            raise DiseaseServiceError(
+                f"Label map entry for class index {class_index} "
+                "does not contain a string class_name."
+            )
+
+        # Example:
+        # {
+        #   "0": "Apple___Apple_scab"
+        # }
+
+        if isinstance(
+            self.label_map,
+            dict
+        ):
+
+            if str(class_index) in self.label_map:
+                label = self.label_map[
+                    str(class_index)
+                ]
+
+                if isinstance(label, dict):
+                    label = label.get("class_name")
+
+                if isinstance(label, str):
+                    return label
+
+            # Example:
+            # {
+            #   "Apple___Apple_scab": 0
+            # }
+
+            for class_name, index in (
+                self.label_map.items()
+            ):
+
+                if index == class_index:
+                    if isinstance(class_name, str):
+                        return class_name
+
         raise DiseaseServiceError(
-            f"File too large ({len(image_bytes) // 1024} KB). "
-            f"Maximum allowed is {MAX_UPLOAD_BYTES // (1024 * 1024)} MB."
+            f"Unable to resolve a string class name for class index: "
+            f"{class_index}"
         )
 
-    # ---- 2. Decode image --------------------------------------------------
-    try:
-        img = Image.open(io.BytesIO(image_bytes))
-        img.verify()          # catches obviously corrupt files early
-        img = Image.open(io.BytesIO(image_bytes))  # reopen after verify()
-    except (UnidentifiedImageError, Exception) as exc:
-        raise DiseaseServiceError(f"Cannot decode image: {exc}") from exc
+    # --------------------------------------------------------
+    # PARSE CLASS
+    # --------------------------------------------------------
 
-    # ---- 3. Preprocess  (identical to test_disease_model.py) --------------
-    img = img.convert("RGB")
-    img = img.resize(IMAGE_SIZE)                          # (224, 224)
+    def _parse_class_name(
+        self,
+        class_name: str
+    ):
 
-    img_array = np.array(img, dtype=np.float32)           # HxWx3
-    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
-    img_array = preprocess_input(img_array)               # MobileNetV2 normalisation
-    img_array = np.expand_dims(img_array, axis=0)         # 1xHxWx3
+        if "___" in class_name:
 
-    # ---- 4. Inference -----------------------------------------------------
-    model = _get_model()
-    predictions = model.predict(img_array, verbose=0)
+            crop, condition = (
+                class_name.split(
+                    "___",
+                    1
+                )
+            )
 
-    predicted_index = int(np.argmax(predictions[0]))
-    confidence = float(predictions[0][predicted_index])
+        else:
 
-    # ---- 5. Map to label --------------------------------------------------
-    if confidence < CONFIDENCE_THRESHOLD:
-        return {
-            "success": True,
-            "prediction": {
-                "crop": None,
-                "condition": "Uncertain",
-                "class_name": None,
-                "is_healthy": None,
-                "confidence": round(confidence, 4),
-                "status": "uncertain",
-            },
-        }
+            crop = class_name
+            condition = class_name
 
-    label = _label_map[predicted_index]
+        condition = (
+            condition
+            .replace("_", " ")
+        )
 
-    return {
-        "success": True,
-        "prediction": {
-            "crop": label["crop"],
-            "condition": label["condition"],
-            "class_name": label["class_name"],
-            "is_healthy": label["is_healthy"],
-            "confidence": round(confidence, 4),
-            "status": "confident",
-        },
-    }
+        return crop, condition
+
+    # --------------------------------------------------------
+    # PREDICT
+    # --------------------------------------------------------
+
+    def predict(
+        self,
+        image_bytes: bytes
+    ) -> Dict[str, Any]:
+
+        """
+        Run MobileNetV2 disease prediction.
+
+        This function ONLY performs:
+        image validation
+        image preprocessing
+        model inference
+        disease classification
+
+        Pesticide recommendation and price lookup
+        are handled separately.
+        """
+
+        self._load_resources()
+
+        self._validate_image(
+            image_bytes
+        )
+
+        image_array = (
+            self._prepare_image(
+                image_bytes
+            )
+        )
+
+        try:
+
+            predictions = (
+                self.model.predict(
+                    image_array,
+                    verbose=0
+                )
+            )
+
+            probabilities = (
+                predictions[0]
+            )
+
+            class_index = int(
+                np.argmax(
+                    probabilities
+                )
+            )
+
+            confidence = float(
+                probabilities[
+                    class_index
+                ]
+            )
+
+            class_name = (
+                self._get_class_name(
+                    class_index
+                )
+            )
+
+            crop, condition = (
+                self._parse_class_name(
+                    class_name
+                )
+            )
+
+            threshold = float(
+                self.config.get(
+                    "confidence_threshold",
+                    0.55
+                )
+            )
+
+            is_healthy = (
+                "healthy"
+                in condition.lower()
+            )
+
+            status = (
+                "confident"
+                if confidence >= threshold
+                else "uncertain"
+            )
+
+            return {
+
+                "success": True,
+
+                "prediction": {
+
+                    "crop": crop,
+
+                    "condition": condition,
+
+                    "class_name": class_name,
+
+                    "is_healthy": (
+                        is_healthy
+                    ),
+
+                    "confidence": round(
+                        confidence,
+                        4
+                    ),
+
+                    "status": status
+                }
+            }
+
+        except DiseaseServiceError:
+            raise
+
+        except Exception as exc:
+
+            logger.exception(
+                "Disease prediction failed"
+            )
+
+            raise DiseaseServiceError(
+                f"Disease prediction failed: {exc}"
+            ) from exc
+
+
+# ============================================================
+# SINGLETON
+# ============================================================
+
+disease_service = DiseaseService()
