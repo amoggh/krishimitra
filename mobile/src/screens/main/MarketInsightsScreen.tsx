@@ -286,8 +286,16 @@ export function MarketInsightsScreen(_props: Props) {
               </View>
 
               {item.trend_7d && item.trend_7d.length > 0 && (
-                <View className="mt-2.5">
-                  <PriceTrendChart data={item.trend_7d} height={90} />
+                <View className="mt-3">
+                  <PriceTrendChart
+                    data={item.trend_7d}
+                    arrivalDate={item.arrival_date}
+                    cropName={item.crop}
+                    mandiName={item.mandi}
+                    minPrice={item.min_price_inr}
+                    maxPrice={item.max_price_inr}
+                    height={155}
+                  />
                 </View>
               )}
               <Text className="mt-1 text-[11px] text-ink-muted">
