@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   Linking,
+  Platform,
   Pressable,
   ScrollView,
   Text,
@@ -36,15 +37,14 @@ export function DiseaseDetectionScreen({ route, navigation }: Props) {
   const openExternalLink = async (url: string | null) => {
     if (!url) return;
     try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) {
-        await Linking.openURL(url);
-      } else {
-        Alert.alert("Link error", "Cannot open this link on your device.");
+      if (Platform.OS === "web" && typeof window !== "undefined") {
+        window.open(url, "_blank", "noopener,noreferrer");
+        return;
       }
+      await Linking.openURL(url);
     } catch (error) {
-      console.warn("Unable to open reference URL", error);
-      Alert.alert("Unable to open link", "Please try again later.");
+      console.warn("Unable to open external link", error);
+      Alert.alert("Unable to open link", "Could not open the product page on your browser.");
     }
   };
 
