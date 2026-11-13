@@ -1,158 +1,293 @@
-"""
-Disease detection routes.
-
-POST /disease/predict   – primary endpoint (spec-compliant response)
-POST /disease/analyze   – alias kept for backwards compatibility
-GET  /disease/status    – health / readiness check
-"""
-
-from __future__ import annotations
-
 import logging
 from pathlib import Path
+from typing import Optional
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
-
-from app.services import disease_service
-from app.services.disease_service import (
-    SUPPORTED_EXTENSIONS,
-    MAX_UPLOAD_BYTES,
-    DiseaseServiceError,
+from fastapi import (
+    APIRouter,
+    File,
+    Form,
+    HTTPException,
+    UploadFile,
 )
+
+from app.services.disease_service import (
+    DiseaseServiceError,
+    disease_service,
+)
+
+from app.services.pesticide_recommendations import (
+    get_pesticide_recommendations,
+)
+
+from app.services.pesticide_prices import (
+    get_prices,
+)
+
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/disease", tags=["disease"])
 
-# Allowed MIME types that map to our supported extensions
-_ALLOWED_MIME_PREFIXES = ("image/jpeg", "image/jpg", "image/png", "image/webp",
-                           "image/bmp", "image/tiff", "image/tif")
+# ============================================================
+# ROUTER
+# ============================================================
+
+router = APIRouter(
+    prefix="/disease",
+    tags=["Disease Detection"],
+)
 
 
-def _validate_upload(file: UploadFile) -> None:
-    """Raise HTTPException 400 for unsupported or obviously invalid files."""
-    content_type = (file.content_type or "").lower()
-    if not any(content_type.startswith(p) for p in _ALLOWED_MIME_PREFIXES):
-        # Also accept generic octet-stream – extension check is the real guard
-        if content_type not in ("application/octet-stream", ""):
-            raise HTTPException(
-                status_code=400,
-                detail=(
-                    f"Unsupported file type '{content_type}'. "
-                    f"Accepted types: JPG, PNG, WebP, BMP, TIFF."
-                ),
-            )
+# ============================================================
+# UPLOAD CONFIGURATION
+# ============================================================
 
-    # Extension check (fallback when content_type is unreliable on Android)
-    suffix = Path(file.filename or "").suffix.lower()
-    if suffix and suffix not in SUPPORTED_EXTENSIONS:
+SUPPORTED_EXTENSIONS = {
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp",
+    ".bmp",
+    ".tif",
+    ".tiff",
+}
+
+SUPPORTED_CONTENT_TYPES = {
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/bmp",
+    "image/tiff",
+}
+
+MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+
+
+# ============================================================
+# VALIDATE UPLOAD
+# ============================================================
+
+def _validate_upload(file: UploadFile):
+    """Validate uploaded image extension and content type."""
+
+    extension = Path(
+        file.filename or ""
+    ).suffix.lower()
+
+    content_type = (
+        file.content_type or ""
+    ).lower()
+
+    if extension not in SUPPORTED_EXTENSIONS:
         raise HTTPException(
             status_code=400,
             detail=(
-                f"Unsupported file extension '{suffix}'. "
-                f"Accepted: {', '.join(sorted(SUPPORTED_EXTENSIONS))}."
+                "Unsupported image extension. "
+                "Use JPG, JPEG, PNG, WebP, BMP or TIFF."
             ),
         )
 
+    if content_type not in SUPPORTED_CONTENT_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail="Unsupported image type.",
+        )
 
-async def _run_prediction(file: UploadFile) -> dict:
-    """Shared logic for both /predict and /analyze."""
+
+# ============================================================
+# RUN PREDICTION
+# ============================================================
+
+async def _run_prediction(
+    file: UploadFile,
+    state: str = "Karnataka",
+    district: Optional[str] = None,
+):
+    """
+    Complete disease detection pipeline:
+
+    Image
+       ↓
+    MobileNetV2
+       ↓
+    Disease + Confidence
+       ↓
+    Verified pesticide recommendation
+       ↓
+    Online pesticide price
+    """
+
+    # 1. Validate file
     _validate_upload(file)
 
+    # 2. Read image
     image_bytes = await file.read()
 
-    if len(image_bytes) == 0:
-        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+    if not image_bytes:
+        raise HTTPException(
+            status_code=400,
+            detail="Uploaded image is empty.",
+        )
 
+    # 3. Check file size
     if len(image_bytes) > MAX_UPLOAD_BYTES:
         raise HTTPException(
             status_code=413,
-            detail=(
-                f"File too large ({len(image_bytes) // 1024} KB). "
-                f"Maximum allowed is {MAX_UPLOAD_BYTES // (1024 * 1024)} MB."
-            ),
+            detail="Image size exceeds 10 MB.",
         )
 
+    # 4. Normalize location
+    state = state.strip() if state else "Karnataka"
+    district = district.strip() if district else None
+
     try:
-        return disease_service.predict(image_bytes)
+        # STEP 1: ML DISEASE DETECTION
+        result = disease_service.predict(image_bytes)
+
+        prediction = result.get("prediction", {})
+        class_name = prediction.get("class_name")
+        model_status = prediction.get("status")
+        is_healthy = prediction.get("is_healthy", False)
+
+        # STEP 2: PESTICIDE RECOMMENDATION
+        pesticides = []
+        pesticide_status = "no_verified_recommendation"
+
+        if class_name and model_status == "confident" and not is_healthy:
+            try:
+                pesticides = await get_pesticide_recommendations(
+                    crop=prediction.get("crop"),
+                    disease=prediction.get("condition"),
+                )
+            except Exception:
+                logger.exception("External pesticide recommendation lookup failed")
+                pesticide_status = "source_unavailable"
+            else:
+                if pesticides:
+                    pesticide_status = "reference_available"
+
+        # STEP 3: ONLINE PESTICIDE PRICE
+        pesticide_prices = []
+        price_status = "not_applicable"
+
+        if pesticides:
+            active_ingredients = [
+                item.get("active_ingredient")
+                for item in pesticides
+                if item.get("active_ingredient")
+            ]
+            active_ingredients = list(dict.fromkeys(active_ingredients))
+
+            if active_ingredients:
+                price_status = "unavailable"
+                try:
+                    pesticide_prices = await get_prices(
+                        active_ingredients=active_ingredients,
+                        state=state,
+                        district=district,
+                    )
+                except Exception:
+                    logger.exception("Online pesticide price lookup failed")
+                else:
+                    if pesticide_prices:
+                        price_status = "live_reference"
+
+        # STEP 4: FINAL RESPONSE
+        result["pesticides"] = pesticides
+        result["pesticide_prices"] = pesticide_prices
+        result["pesticide_status"] = pesticide_status
+        result["price_status"] = price_status
+        result["location"] = {
+            "state": state,
+            "district": district,
+        }
+        result["price_note"] = (
+            "Online reference price. Actual local dealer price may differ."
+        )
+
+        return result
+
     except DiseaseServiceError as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+        logger.warning("Disease service error: %s", exc)
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        ) from exc
+
+    except HTTPException:
+        raise
+
     except Exception as exc:
-        logger.exception("Unexpected error during disease inference")
-        raise HTTPException(status_code=500, detail=f"Inference failed: {exc}") from exc
+        logger.exception("Unexpected disease API error")
+        raise HTTPException(
+            status_code=500,
+            detail=f"{type(exc).__name__}: {exc}",
+        ) from exc
 
 
-# ---------------------------------------------------------------------------
-# Primary endpoint  (spec-compliant response shape)
-# ---------------------------------------------------------------------------
+# ============================================================
+# POST /predict
+# ============================================================
 
 @router.post("/predict")
-async def predict_disease(file: UploadFile = File(...)):
-    """
-    Analyse a leaf image and return a disease prediction.
-
-    Accepts multipart/form-data with a single field named **file**.
-
-    Response (confident):
-    ```json
-    {
-      "success": true,
-      "prediction": {
-        "crop": "Tomato",
-        "condition": "Late Blight",
-        "class_name": "Tomato___Late_blight",
-        "is_healthy": false,
-        "confidence": 0.9842,
-        "status": "confident"
-      }
-    }
-    ```
-
-    Response (uncertain – confidence below threshold):
-    ```json
-    {
-      "success": true,
-      "prediction": {
-        "crop": null,
-        "condition": "Uncertain",
-        "class_name": null,
-        "is_healthy": null,
-        "confidence": 0.41,
-        "status": "uncertain"
-      }
-    }
-    ```
-    """
-    return await _run_prediction(file)
+async def predict_disease(
+    file: UploadFile = File(...),
+    state: str = Form("Karnataka"),
+    district: Optional[str] = Form(None),
+):
+    return await _run_prediction(
+        file=file,
+        state=state,
+        district=district,
+    )
 
 
-# ---------------------------------------------------------------------------
-# Backwards-compatible alias  (existing mobile code calls /analyze)
-# ---------------------------------------------------------------------------
+# ============================================================
+# POST /analyze
+# ============================================================
 
 @router.post("/analyze")
-async def analyze_disease(file: UploadFile = File(...)):
-    """
-    Alias for /predict kept for backwards compatibility.
-    Returns the same spec-compliant response shape.
-    """
-    return await _run_prediction(file)
+async def analyze_disease(
+    file: UploadFile = File(...),
+    state: str = Form("Karnataka"),
+    district: Optional[str] = Form(None),
+):
+    return await _run_prediction(
+        file=file,
+        state=state,
+        district=district,
+    )
 
 
-# ---------------------------------------------------------------------------
-# Status / readiness endpoint
-# ---------------------------------------------------------------------------
+# ============================================================
+# GET /status
+# ============================================================
 
 @router.get("/status")
-def get_model_status():
-    """Check whether the disease detection model is loaded and ready."""
-    # If the module imported successfully, the model is loaded.
-    # Any import-time error would have crashed the server already.
-    return {
-        "model_loaded": True,
-        "confidence_threshold": disease_service.CONFIDENCE_THRESHOLD,
-        "image_size": list(disease_service.IMAGE_SIZE),
-        "num_classes": len(disease_service._label_map),
-        "supported_extensions": sorted(disease_service.SUPPORTED_EXTENSIONS),
-        "max_upload_mb": disease_service.MAX_UPLOAD_BYTES // (1024 * 1024),
-    }
+async def disease_status():
+    try:
+        disease_service._load_resources()
+
+        config = disease_service.config or {}
+        label_map = disease_service.label_map
+
+        if isinstance(label_map, list):
+            num_classes = len(label_map)
+        elif isinstance(label_map, dict):
+            num_classes = len(label_map)
+        else:
+            num_classes = 0
+
+        return {
+            "model_loaded": disease_service.model is not None,
+            "confidence_threshold": config.get("confidence_threshold", 0.55),
+            "image_size": [224, 224],
+            "num_classes": num_classes,
+            "supported_extensions": sorted(SUPPORTED_EXTENSIONS),
+            "max_upload_mb": 10,
+        }
+
+    except DiseaseServiceError as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=str(exc),
+        ) from exc

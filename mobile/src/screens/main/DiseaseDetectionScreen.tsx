@@ -1,487 +1,495 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   Image,
+  Linking,
   Pressable,
   ScrollView,
   Text,
   View,
 } from "react-native";
-import {
-  launchCameraAsync,
-  launchImageLibraryAsync,
-  MediaTypeOptions,
-  requestCameraPermissionsAsync,
-} from "expo-image-picker";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import type { RootStackParamList } from "@/types/navigation";
-import { BackButton, PrimaryButton, ScreenContainer } from "@/components/ui";
+import * as ImagePicker from "expo-image-picker";
+import type { RootStackScreenProps } from "@/types/navigation";
+import { BackButton, Card, PrimaryButton, ScreenContainer, SectionTitle } from "@/components/ui";
 import { colors } from "@/theme/colors";
-import { analyzeDisease, type DiseaseResult } from "@/services/api/diseaseService";
-import { FertilizerRecommendationCard } from "@/components/fertilizer/FertilizerRecommendationCard";
+import {
+  analyzeDisease,
+  type DiseaseResult,
+} from "@/services/api/diseaseService";
 
-type Props = NativeStackScreenProps<RootStackParamList, "DiseaseDetection">;
+type Props = RootStackScreenProps<"DiseaseDetection">;
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function confidencePct(confidence: number): string {
-  return `${(confidence * 100).toFixed(1)}%`;
-}
-
-function isNetworkError(err: unknown): boolean {
-  const msg = err instanceof Error ? err.message.toLowerCase() : "";
-  return (
-    msg.includes("network") ||
-    msg.includes("timeout") ||
-    msg.includes("econnrefused") ||
-    msg.includes("failed to connect") ||
-    msg.includes("failed to fetch")
+export function DiseaseDetectionScreen({ route, navigation }: Props) {
+  const [selectedImageUri, setSelectedImageUri] = useState<string | null>(
+    route.params?.imageUri ?? null
   );
-}
-
-// ---------------------------------------------------------------------------
-// Sub-components
-// ---------------------------------------------------------------------------
-
-function ResultCard({ result }: { result: DiseaseResult }) {
-  const [showNutrientPlan, setShowNutrientPlan] = useState(false);
-
-  // ---- Biological Foliage Gatekeeper (Invalid / Non-Leaf Image) ----
-  if (!result.success || result.error_type === "invalid_image" || !result.prediction) {
-    return (
-      <View className="mt-6 rounded-2xl bg-white p-5 border border-amber-300 shadow-sm">
-        <View className="flex-row items-center gap-2 mb-2">
-          <Text style={{ fontSize: 24 }}>🍃</Text>
-          <Text className="font-sans-extrabold text-lg text-amber-800">
-            Invalid Leaf Photo
-          </Text>
-        </View>
-
-        <Text className="text-sm font-sans-medium text-ink mb-3 leading-5">
-          {result.message || "No crop leaf detected. Please upload a clear photo of a plant leaf."}
-        </Text>
-
-        <View className="rounded-xl bg-amber-50 p-3.5 border border-amber-200">
-          <Text className="font-sans-bold text-xs text-amber-900 mb-1.5">
-            How to take an accurate leaf photo:
-          </Text>
-          <Text className="text-xs text-amber-800 leading-5">
-            • Focus closely on the affected crop leaf in good daylight.{"\n"}
-            • Ensure the leaf fills at least half of the camera view.{"\n"}
-            • Do not upload photos of people, animals, vehicles, or room objects.
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-  const { prediction } = result;
-  const isUncertain = prediction.status === "uncertain";
-  const isHealthy = prediction.is_healthy === true;
-
-  const headerColor = isUncertain
-    ? colors.warning
-    : isHealthy
-    ? colors.success
-    : colors.danger;
-
-  const headerIcon = isUncertain ? "⚠️" : isHealthy ? "✅" : "🔴";
-  const headerLabel = isUncertain
-    ? "Uncertain"
-    : isHealthy
-    ? "Healthy Leaf"
-    : "Disease Detected";
-
-  return (
-    <View className="mt-6 rounded-2xl bg-white p-5 shadow-sm">
-      {/* Header */}
-      <View className="flex-row items-center gap-2 mb-3">
-        <Text style={{ fontSize: 22 }}>{headerIcon}</Text>
-        <Text
-          className="font-sans-extrabold text-lg"
-          style={{ color: headerColor }}
-        >
-          {headerLabel}
-        </Text>
-      </View>
-
-      {isUncertain ? (
-        <View className="rounded-xl bg-amber-50/70 p-4 border border-amber-200/80">
-          <Text className="text-sm font-sans-bold text-amber-900 mb-1">
-            Diagnosis Uncertain {prediction.confidence > 0 ? `(${confidencePct(prediction.confidence)} confidence)` : ""}
-          </Text>
-          <Text className="text-xs text-amber-800 leading-4 mb-3">
-            Plant foliage was verified, but the specific disease pattern or crop variety could not be confirmed with high statistical certainty.
-          </Text>
-
-          {/* Top Candidates if available */}
-          {prediction.candidates && prediction.candidates.length > 0 && (
-            <View className="mb-3 rounded-lg bg-white p-3 border border-amber-100">
-              <Text className="font-sans-bold text-[11px] uppercase tracking-wider text-ink-muted mb-2">
-                Closest Pattern Matches
-              </Text>
-              {prediction.candidates.map((cand, idx) => (
-                <View key={idx} className="flex-row items-center justify-between py-1 border-b border-cream-muted/50 last:border-b-0">
-                  <Text className="font-sans-medium text-xs text-ink">
-                    {cand.crop} · <Text className="font-sans-semibold text-ink">{cand.condition}</Text>
-                  </Text>
-                  <Text className="font-sans-bold text-xs text-amber-800">
-                    {confidencePct(cand.confidence)}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
-
-          {/* Shooting Guidance Tips */}
-          <View className="rounded-lg bg-white p-3 border border-amber-100">
-            <Text className="font-sans-bold text-[11px] uppercase tracking-wider text-amber-900 mb-1.5">
-              Field Photo Tips for Re-scan
-            </Text>
-            {(prediction.shooting_guidance || [
-              "Hold camera 10–15 cm from the affected leaf spot.",
-              "Ensure bright daylight and avoid heavy cast shadows.",
-              "Place your hand or paper behind the leaf to isolate background soil and weeds.",
-              "If scanning local field crops (Ragi, Cotton), consult Krishi AI Assistant.",
-            ]).map((tip, idx) => (
-              <Text key={idx} className="text-xs text-ink-muted leading-4 mb-1">
-                • {tip}
-              </Text>
-            ))}
-          </View>
-        </View>
-      ) : (
-        <>
-          {/* Main result */}
-          <View
-            className="rounded-xl p-4 mb-3"
-            style={{
-              backgroundColor: isHealthy
-                ? colors.greenPale
-                : "#fdecea",
-            }}
-          >
-            <View className="flex-row justify-between items-start">
-              <View className="flex-1">
-                <Text className="text-xs text-ink-muted uppercase tracking-wide mb-0.5">
-                  Crop
-                </Text>
-                <Text className="font-sans-extrabold text-xl text-ink">
-                  {prediction.crop}
-                </Text>
-              </View>
-              {/* Confidence badge */}
-              <View
-                className="rounded-full px-3 py-1"
-                style={{ backgroundColor: headerColor }}
-              >
-                <Text className="font-sans-bold text-xs text-white">
-                  {confidencePct(prediction.confidence)}
-                </Text>
-              </View>
-            </View>
-
-            <View className="mt-3">
-              <Text className="text-xs text-ink-muted uppercase tracking-wide mb-0.5">
-                Condition
-              </Text>
-              <Text className="font-sans-bold text-base text-ink">
-                {prediction.condition}
-              </Text>
-            </View>
-          </View>
-
-          {/* Meta row */}
-          <View className="flex-row gap-2 mb-4">
-            <View className="flex-1 rounded-lg bg-cream p-3">
-              <Text className="text-xs text-ink-muted mb-0.5">Health Status</Text>
-              <Text
-                className="font-sans-bold text-sm"
-                style={{ color: headerColor }}
-              >
-                {isHealthy ? "Healthy Foliage" : "Infection Detected"}
-              </Text>
-            </View>
-            <View className="flex-1 rounded-lg bg-cream p-3">
-              <Text className="text-xs text-ink-muted mb-0.5">Confidence</Text>
-              <Text className="font-sans-bold text-sm text-ink">
-                {confidencePct(prediction.confidence)}
-              </Text>
-            </View>
-          </View>
-
-          {/* Farmer-Friendly Treatment & Spray Plan */}
-          {prediction.treatment && (
-            <View className="rounded-xl bg-sage/40 p-4 border border-sage-dark/30">
-              <Text className="font-sans-extrabold text-xs uppercase tracking-wider text-primary mb-2.5">
-                {isHealthy ? "🌱 Crop Health Advisory" : "💊 Treatment & Spray Recommendation"}
-              </Text>
-
-              {prediction.treatment.chemical ? (
-                <View className="mb-2.5">
-                  <Text className="font-sans-bold text-xs text-ink">
-                    Chemical Spray & Dose:
-                  </Text>
-                  <Text className="font-sans text-xs text-ink-muted leading-4 mt-0.5">
-                    {prediction.treatment.chemical}
-                  </Text>
-                </View>
-              ) : null}
-
-              {prediction.treatment.organic ? (
-                <View className="mb-2.5">
-                  <Text className="font-sans-bold text-xs text-ink">
-                    Organic / Low-Cost Remedy:
-                  </Text>
-                  <Text className="font-sans text-xs text-ink-muted leading-4 mt-0.5">
-                    {prediction.treatment.organic}
-                  </Text>
-                </View>
-              ) : null}
-
-              {prediction.treatment.spray_dosage ? (
-                <View className="mb-2.5">
-                  <Text className="font-sans-bold text-xs text-ink">
-                    Backpack Pump Mixing Ratio:
-                  </Text>
-                  <Text className="font-sans text-xs text-ink-muted leading-4 mt-0.5">
-                    {prediction.treatment.spray_dosage}
-                  </Text>
-                </View>
-              ) : null}
-
-              {prediction.treatment.management ? (
-                <View className="mt-1 pt-2 border-t border-sage-dark/20">
-                  <Text className="font-sans-bold text-[11px] text-ink-muted">
-                    Field Sanitation & Care:
-                  </Text>
-                  <Text className="font-sans text-xs text-ink-muted leading-4 mt-0.5">
-                    {prediction.treatment.management}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
-          )}
-
-          {/* Button to Toggle Full Season Soil-Tailored Fertilizer Schedule */}
-          {prediction.crop && (
-            <View className="mt-3">
-              <Pressable
-                onPress={() => setShowNutrientPlan(!showNutrientPlan)}
-                className="flex-row items-center justify-center gap-2 rounded-xl bg-primary py-3 px-4 active:bg-primary-dark shadow-xs"
-              >
-                <Text className="font-sans-bold text-xs text-white">
-                  {showNutrientPlan
-                    ? "Hide Fertilizer Schedule"
-                    : `🌾 View Complete Fertilizer & Spray Plan for ${prediction.crop}`}
-                </Text>
-              </Pressable>
-
-              {showNutrientPlan && (
-                <View className="mt-4">
-                  <FertilizerRecommendationCard
-                    initialCrop={prediction.crop}
-                    initialDisease={prediction.condition}
-                  />
-                </View>
-              )}
-            </View>
-          )}
-
-          {!isHealthy && !prediction.treatment && (
-            <Text className="mt-3 text-xs text-ink-muted">
-              ⚠️ Confirm with a local agronomist before starting chemical treatment.
-            </Text>
-          )}
-        </>
-      )}
-    </View>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Main screen
-// ---------------------------------------------------------------------------
-
-export function DiseaseDetectionScreen({ navigation }: Props) {
-  const [imageUri, setImageUri] = useState<string | null>(null);
-  const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<DiseaseResult | null>(null);
+  const [selectedImageType, setSelectedImageType] = useState("image/jpeg");
+  const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState("Analyzing leaf...");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [result, setResult] = useState<DiseaseResult | null>(null);
 
-  // ---- Image selection ---------------------------------------------------
+  const state = route.params?.state?.trim() || "Karnataka";
+  const district = route.params?.district?.trim() || "Haveri";
+
+  const openExternalLink = async (url: string | null) => {
+    if (!url) return;
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert("Link error", "Cannot open this link on your device.");
+      }
+    } catch (error) {
+      console.warn("Unable to open reference URL", error);
+      Alert.alert("Unable to open link", "Please try again later.");
+    }
+  };
 
   const selectImage = async (useCamera: boolean) => {
-    setResult(null);
-    setErrorMessage(null);
-
-    if (useCamera) {
-      const { status } = await requestCameraPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert(
-          "Camera Permission Required",
-          "Please enable camera access in your device settings to take a photo.",
-          [{ text: "OK" }]
-        );
-        return;
-      }
-    }
-
     try {
-      const picked = useCamera
-        ? await launchCameraAsync({
-            mediaTypes: MediaTypeOptions.Images,
+      const picker = useCamera
+        ? await ImagePicker.launchCameraAsync({
+            mediaTypes: ["images"],
             allowsEditing: true,
-            aspect: [4, 3],
-            quality: 0.85,
+            quality: 0.9,
           })
-        : await launchImageLibraryAsync({
-            mediaTypes: MediaTypeOptions.Images,
+        : await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["images"],
             allowsEditing: true,
-            aspect: [4, 3],
-            quality: 0.85,
+            quality: 0.9,
           });
 
-      if (!picked.canceled && picked.assets?.[0]) {
-        setImageUri(picked.assets[0].uri);
-        setResult(null);
+      if (picker.canceled || !picker.assets[0]) {
+        return;
       }
-    } catch {
-      Alert.alert("Error", "Could not open image picker. Please try again.");
+
+      const asset = picker.assets[0];
+      setSelectedImageUri(asset.uri);
+      setSelectedImageType(asset.mimeType || "image/jpeg");
+      setResult(null);
+      setErrorMessage(null);
+    } catch (error) {
+      console.warn("Unable to select disease image", error);
+      setErrorMessage("Unable to open the camera/gallery. Please check permissions and try again.");
     }
   };
 
-  // ---- Analysis ----------------------------------------------------------
+  const detectDisease = async () => {
+    if (!selectedImageUri) {
+      setErrorMessage("Please capture or choose a clear leaf photo to continue.");
+      return;
+    }
 
-  const analyzeImage = async () => {
-    if (!imageUri || analyzing) return;
-
-    setAnalyzing(true);
+    setLoading(true);
+    setLoadingMessage("Analyzing crop leaf...");
     setErrorMessage(null);
-    setResult(null);
+
+    const loadingTimer = setTimeout(() => {
+      setLoadingMessage("Fetching verified remedies & live prices...");
+    }, 1600);
 
     try {
-      const response = await analyzeDisease(imageUri);
+      const response = await analyzeDisease(
+        selectedImageUri,
+        selectedImageType,
+        state,
+        district
+      );
       setResult(response);
-    } catch (err: unknown) {
-      if (isNetworkError(err)) {
-        setErrorMessage(
-          "Could not reach the server. Make sure the backend is running and your device is on the same network."
-        );
-      } else {
-        const detail =
-          err instanceof Error ? err.message : "Unknown error occurred.";
-        setErrorMessage(`Analysis failed: ${detail}`);
-      }
+    } catch (error) {
+      console.warn("Disease detection request failed", error);
+      const msg = error instanceof Error ? error.message : "Network error";
+      setErrorMessage(
+        msg.includes("Failed to connect") || msg.includes("Network")
+          ? "Cannot connect to Krishimitra AI backend. Please verify your connection."
+          : `Diagnosis failed: ${msg}`
+      );
     } finally {
-      setAnalyzing(false);
+      clearTimeout(loadingTimer);
+      setLoading(false);
     }
   };
 
-  const resetScan = () => {
-    setImageUri(null);
+  const resetAll = () => {
+    setSelectedImageUri(null);
     setResult(null);
     setErrorMessage(null);
   };
 
-  // ---- Render ------------------------------------------------------------
+  const confidencePct = result?.prediction?.confidence
+    ? (result.prediction.confidence * 100).toFixed(1)
+    : "0";
 
   return (
-    <ScreenContainer scroll={false} safe>
+    <ScreenContainer>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerClassName="pb-32"
       >
-        {/* Page header */}
-        <View className="pt-4 pb-2">
-          <BackButton className="mb-3" />
+        {/* Navigation & Header */}
+        <View className="mb-4">
+          <BackButton />
+        </View>
+
+        <View className="mb-4">
           <Text className="font-sans-extrabold text-2xl text-ink">
-            Leaf Scan
+            Crop Disease Detection
           </Text>
-          <Text className="text-sm text-ink-muted mt-1">
-            Photograph a leaf to detect crop diseases
+          <Text className="text-sm font-sans-medium text-ink-muted mt-0.5">
+            AI-powered plant disease diagnosis, verified CIBRC remedies & live market pricing
           </Text>
         </View>
 
-        {/* Image preview area */}
-        {imageUri ? (
-          <Image
-            source={{ uri: imageUri }}
-            className="w-full h-64 rounded-2xl mt-3"
-            resizeMode="cover"
-          />
-        ) : (
-          <View className="mt-3 h-64 items-center justify-center rounded-2xl border-2 border-dashed border-cream-dark bg-cream/50">
-            <Text style={{ fontSize: 52 }}>🌿</Text>
-            <Text className="mt-2 text-sm text-ink-muted text-center px-6">
-              No image selected.{"\n"}Take a photo or choose from gallery.
+        {/* Location Badge */}
+        <View className="flex-row items-center gap-2 mb-4">
+          <View className="rounded-full bg-secondary px-3 py-1 border border-border">
+            <Text className="text-xs font-sans-bold text-forest">
+              📍 {district}, {state}
             </Text>
           </View>
-        )}
-
-        {/* Action buttons */}
-        <View className="mt-4 gap-3">
-          {!imageUri ? (
-            <>
-              <PrimaryButton
-                label="📷  Take Photo"
-                onPress={() => selectImage(true)}
-              />
-              <PrimaryButton
-                label="🖼  Choose from Gallery"
-                variant="outline"
-                onPress={() => selectImage(false)}
-              />
-            </>
-          ) : (
-            <>
-              <PrimaryButton
-                label={analyzing ? "Analysing…" : "🔬  Analyse Leaf"}
-                onPress={analyzeImage}
-                disabled={analyzing}
-              />
-              <PrimaryButton
-                label="↩  Use Different Image"
-                variant="outline"
-                onPress={resetScan}
-                disabled={analyzing}
-              />
-            </>
-          )}
         </View>
 
-        {/* Loading indicator */}
-        {analyzing && (
-          <View className="mt-6 items-center gap-2">
-            <ActivityIndicator color={colors.forest} size="large" />
-            <Text className="text-sm text-ink-muted">
-              Running disease detection…
-            </Text>
-          </View>
-        )}
-
-        {/* Error state */}
-        {errorMessage && !analyzing && (
-          <View className="mt-5 rounded-2xl border border-danger/30 bg-red-50 p-4">
-            <Text className="font-sans-bold text-sm text-danger mb-1">
-              ✕ Something went wrong
-            </Text>
-            <Text className="text-xs text-ink-muted">{errorMessage}</Text>
-            <PrimaryButton
-              label="Try Again"
-              onPress={analyzeImage}
-              variant="outline"
-              style={{ marginTop: 12 }}
+        {/* Selected Image Preview */}
+        {selectedImageUri && (
+          <View className="mb-4 rounded-2xl overflow-hidden bg-black/5 border border-border shadow-sm">
+            <Image
+              source={{ uri: selectedImageUri }}
+              className="w-full h-64"
+              resizeMode="cover"
             />
           </View>
         )}
 
-        {/* Result card */}
-        {result && !analyzing && <ResultCard result={result} />}
+        {/* Action Buttons to Select Photo */}
+        {!loading && (
+          <View className="flex-row gap-3 mb-4">
+            <Pressable
+              onPress={() => void selectImage(true)}
+              className="flex-1 rounded-xl bg-forest py-3.5 items-center justify-center shadow-sm active:opacity-90"
+            >
+              <Text className="font-sans-bold text-sm text-white">📷 Take Photo</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => void selectImage(false)}
+              className="flex-1 rounded-xl bg-white border border-forest py-3.5 items-center justify-center shadow-sm active:bg-secondary/40"
+            >
+              <Text className="font-sans-bold text-sm text-forest">🖼️ Gallery</Text>
+            </Pressable>
+          </View>
+        )}
+
+        {/* Analyze Button */}
+        {!result && !loading && selectedImageUri && (
+          <View className="mb-4">
+            <PrimaryButton
+              label="Detect Crop Disease"
+              onPress={detectDisease}
+            />
+          </View>
+        )}
+
+        {/* Loading Indicator */}
+        {loading && (
+          <Card className="items-center justify-center py-8 mb-4">
+            <ActivityIndicator size="large" color={colors.primary} />
+            <Text className="mt-3 text-sm font-sans-bold text-forest">
+              {loadingMessage}
+            </Text>
+            <Text className="mt-1 text-xs text-ink-muted">
+              Running deep neural model & querying verified agri-databases
+            </Text>
+          </Card>
+        )}
+
+        {/* Error Card */}
+        {errorMessage && (
+          <View className="rounded-2xl bg-danger-bg p-4 border border-danger-border mb-4">
+            <View className="flex-row items-center gap-2 mb-1">
+              <Text style={{ fontSize: 18 }}>⚠️</Text>
+              <Text className="font-sans-bold text-sm text-danger">Diagnosis Alert</Text>
+            </View>
+            <Text className="text-xs font-sans-medium text-danger leading-5">
+              {errorMessage}
+            </Text>
+          </View>
+        )}
+
+        {/* ========================================================== */}
+        {/* RESULTS SECTION                                            */}
+        {/* ========================================================== */}
+        {result && (
+          <>
+            {/* Primary Diagnosis Card */}
+            <Card className="mb-4">
+              <View className="flex-row items-center justify-between mb-3 border-b border-border pb-3">
+                <View className="flex-row items-center gap-2">
+                  <Text style={{ fontSize: 20 }}>
+                    {result.prediction.is_healthy ? "✅" : "🔬"}
+                  </Text>
+                  <Text className="font-sans-extrabold text-base text-ink">
+                    {result.prediction.is_healthy ? "Crop Status" : "Disease Diagnosis"}
+                  </Text>
+                </View>
+                <View
+                  className={`rounded-full px-2.5 py-0.5 border ${
+                    result.prediction.is_healthy
+                      ? "bg-success-bg border-success-border"
+                      : "bg-danger-bg border-danger-border"
+                  }`}
+                >
+                  <Text
+                    className={`text-xs font-sans-bold ${
+                      result.prediction.is_healthy ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    {result.prediction.is_healthy ? "Healthy" : "Infected"}
+                  </Text>
+                </View>
+              </View>
+
+              <View className="flex-row justify-between mb-3">
+                <View className="flex-1 mr-2">
+                  <Text className="text-xs font-sans-medium text-ink-muted">Identified Crop</Text>
+                  <Text className="font-sans-bold text-lg text-ink">
+                    {result.prediction.crop || "Unknown"}
+                  </Text>
+                </View>
+                <View className="items-end">
+                  <Text className="text-xs font-sans-medium text-ink-muted">Model Confidence</Text>
+                  <Text className="font-sans-extrabold text-lg text-forest">
+                    {confidencePct}%
+                  </Text>
+                </View>
+              </View>
+
+              <View className="mb-2">
+                <Text className="text-xs font-sans-medium text-ink-muted">Diagnosed Condition</Text>
+                <Text className="font-sans-extrabold text-xl text-ink mt-0.5">
+                  {result.prediction.condition}
+                </Text>
+              </View>
+            </Card>
+
+            {/* Low Confidence / Uncertain Notice */}
+            {result.prediction.status === "uncertain" && (
+              <View className="rounded-2xl bg-warning-bg p-4 border border-warning-border mb-4">
+                <View className="flex-row items-center gap-2 mb-1">
+                  <Text style={{ fontSize: 18 }}>⚠️</Text>
+                  <Text className="font-sans-bold text-sm text-warning">
+                    Low Model Confidence
+                  </Text>
+                </View>
+                <Text className="text-xs font-sans-medium text-ink-muted leading-5">
+                  The AI model is not fully certain about this diagnosis. Please take a clear, well-lit photo of the affected leaf area from 15-20 cm away and try again.
+                </Text>
+              </View>
+            )}
+
+            {/* Healthy Crop Success Message */}
+            {result.prediction.is_healthy && (
+              <View className="rounded-2xl bg-success-bg p-4 border border-success-border mb-4">
+                <View className="flex-row items-center gap-2 mb-1">
+                  <Text style={{ fontSize: 18 }}>🌱</Text>
+                  <Text className="font-sans-bold text-sm text-success">
+                    Healthy Crop Confirmed
+                  </Text>
+                </View>
+                <Text className="text-xs font-sans-medium text-ink leading-5">
+                  No visual pathogens, fungal blights, or viral symptoms were detected on this leaf sample. Maintain standard preventive agronomic practices and balanced irrigation.
+                </Text>
+              </View>
+            )}
+
+            {/* ========================================================== */}
+            {/* PESTICIDE RECOMMENDATIONS                                  */}
+            {/* ========================================================== */}
+            {!result.prediction.is_healthy && (
+              <Card className="mb-4">
+                <SectionTitle>Verified Pesticide Recommendations</SectionTitle>
+                <Text className="text-xs text-ink-muted mb-3">
+                  Scientifically validated treatments based on CIBRC & agricultural extension registries
+                </Text>
+
+                {result.pesticides.length === 0 ? (
+                  <View className="rounded-xl bg-secondary/50 p-3.5 border border-border">
+                    <Text className="text-xs font-sans-medium text-ink-muted">
+                      No registered pesticide is currently available for this specific disease record. Please consult your local Krishi Vigyan Kendra (KVK).
+                    </Text>
+                  </View>
+                ) : (
+                  result.pesticides.map((pesticide, index) => (
+                    <View
+                      key={`${pesticide.active_ingredient}-${index}`}
+                      className="rounded-xl border border-border bg-white p-3.5 mb-3 last:mb-0 shadow-xs"
+                    >
+                      <View className="flex-row items-center justify-between mb-1.5">
+                        <Text className="font-sans-bold text-sm text-ink">
+                          {pesticide.product_type}
+                        </Text>
+                        <View className="rounded-full bg-secondary px-2 py-0.5">
+                          <Text className="text-2xs font-sans-bold text-forest">
+                            {pesticide.recommendation_status}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <Text className="text-xs font-sans-semibold text-ink leading-5">
+                        Active Ingredient:{" "}
+                        <Text className="font-sans-bold text-forest">
+                          {pesticide.active_ingredient}
+                        </Text>
+                      </Text>
+
+                      {pesticide.formulation && (
+                        <Text className="text-xs text-ink-muted mt-0.5">
+                          Formulation: {pesticide.formulation}
+                        </Text>
+                      )}
+
+                      {pesticide.note ? (
+                        <Text className="text-xs text-ink-muted mt-1 leading-4">
+                          Note: {pesticide.note}
+                        </Text>
+                      ) : null}
+
+                      <Text className="text-2xs text-ink-muted mt-2">
+                        Authority Source: {pesticide.verification_source}
+                      </Text>
+
+                      <Text className="text-2xs text-amber-800 bg-amber-50 rounded p-1.5 mt-2 leading-4">
+                        ⚠️ Reference only. Follow local Indian label regulations and extension guidelines.
+                      </Text>
+
+                      {pesticide.source_url && (
+                        <Pressable
+                          onPress={() => void openExternalLink(pesticide.source_url)}
+                          className="mt-2.5 flex-row items-center gap-1"
+                        >
+                          <Text className="text-xs font-sans-bold text-forest underline">
+                            View Official Reference Document →
+                          </Text>
+                        </Pressable>
+                      )}
+                    </View>
+                  ))
+                )}
+              </Card>
+            )}
+
+            {/* ========================================================== */}
+            {/* ONLINE PESTICIDE PRICES                                    */}
+            {/* ========================================================== */}
+            {!result.prediction.is_healthy && (
+              <Card className="mb-4">
+                <SectionTitle>Online Market Price Reference</SectionTitle>
+                <Text className="text-xs text-ink-muted mb-3">
+                  Live pricing tracked across verified online agri-input marketplaces
+                </Text>
+
+                {result.pesticide_prices.length === 0 ? (
+                  <View className="rounded-xl bg-secondary/50 p-3.5 border border-border">
+                    <Text className="text-xs font-sans-medium text-ink-muted">
+                      Live online price quotes are temporarily unavailable. Check local input dealers for current retail rates.
+                    </Text>
+                  </View>
+                ) : (
+                  result.pesticide_prices.slice(0, 3).map((price, index) => {
+                    const formattedPrice =
+                      price.price != null
+                        ? new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: price.currency || "INR",
+                            maximumFractionDigits: 0,
+                          }).format(price.price)
+                        : "Price unavailable";
+
+                    const formattedMrp =
+                      price.mrp != null
+                        ? new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: price.currency || "INR",
+                            maximumFractionDigits: 0,
+                          }).format(price.mrp)
+                        : null;
+
+                    return (
+                      <View
+                        key={`${price.product}-${price.pack_size || ""}-${index}`}
+                        className="rounded-xl border border-border bg-white p-3.5 mb-3 last:mb-0 shadow-xs"
+                      >
+                        <View className="flex-row items-start justify-between">
+                          <View className="flex-1 mr-2">
+                            <Text className="font-sans-bold text-sm text-ink">
+                              {price.product}
+                            </Text>
+                            {(price.pack_size || price.pack_sizes?.[0]) && (
+                              <Text className="text-xs text-ink-muted mt-0.5">
+                                Pack Size: {price.pack_size || price.pack_sizes[0]}
+                              </Text>
+                            )}
+                            <Text className="text-xs text-ink-muted mt-0.5">
+                              Seller: {price.seller}
+                            </Text>
+                          </View>
+
+                          <View className="items-end">
+                            <Text className="font-sans-extrabold text-base text-forest">
+                              {formattedPrice}
+                            </Text>
+                            {formattedMrp && (
+                              <Text className="text-2xs text-ink-muted line-through">
+                                MRP {formattedMrp}
+                              </Text>
+                            )}
+                          </View>
+                        </View>
+
+                        <View className="flex-row items-center justify-between mt-2 pt-2 border-t border-border">
+                          <Text className="text-2xs text-ink-muted">
+                            Verified Agri-Supplier
+                          </Text>
+
+                          {price.source_url ? (
+                            <Pressable
+                              onPress={() => void openExternalLink(price.source_url)}
+                              className="rounded-lg bg-forest px-3 py-1.5 active:opacity-90"
+                            >
+                              <Text className="text-xs font-sans-bold text-white">
+                                View Product ↗
+                              </Text>
+                            </Pressable>
+                          ) : null}
+                        </View>
+                      </View>
+                    );
+                  })
+                )}
+
+                <Text className="text-2xs text-ink-muted mt-2">
+                  {result.price_note || "Online reference prices; actual dealer counter prices may vary by region."}
+                </Text>
+              </Card>
+            )}
+
+            {/* Reset / Analyze Another Photo */}
+            <View className="mt-2 mb-6">
+              <Pressable
+                onPress={resetAll}
+                className="rounded-xl border border-forest py-3.5 items-center justify-center bg-white shadow-xs active:bg-secondary/40"
+              >
+                <Text className="font-sans-bold text-sm text-forest">
+                  🔄 Analyze Another Leaf
+                </Text>
+              </Pressable>
+            </View>
+          </>
+        )}
       </ScrollView>
     </ScreenContainer>
   );
 }
+
+export default DiseaseDetectionScreen;

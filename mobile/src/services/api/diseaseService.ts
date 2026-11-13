@@ -1,25 +1,9 @@
 import { Platform } from "react-native";
 import { apiClient } from "./client";
-import { API_BASE_URL } from "@/constants/config";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-export type TreatmentAdvisory = {
-  status?: string;
-  message?: string;
-  chemical?: string;
-  organic?: string;
-  spray_dosage?: string;
-  management?: string;
-};
-
-export type DiseaseCandidate = {
-  crop: string;
-  condition: string;
-  confidence: number;
-};
+// ============================================================
+// DISEASE PREDICTION TYPES
+// ============================================================
 
 export type DiseasePrediction = {
   crop: string | null;
@@ -28,65 +12,91 @@ export type DiseasePrediction = {
   is_healthy: boolean | null;
   confidence: number;
   status: "confident" | "uncertain";
-  entropy?: number;
-  margin?: number;
-  candidates?: DiseaseCandidate[];
-  shooting_guidance?: string[];
-  treatment?: TreatmentAdvisory;
 };
+
+// ============================================================
+// PESTICIDE RECOMMENDATION TYPES
+// ============================================================
+
+export type PesticideRecommendation = {
+  active_ingredient: string;
+  product_type: string;
+  formulation: string | null;
+  recommendation_status: string;
+  verification_source: string;
+  source_url: string | null;
+  note: string;
+};
+
+// ============================================================
+// ONLINE PESTICIDE PRICE TYPES
+// ============================================================
+
+export type PesticidePrice = {
+  product: string;
+  active_ingredient: string;
+  price: number | null;
+  mrp: number | null;
+  currency: string;
+  pack_size: string | null;
+  pack_sizes: string[];
+  seller: string;
+  source: string;
+  source_url: string | null;
+  inventory: string | number | null;
+  state: string;
+  district: string | null;
+  checked_at: string;
+};
+
+// ============================================================
+// FINAL API RESULT TYPE
+// ============================================================
 
 export type DiseaseResult = {
   success: boolean;
-  error_type?: string;
+  prediction: DiseasePrediction;
+  pesticides: PesticideRecommendation[];
+  pesticide_prices: PesticidePrice[];
+  pesticide_status: string;
+  price_status: string;
+  location: {
+    state: string;
+    district?: string | null;
+  };
+  price_note: string;
   message?: string;
-  details?: string;
-  prediction?: DiseasePrediction;
+  error_type?: string;
 };
 
-// ---------------------------------------------------------------------------
-// API calls
-// ---------------------------------------------------------------------------
+// ============================================================
+// API CALLS
+// ============================================================
 
 /**
- * Send a leaf image to the backend and return the disease prediction.
- *
- * @param imageUri  Expo image URI (file:// or content://)
- * @param mimeType  Optional MIME type hint (defaults to image/jpeg)
+ * Send a leaf image to the backend and return the disease prediction,
+ * verified pesticide recommendations, and live reference prices.
  */
 export async function analyzeDisease(
   imageUri: string,
-  mimeType: string = "image/jpeg"
+  mimeType: string = "image/jpeg",
+  state: string = "Karnataka",
+  district?: string
 ): Promise<DiseaseResult> {
   const formData = new FormData();
 
   if (Platform.OS === "web") {
-    // If it's a data URL, convert safely to Blob
-    if (imageUri.startsWith("data:")) {
-      const parts = imageUri.split(",");
-      const mime = parts[0].match(/:(.*?);/)?.[1] || "image/jpeg";
-      const bstr = atob(parts[1]);
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      const blob = new Blob([u8arr], { type: mime });
-      formData.append("file", blob, "leaf.jpg");
-    } else {
-      try {
-        const res = await fetch(imageUri);
-        const blob = await res.blob();
-        formData.append("file", blob, "leaf.jpg");
-      } catch {
-        formData.append("file", {
-          uri: imageUri,
-          type: mimeType,
-          name: "leaf.jpg",
-        } as unknown as Blob);
-      }
+    const imageResponse = await fetch(imageUri);
+    if (!imageResponse.ok) {
+      throw new Error("Unable to read selected image");
     }
+    const blob = await imageResponse.blob();
+    const file = new File([blob], "leaf.jpg", {
+      type: mimeType || blob.type || "image/jpeg",
+    });
+    formData.append("file", file);
   } else {
-    // React Native / Expo FormData accepts this object shape for file uploads
+    // React Native / Expo FormData
     formData.append("file", {
       uri: imageUri,
       type: mimeType,
@@ -94,31 +104,27 @@ export async function analyzeDisease(
     } as unknown as Blob);
   }
 
-  // Use fetch directly for multipart uploads to ensure browser appends the multipart boundary correctly
-  const endpoint = `${API_BASE_URL}/disease/predict`;
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: formData,
+  formData.append("state", state);
+  if (district) {
+    formData.append("district", district);
+  }
+
+  const response = await apiClient.post<DiseaseResult>(
+    "/disease/predict",
+    formData,
+    {
       headers: {
         Accept: "application/json",
       },
-    });
-
-    const resJson = await response.json();
-    if (!response.ok) {
-      const msg = resJson.detail || resJson.message || `Server returned ${response.status}`;
-      throw new Error(msg);
+      timeout: 60_000,
     }
-    return resJson;
-  } catch (err: unknown) {
-    const errorMsg = err instanceof Error ? err.message : "Failed to connect to backend server";
-    throw new Error(errorMsg);
-  }
+  );
+
+  return response.data;
 }
 
 /**
- * Check whether the backend model is loaded and ready.
+ * Check whether the backend disease model is loaded and ready.
  */
 export async function getDiseaseModelStatus(): Promise<{
   model_loaded: boolean;

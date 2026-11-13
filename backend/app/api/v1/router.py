@@ -6,7 +6,6 @@ from app.api.v1 import (
     crops,
     disease,
     farm,
-    fertilizer,
     market,
     risk,
     weather,
@@ -21,4 +20,3 @@ api_router.include_router(risk.router)
 api_router.include_router(disease.router)
 api_router.include_router(crop_optimizer.router)
 api_router.include_router(crops.router)
-api_router.include_router(fertilizer.router)

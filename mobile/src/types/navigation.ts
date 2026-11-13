@@ -24,7 +24,11 @@ export type RootStackParamList = {
   Recommendations: { result: RecommendationResult };
   RiskAnalysis: { planId?: string; result?: RecommendationResult };
   Settings: undefined;
-  DiseaseDetection: undefined;
+  DiseaseDetection: {
+    imageUri?: string;
+    state?: string;
+    district?: string;
+  } | undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
