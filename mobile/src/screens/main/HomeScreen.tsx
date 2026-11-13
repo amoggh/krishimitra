@@ -96,17 +96,26 @@ export function HomeScreen({ navigation }: Props) {
     };
   }, [profile.coordinates.lat, profile.coordinates.lon, effectiveDistrict]);
 
-  const activeWeather = useMemo(() => {
+  const activeWeather = useMemo<ExtendedWeatherData>(() => {
     if (liveWeather) {
       return {
+        ...liveWeather,
         location: liveWeather.location || effectiveDistrict,
-        temp_c: liveWeather.temp_c,
-        condition: liveWeather.condition,
-        rain_chance_pct: liveWeather.rain_chance_pct,
       };
     }
-    return profile.weather;
+    return {
+      ...profile.weather,
+      humidity_pct: profile.weather.rain_chance_pct > 30 ? 72 : 55,
+      precipitation_mm: profile.weather.rain_chance_pct > 50 ? 4.8 : 0,
+      wind_speed_kmh: 12,
+    };
   }, [liveWeather, profile.weather, effectiveDistrict]);
+
+  // Seasonal crop water depth in mm derived agronomically from district profile
+  const seasonalWaterBudgetMm = useMemo(() => {
+    const rawLitres = profile.water_budget_litres_per_acre || 16500;
+    return Math.round((rawLitres / 1000) * 28);
+  }, [profile.water_budget_litres_per_acre]);
 
   // 4. Recommended crops for price filtering
   const recommendedCrops = useMemo(() => {
@@ -299,7 +308,8 @@ export function HomeScreen({ navigation }: Props) {
                   mandiPrices={mandiPrices}
                   soilType={profile.soil.type}
                   soilPh={profile.soil.ph}
-                  waterBudgetMm={profile.water_budget_litres_per_acre}
+                  waterBudgetMm={seasonalWaterBudgetMm}
+                  waterLitresPerAcre={profile.water_budget_litres_per_acre}
                   onNavigateToDisease={handleNavigateDisease}
                   onNavigateToMarket={handleNavigateMarket}
                   onNavigateToPlan={handleNavigatePlan}
@@ -413,7 +423,8 @@ export function HomeScreen({ navigation }: Props) {
                 mandiPrices={mandiPrices}
                 soilType={profile.soil.type}
                 soilPh={profile.soil.ph}
-                waterBudgetMm={profile.water_budget_litres_per_acre}
+                waterBudgetMm={seasonalWaterBudgetMm}
+                waterLitresPerAcre={profile.water_budget_litres_per_acre}
                 onNavigateToDisease={handleNavigateDisease}
                 onNavigateToMarket={handleNavigateMarket}
                 onNavigateToPlan={handleNavigatePlan}

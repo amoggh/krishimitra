@@ -89,9 +89,10 @@ export async function getLiveWeather(
       const code = curr.weather_code || 0;
       let cond = "Partly cloudy";
       if (code === 0) cond = "Clear sky";
-      else if (code in [1, 2, 3]) cond = "Partly cloudy";
-      else if (code in [51, 53, 55, 61, 63, 65, 80, 81]) cond = "Rain showers";
-      else if (code in [95, 96, 99]) cond = "Thunderstorm";
+      else if ([1, 2, 3].includes(code)) cond = "Partly cloudy";
+      else if ([45, 48].includes(code)) cond = "Foggy";
+      else if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) cond = "Rain showers";
+      else if ([95, 96, 99].includes(code)) cond = "Thunderstorm";
 
       const sunriseRaw = daily.sunrise?.[0] || "";
       const sunsetRaw = daily.sunset?.[0] || "";
