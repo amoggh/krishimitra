@@ -1,0 +1,12 @@
+node_modules/
+dist/
+server/.env
+server/data/price_history_cache.jsonl
+__pycache__/
+*.pyc
+.pytest_cache/
+server/data/price_full_cache.jsonl
+server/data/price_history_raw.csv.gz
+
+# The parent repo ignores lib/ (Flutter); our React helpers live in src/lib and must be tracked.
+!src/lib/

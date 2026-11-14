@@ -1,0 +1,79 @@
+{
+  "trained_at": "2026-11-10T21:48:42",
+  "rows": 1207,
+  "districts": 25,
+  "crops": [
+    "chickpea",
+    "greengram",
+    "groundnut",
+    "jowar",
+    "maize",
+    "onion",
+    "paddy",
+    "ragi",
+    "sugarcane",
+    "sunflower",
+    "tomato",
+    "tur",
+    "turmeric"
+  ],
+  "sources": {
+    "ICRISAT": 792,
+    "APY 2021-22": 415
+  },
+  "model": "RandomForestRegressor on log(kg/ha), blended with district history",
+  "blend_weight_on_history": 0.0,
+  "blend_tuning_2016_mape": {
+    "0.0": 29.5,
+    "0.1": 29.6,
+    "0.2": 30.0,
+    "0.3": 30.0,
+    "0.4": 30.1,
+    "0.5": 29.8,
+    "0.6": 30.1,
+    "0.7": 30.2,
+    "0.8": 30.4,
+    "0.9": 30.5,
+    "1.0": 30.2
+  },
+  "time_split_2017": {
+    "model_only": {
+      "mape_pct": 26.1,
+      "mean_ape_pct": 26.1,
+      "r2_log": 0.81,
+      "n": 104
+    },
+    "model_blended_with_history": {
+      "mape_pct": 26.1,
+      "mean_ape_pct": 26.1,
+      "r2_log": 0.81,
+      "n": 104
+    },
+    "baseline_crop_median": {
+      "mape_pct": 26.5,
+      "mean_ape_pct": 27.8,
+      "r2_log": 0.786,
+      "n": 104
+    },
+    "baseline_crop_district_median": {
+      "mape_pct": 22.5,
+      "mean_ape_pct": 23.8,
+      "r2_log": 0.838,
+      "n": 104
+    }
+  },
+  "unseen_district_cv": {
+    "model": {
+      "mape_pct": 20.4,
+      "mean_ape_pct": 33.9,
+      "r2_log": 0.879,
+      "n": 1207
+    },
+    "baseline_crop_median": {
+      "mape_pct": 22.0,
+      "mean_ape_pct": 180.2,
+      "r2_log": 0.619,
+      "n": 1207
+    }
+  }
+}
