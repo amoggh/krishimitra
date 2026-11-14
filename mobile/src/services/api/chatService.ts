@@ -63,8 +63,8 @@ IMPORTANT LANGUAGE & SIMPLICITY RULES:
 
 4. STRICT DOMAIN BOUNDARY (FARMING ONLY):
    - You ONLY answer questions about crops, soil, water, fertilizers, pests, weather for farming, mandi prices, farm animals, and government farmer schemes.
-   - If the user asks about ANYTHING ELSE (movies, politics, coding, games, personal chat), politely decline:
-     "I am KrishiMitra, your farm assistant. I only help with crops, soil, pests, and farm work. Please ask me any farming question!"
+   - If the user asks about ANYTHING ELSE (celebrities, sports, athletes like Virat Kohli, movies, politics, coding, games, personal chat, general knowledge), you MUST strictly refuse:
+     "⚠️ **Question Outside Agricultural Domain**\n\nI am **KrishiMitra**, an AI assistant specialized strictly in farming and agriculture. I cannot answer questions about general knowledge, celebrities, sports, politics, or entertainment.\n\nPlease ask me any question about your crops, soil, fertilizers, pests, irrigation, or mandi prices!"
 
 5. USE FARM CONTEXT:
    - Tailor your simple advice directly to the user's district, soil type, and active crops.`;
@@ -104,30 +104,91 @@ function buildFarmContext(farmContext?: FarmContext): string {
 }
 
 /**
- * Easy-to-read fallback engine with simple words & practical farmer measurements.
+ * Easy-to-read fallback engine with strict agricultural domain boundaries.
  */
 function getAgronomicFallback(query: string, farmContext?: FarmContext): ChatResponse {
   const q = query.toLowerCase().trim();
   const district = farmContext?.district || farmContext?.location || "your area";
   const soil = farmContext?.soil_type || "Red Sandy Loam";
-  const crops = farmContext?.current_crops?.join(", ") || "Ragi, Maize, Sugarcane";
+  const crops = farmContext?.current_crops?.join(", ") || "Arecanut, Paddy, Ginger";
 
-  // Rejection of non-farm topics
-  const nonFarmKeywords = [
-    "movie", "film", "song", "cricket", "football", "code", "python", "javascript",
-    "java", "html", "react", "actor", "politics", "election", "modi", "biden",
-    "president", "girlfriend", "boyfriend", "dating", "joke", "story", "game"
-  ];
-  if (nonFarmKeywords.some((w) => q.includes(w))) {
+  // 1. Explicit greeting check
+  const greetings = ["hi", "hello", "hey", "namaste", "namaskara", "good morning", "good evening", "good afternoon"];
+  if (greetings.includes(q) || greetings.some((g) => q === `${g}!` || q === `${g}.` || q === `${g} krishimitra`)) {
     return {
       response:
-        "I am KrishiMitra, your farm assistant. I only help with crops, soil, pests, and farm work.\n\n" +
-        "Please ask me any question about your farm or crops!",
-      is_farming_related: false,
+        `Namaste! I am **KrishiMitra**, your agricultural advisor.\n\n` +
+        `I am strictly specialized in **crops, soil health, fertilizers, pest control, weather advisories, and mandi rates** for your farm in **${district}**.\n\n` +
+        `How can I assist your field activities today?`,
+      is_farming_related: true,
       suggested_followups: [
         "What fertilizer should I put in my soil?",
         "How to spray neem oil for pests?",
         "When is the best time to water crops?",
+        "Tips to get best price at Mandi",
+      ],
+    };
+  }
+
+  // 2. Comprehensive check for non-farm keywords, celebrities, sports, politics, etc.
+  const explicitNonFarmKeywords = [
+    "who is", "who was", "whom", "where is", "capital of",
+    "kohli", "virat", "dhoni", "rohit", "sachin", "cricket", "ipl", "match", "world cup", "football", "messi", "ronaldo",
+    "movie", "film", "cinema", "song", "singer", "actor", "actress", "celebrity", "bollywood", "hollywood", "music",
+    "modi", "rahul", "gandhi", "biden", "trump", "politics", "minister", "prime minister", "president", "election", "vote",
+    "code", "coding", "python", "javascript", "java", "html", "react", "programming", "developer", "software",
+    "joke", "story", "poem", "game", "gaming", "dating", "girlfriend", "boyfriend", "love"
+  ];
+
+  const hasExplicitNonFarm = explicitNonFarmKeywords.some((w) => q.includes(w));
+
+  // 3. Comprehensive whitelist of agricultural topics & concepts
+  const agriculturalKeywords = [
+    // Crops & plants
+    "crop", "paddy", "rice", "wheat", "ragi", "maize", "sugarcane", "cotton", "tomato", "onion",
+    "potato", "ginger", "arecanut", "areca", "coffee", "tea", "gram", "pulse", "chilli", "chili",
+    "turmeric", "garlic", "mango", "banana", "coconut", "groundnut", "soybean", "mustard",
+    "barley", "bajra", "jowar", "seed", "harvest", "sow", "sowing", "seedling", "sapling", "yield",
+    "acre", "acres", "land", "field", "farm", "farming", "agriculture", "kisan", "cultivat",
+    // Soil & nutrients
+    "soil", "sand", "clay", "loam", "silt", "ph", "npk", "nitrogen", "phosphorus", "potash",
+    "potassium", "urea", "dap", "fertilizer", "fertiliser", "manure", "compost", "gobar", "khad",
+    "nutrient", "zinc", "sulfur", "organic", "jeevamrutha", "foliar",
+    // Water & irrigation
+    "water", "irrigation", "pump", "borewell", "drip", "sprinkler", "canal", "well", "rain",
+    "rainfall", "monsoon", "drought", "moisture", "flood", "drainage",
+    // Pests & diseases
+    "pest", "insect", "worm", "caterpillar", "borer", "bug", "fungus", "rot", "blight", "rust",
+    "leaf curl", "curl", "spray", "pesticide", "fungicide", "insecticide", "neem", "weed",
+    "herbicide", "disease", "medicine", "dose", "dosage", "blast", "wilt", "infestation",
+    // Mandi & economics
+    "mandi", "apmc", "market", "price", "rate", "sell", "buy", "cost", "profit", "msp", "quintal",
+    "bag", "trader", "auction", "pmfby", "subsidy", "scheme",
+    // Livestock & farm management
+    "tractor", "plough", "sprayer", "cattle", "cow", "buffalo", "dairy", "fodder", "livestock"
+  ];
+
+  const hasAgricultureKeyword = agriculturalKeywords.some((w) => q.includes(w));
+
+  // If query explicitly mentions non-farm topics OR lacks any agricultural keywords:
+  if (hasExplicitNonFarm || !hasAgricultureKeyword) {
+    return {
+      response:
+        "⚠️ **Question Outside Agricultural Domain**\n\n" +
+        "I am **KrishiMitra**, an AI assistant specialized **strictly in farming and agriculture**.\n\n" +
+        "I cannot answer questions about general knowledge, celebrities, sports, politics, entertainment, or technology.\n\n" +
+        "🌾 **Please ask me questions about:**\n" +
+        "• Crops, sowing times, and seed selection\n" +
+        "• Fertilizers (Urea, DAP, Potash) and soil health\n" +
+        "• Pests, leaf diseases, and pump spray dosages\n" +
+        "• Irrigation scheduling and rain impact\n" +
+        "• APMC Mandi rates and market selling tips",
+      is_farming_related: false,
+      suggested_followups: [
+        "What fertilizer plan is best for my soil?",
+        "How to spray neem oil for pests?",
+        "When is the best time to irrigate crops?",
+        "How to get the highest price at Mandi?",
       ],
     };
   }
@@ -327,7 +388,10 @@ export async function sendChatMessage(
           const parts = candidates[0]?.content?.parts ?? [];
           const replyText = parts.map((p: any) => p.text ?? "").join("").trim();
           if (replyText) {
-            const isFarming = !replyText.includes("I only help with crops, soil");
+            const isFarming =
+              !replyText.includes("Outside Agricultural Domain") &&
+              !replyText.includes("strictly in farming") &&
+              !replyText.includes("I only help with crops, soil");
             return {
               response: replyText,
               is_farming_related: isFarming,

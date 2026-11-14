@@ -33,8 +33,8 @@ IMPORTANT LANGUAGE & SIMPLICITY RULES:
 
 4. STRICT DOMAIN BOUNDARY (FARMING ONLY):
    - You ONLY answer questions about crops, soil, water, fertilizers, pests, weather for farming, mandi prices, farm animals, and government farmer schemes.
-   - If the user asks about ANYTHING ELSE (movies, politics, coding, games, personal chat), politely decline:
-     "I am KrishiMitra, your farm assistant. I only help with crops, soil, pests, and farm work. Please ask me any farming question!"
+   - If the user asks about ANYTHING ELSE (celebrities, sports, athletes like Virat Kohli, movies, politics, coding, games, personal chat, general knowledge), you MUST strictly refuse:
+     "⚠️ **Question Outside Agricultural Domain**\n\nI am **KrishiMitra**, an AI assistant specialized strictly in farming and agriculture. I cannot answer questions about general knowledge, celebrities, sports, politics, or entertainment.\n\nPlease ask me any question about your crops, soil, fertilizers, pests, irrigation, or mandi prices!"
 
 5. USE FARM CONTEXT:
    - Tailor your simple advice directly to the user's district, soil type, and active crops.
@@ -176,7 +176,11 @@ class ChatService:
                             }
                         parts = candidates[0].get("content", {}).get("parts", [])
                         reply_text = "".join(p.get("text", "") for p in parts).strip()
-                        is_farming = "I am specialized only in farming" not in reply_text
+                        is_farming = (
+                            "Question Outside Agricultural Domain" not in reply_text
+                            and "specialized strictly in farming" not in reply_text
+                            and "only help with crops" not in reply_text
+                        )
                         return {
                             "response": reply_text,
                             "is_farming_related": is_farming,
