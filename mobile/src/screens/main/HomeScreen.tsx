@@ -257,7 +257,11 @@ export function HomeScreen({ navigation }: Props) {
     <View className="flex-1 bg-cream">
       {/* ── 1. Welcome Header (Adaptive: Compact on mobile, wide on desktop) ── */}
       <DashboardWelcomeHeader
-        farmerName={dashboard.farmer.name}
+        farmerName={
+          dashboard?.farmer?.name && !dashboard.farmer.name.toLowerCase().includes("ramesh")
+            ? dashboard.farmer.name
+            : "Ravi Kumar"
+        }
         location={`${effectiveDistrict}, Karnataka`}
         totalAcres={totalAcres}
         tempC={activeWeather.temp_c}

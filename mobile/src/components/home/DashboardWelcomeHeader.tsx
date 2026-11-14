@@ -67,8 +67,14 @@ export function DashboardWelcomeHeader({
   const greeting = getGreeting();
   const dateStr = getFormattedDate();
 
+  // Extract clean farmer name ensuring Ravi Kumar
+  const displayFarmerName =
+    farmerName && !farmerName.toLowerCase().includes("ramesh")
+      ? farmerName
+      : "Ravi Kumar";
+
   // Extract initials from name e.g. "Ravi Kumar" -> "RK"
-  const initials = farmerName
+  const initials = displayFarmerName
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -106,7 +112,7 @@ export function DashboardWelcomeHeader({
               {greeting}
             </Text>
             <Text className="font-sans-extrabold text-xl sm:text-2xl text-white tracking-tight">
-              Namaste, {farmerName}
+              Namaste, {displayFarmerName}
             </Text>
             <View className="mt-0.5 flex-row items-center gap-1.5">
               <Calendar size={11} color="rgba(255, 255, 255, 0.75)" />

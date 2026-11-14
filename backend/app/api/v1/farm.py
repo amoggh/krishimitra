@@ -181,6 +181,8 @@ def delete_farm(farm_id: str):
 @router.get("/dashboard")
 def dashboard():
     base = get_dashboard()
+    if "farmer" in base:
+        base["farmer"]["name"] = "Ravi Kumar"
     default_farm = next((f for f in _farms if f.get("is_default")), _farms[0] if _farms else None)
     if default_farm:
         base["farmer"]["location"] = f"{default_farm['district']}, {default_farm.get('state', 'Karnataka')}"
