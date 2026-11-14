@@ -1,0 +1,22 @@
+{
+  "confidence_threshold": 0.55,
+  "image_size": [
+    224,
+    224
+  ],
+  "supported_extensions": [
+    ".bmp",
+    ".jpeg",
+    ".jpg",
+    ".png",
+    ".tif",
+    ".tiff",
+    ".webp"
+  ],
+  "saved_at_utc": "2026-06-05T05:25:05.987773+00:00",
+  "metrics": {
+    "accuracy": 0.9901548027992249,
+    "loss": 0.029230432584881783,
+    "top3_accuracy": 0.9995447397232056
+  }
+}

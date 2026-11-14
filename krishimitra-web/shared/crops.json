@@ -1,0 +1,1081 @@
+[
+ {
+  "id": "ragi",
+  "name": "Ragi (Finger Millet)",
+  "kn": "ರಾಗಿ",
+  "hue": "#B5532F",
+  "seasons": [
+   "kharif",
+   "summer"
+  ],
+  "days": 110,
+  "etc": 518,
+  "ph": [
+   5,
+   7.5
+  ],
+  "ky": 0.8,
+  "minCover": 0.4,
+  "good": [
+   "Red sandy loam",
+   "Red loamy",
+   "Laterite"
+  ],
+  "poor": [
+   "Black cotton"
+  ],
+  "yield": [
+   6,
+   9,
+   12
+  ],
+  "yVol": 0.22,
+  "price": 4400,
+  "pVol": 0.1,
+  "msp": 5205,
+  "cost": 18000,
+  "difficulty": 1,
+  "labour": 2,
+  "ds": "Finger Millet",
+  "blurb": "The forgiving crop of the Deccan. Tolerates poor soil and patchy rain, and the government buys it at a guaranteed price.",
+  "beginner": "Hardy, cheap to grow, almost impossible to fail completely. The best first crop in southern Karnataka.",
+  "seed": "4 kg/acre (transplant) · 25 x 10 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough twice, spread 4 tonnes farmyard manure per acre, level the field."
+   ],
+   [
+    1,
+    "Nursery and sowing",
+    "Raise seedlings for 4 weeks in a small bed, or broadcast-sow 4 kg seed in lines."
+   ],
+   [
+    5,
+    "Transplant",
+    "Move 25-30 day seedlings: 25 cm between rows, 10 cm between plants."
+   ],
+   [
+    8,
+    "First weeding and urea",
+    "Hand-weed and give 20 kg urea per acre as top dressing."
+   ],
+   [
+    11,
+    "Second weeding",
+    "Light weeding. Watch for leaf blast: diamond-shaped grey spots."
+   ],
+   [
+    14,
+    "Earhead stage",
+    "Keep soil moist. Bird scaring helps from here."
+   ],
+   [
+    16,
+    "Harvest",
+    "Cut earheads when they turn brown, dry 3 days, thresh, store at 12% moisture."
+   ]
+  ]
+ },
+ {
+  "id": "maize",
+  "name": "Maize (Hybrid)",
+  "kn": "ಮೆಕ್ಕೆಜೋಳ",
+  "hue": "#C98B1F",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 110,
+  "etc": 520,
+  "ph": [
+   5.5,
+   7.5
+  ],
+  "ky": 1.25,
+  "minCover": 0.55,
+  "good": [
+   "Red loamy",
+   "Clay loam",
+   "Red sandy loam"
+  ],
+  "poor": [
+   "Laterite",
+   "Shallow black"
+  ],
+  "yield": [
+   14,
+   20,
+   28
+  ],
+  "yVol": 0.2,
+  "price": 2250,
+  "pVol": 0.14,
+  "msp": 2410,
+  "cost": 26000,
+  "difficulty": 2,
+  "labour": 2,
+  "ds": "Maize",
+  "blurb": "The workhorse of Karnataka. Poultry-feed demand keeps buyers lined up at every APMC.",
+  "beginner": "Reliable and easy to mechanise. The main risk is fall armyworm, which is simple to control if you scout early.",
+  "seed": "8 kg/acre hybrid · 60 x 20 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough, harrow, add 4 tonnes manure. Make ridges 60 cm apart."
+   ],
+   [
+    1,
+    "Sow",
+    "Dibble 1 seed per hill, 20 cm apart. Treat seed before sowing."
+   ],
+   [
+    3,
+    "Gap fill and weed",
+    "Replace missing plants. First weeding."
+   ],
+   [
+    5,
+    "Top dress 1",
+    "Apply 25 kg urea per acre; earth-up the rows."
+   ],
+   [
+    7,
+    "Armyworm scouting",
+    "Check leaf whorls twice weekly for caterpillars and frass; treat early."
+   ],
+   [
+    9,
+    "Top dress 2",
+    "Second 25 kg urea before tasselling. Do not let the field dry out."
+   ],
+   [
+    14,
+    "Cob filling",
+    "Irrigation is critical at silking and grain filling."
+   ],
+   [
+    16,
+    "Harvest",
+    "Harvest when husks dry and grain moisture is 20-25%. Dry to 14% before selling."
+   ]
+  ]
+ },
+ {
+  "id": "groundnut",
+  "name": "Groundnut",
+  "kn": "ಕಡಲೆಕಾಯಿ",
+  "hue": "#8C6A3F",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 110,
+  "etc": 510,
+  "ph": [
+   5.5,
+   7.2
+  ],
+  "ky": 0.9,
+  "minCover": 0.5,
+  "good": [
+   "Red sandy loam",
+   "Red loamy"
+  ],
+  "poor": [
+   "Black cotton",
+   "Clay loam"
+  ],
+  "yield": [
+   4,
+   6,
+   9
+  ],
+  "yVol": 0.24,
+  "price": 6800,
+  "pVol": 0.12,
+  "msp": 7517,
+  "cost": 30000,
+  "difficulty": 2,
+  "labour": 3,
+  "ds": "Groundnut",
+  "blurb": "A cash oilseed that also fixes nitrogen and leaves the soil better than it found it.",
+  "beginner": "Loose red sandy soil is ideal. Pod harvest is labour-heavy but the price per quintal is strong.",
+  "seed": "50 kg kernels/acre · 30 x 10 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Fine tilth is vital. Apply 2 tonnes manure and 100 kg gypsum per acre."
+   ],
+   [
+    1,
+    "Seed treatment and sowing",
+    "Treat kernels with Rhizobium and Trichoderma. Sow 5 cm deep."
+   ],
+   [
+    4,
+    "Weeding",
+    "First weeding and light earthing-up."
+   ],
+   [
+    6,
+    "Gypsum at flowering",
+    "Apply 200 kg gypsum per acre for pod filling. Scout for leaf spot."
+   ],
+   [
+    9,
+    "Pegging stage",
+    "Keep soil moist and loose so pegs can enter. Do not let it crust."
+   ],
+   [
+    13,
+    "Maturity check",
+    "Pull a plant: the inner shell shows dark veins and the kernel fills the pod."
+   ],
+   [
+    15,
+    "Harvest",
+    "Lift plants, strip pods, sun-dry to 8% moisture. Store dry to avoid aflatoxin."
+   ]
+  ]
+ },
+ {
+  "id": "tur",
+  "name": "Tur (Pigeon Pea)",
+  "kn": "ತೊಗರಿ",
+  "hue": "#7A8B3A",
+  "seasons": [
+   "kharif"
+  ],
+  "days": 160,
+  "etc": 610,
+  "ph": [
+   5.5,
+   7.5
+  ],
+  "ky": 0.7,
+  "minCover": 0.4,
+  "good": [
+   "Red loamy",
+   "Black cotton",
+   "Clay loam"
+  ],
+  "poor": [
+   "Coastal alluvial"
+  ],
+  "yield": [
+   3,
+   4.5,
+   6.5
+  ],
+  "yVol": 0.26,
+  "price": 7500,
+  "pVol": 0.1,
+  "msp": 8450,
+  "cost": 17000,
+  "difficulty": 2,
+  "labour": 1,
+  "ds": "Pulses",
+  "blurb": "A deep-rooted pulse with some of the best returns per rupee for dry land. Pairs well as an intercrop.",
+  "beginner": "Low investment and almost no irrigation. Patience is the price: five months to harvest.",
+  "seed": "6 kg/acre · 120 x 30 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "One deep ploughing, then harrow. Add 2 tonnes manure."
+   ],
+   [
+    1,
+    "Sow",
+    "Sow after the first good monsoon rain. Treat seed with Rhizobium."
+   ],
+   [
+    4,
+    "Thin and weed",
+    "Thin to one plant every 30 cm. Weed twice in the first 8 weeks."
+   ],
+   [
+    8,
+    "Nip the tip",
+    "Pinch growing tips at 40 days to encourage branching."
+   ],
+   [
+    14,
+    "Flowering",
+    "Scout for pod borer. Install 5 pheromone traps per acre."
+   ],
+   [
+    20,
+    "Pod fill",
+    "Spray neem seed extract (5%) if pod borer is above threshold."
+   ],
+   [
+    23,
+    "Harvest",
+    "Harvest when 80% of pods turn brown. Sun-dry, thresh, clean."
+   ]
+  ]
+ },
+ {
+  "id": "chickpea",
+  "name": "Bengal Gram (Chickpea)",
+  "kn": "ಕಡಲೆ",
+  "hue": "#A67C2D",
+  "seasons": [
+   "rabi"
+  ],
+  "days": 105,
+  "etc": 450,
+  "ph": [
+   6,
+   7.8
+  ],
+  "ky": 0.85,
+  "minCover": 0.35,
+  "good": [
+   "Black cotton",
+   "Clay loam",
+   "Shallow black"
+  ],
+  "poor": [
+   "Laterite"
+  ],
+  "yield": [
+   2.5,
+   4,
+   6
+  ],
+  "yVol": 0.25,
+  "price": 5900,
+  "pVol": 0.1,
+  "msp": 5958,
+  "cost": 16000,
+  "difficulty": 2,
+  "labour": 1,
+  "ds": "Pulses",
+  "blurb": "Grows on stored soil moisture after the monsoon. Cheap to raise and the government buys it.",
+  "beginner": "The rabi crop that needs almost no water. Best on the black soils of north Karnataka.",
+  "seed": "30 kg/acre · 30 x 10 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough after the rains end, keep the moisture. Apply 2 tonnes manure."
+   ],
+   [
+    1,
+    "Sow",
+    "Sow in Oct-Nov at 8-10 cm depth. Treat seed with Trichoderma against wilt."
+   ],
+   [
+    4,
+    "Weed",
+    "One weeding at 30 days."
+   ],
+   [
+    7,
+    "Flowering",
+    "One light irrigation if available. Nip tips at 30-35 days."
+   ],
+   [
+    10,
+    "Pod borer watch",
+    "Pheromone traps; spray HaNPV or neem if needed."
+   ],
+   [
+    14,
+    "Harvest",
+    "Harvest when leaves turn yellow and drop. Dry 3-4 days, thresh."
+   ]
+  ]
+ },
+ {
+  "id": "jowar",
+  "name": "Jowar (Sorghum)",
+  "kn": "ಜೋಳ",
+  "hue": "#9A6B34",
+  "seasons": [
+   "kharif",
+   "rabi"
+  ],
+  "days": 110,
+  "etc": 500,
+  "ph": [
+   5.5,
+   8
+  ],
+  "ky": 0.9,
+  "minCover": 0.4,
+  "good": [
+   "Black cotton",
+   "Shallow black",
+   "Clay loam"
+  ],
+  "poor": [
+   "Laterite"
+  ],
+  "yield": [
+   4,
+   6.5,
+   9
+  ],
+  "yVol": 0.22,
+  "price": 3600,
+  "pVol": 0.12,
+  "msp": 4023,
+  "cost": 12000,
+  "difficulty": 1,
+  "labour": 1,
+  "ds": "Sorghum",
+  "blurb": "The rabi jowar of north Karnataka: a staple with built-in demand, and fodder as a second income.",
+  "beginner": "Lowest cost crop here. Stalks sell as fodder, so one field pays you twice.",
+  "seed": "4 kg/acre · 45 x 15 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough and harrow. Rabi jowar relies on stored moisture, so preserve it."
+   ],
+   [
+    1,
+    "Sow",
+    "Drill sow at 4-5 cm depth."
+   ],
+   [
+    3,
+    "Thin and weed",
+    "Thin to 15 cm spacing, one inter-cultivation."
+   ],
+   [
+    6,
+    "Top dress",
+    "20 kg urea per acre if moisture allows."
+   ],
+   [
+    10,
+    "Shootfly check",
+    "Look for dead hearts in young plants; remove and burn."
+   ],
+   [
+    14,
+    "Harvest",
+    "Harvest earheads when grain is hard. Cut and stack stalks for fodder."
+   ]
+  ]
+ },
+ {
+  "id": "paddy",
+  "name": "Paddy (Rice)",
+  "kn": "ಭತ್ತ",
+  "hue": "#5F7F3B",
+  "seasons": [
+   "kharif",
+   "summer",
+   "rabi"
+  ],
+  "days": 130,
+  "etc": 1017,
+  "ph": [
+   5,
+   7.5
+  ],
+  "ky": 1.1,
+  "minCover": 0.8,
+  "good": [
+   "Clay loam",
+   "Coastal alluvial",
+   "Laterite"
+  ],
+  "poor": [
+   "Red sandy loam"
+  ],
+  "yield": [
+   18,
+   24,
+   30
+  ],
+  "yVol": 0.14,
+  "price": 2400,
+  "pVol": 0.07,
+  "msp": 2441,
+  "cost": 36000,
+  "difficulty": 3,
+  "labour": 4,
+  "ds": "Rice",
+  "blurb": "Dependable price floor thanks to MSP procurement. Needs standing water, so only for assured irrigation or canal command.",
+  "beginner": "Procurement makes income predictable, but water and labour needs are high.",
+  "seed": "24 kg nursery seed/acre · 20 x 15 cm",
+  "plan": [
+   [
+    0,
+    "Raise nursery",
+    "Sow 24 kg treated seed in a 1/10th acre nursery bed."
+   ],
+   [
+    3,
+    "Puddle field",
+    "Plough in standing water, level, add 4 tonnes manure."
+   ],
+   [
+    4,
+    "Transplant",
+    "Plant 21-25 day seedlings, 2 per hill, 20 x 15 cm."
+   ],
+   [
+    7,
+    "First weeding and urea",
+    "Weed, give 30 kg urea. Keep 2-3 cm water."
+   ],
+   [
+    11,
+    "Tillering care",
+    "Second urea dose. Watch for blast and stem borer."
+   ],
+   [
+    15,
+    "Panicle stage",
+    "Keep field wet. Drain 10 days before harvest."
+   ],
+   [
+    18,
+    "Harvest",
+    "Harvest at 80% golden grains. Dry to 14% moisture."
+   ]
+  ]
+ },
+ {
+  "id": "cotton",
+  "name": "Cotton (Bt Hybrid)",
+  "kn": "ಹತ್ತಿ",
+  "hue": "#6E7F8C",
+  "seasons": [
+   "kharif"
+  ],
+  "days": 170,
+  "etc": 600,
+  "ph": [
+   5.8,
+   8
+  ],
+  "ky": 0.85,
+  "minCover": 0.55,
+  "good": [
+   "Black cotton",
+   "Clay loam",
+   "Shallow black"
+  ],
+  "poor": [
+   "Laterite",
+   "Red sandy loam"
+  ],
+  "yield": [
+   6,
+   8.5,
+   11
+  ],
+  "yVol": 0.3,
+  "price": 7200,
+  "pVol": 0.12,
+  "msp": 8267,
+  "cost": 40000,
+  "difficulty": 4,
+  "labour": 5,
+  "ds": "Cotton",
+  "blurb": "Strong gross income on black soil, but heavy on labour, pests and cash. Not a first-timer crop.",
+  "beginner": "Held back for beginners because pest management is demanding.",
+  "seed": "0.9 kg/acre · 90 x 60 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Deep plough, 4 tonnes manure."
+   ],
+   [
+    1,
+    "Sow",
+    "Dibble sow with the first monsoon rains, 2 seeds per hill."
+   ],
+   [
+    4,
+    "Gap fill and weed",
+    "Thin to 1 plant per hill. Weed twice before 60 days."
+   ],
+   [
+    8,
+    "Top dress",
+    "NPK split application; spray for sucking pests."
+   ],
+   [
+    14,
+    "Square and boll",
+    "Scout weekly for pink bollworm and whitefly."
+   ],
+   [
+    22,
+    "First picking",
+    "Pick fully burst bolls in the morning, keep clean."
+   ],
+   [
+    28,
+    "Final picking",
+    "Three to four pickings. Destroy stalks afterwards to break the pest cycle."
+   ]
+  ]
+ },
+ {
+  "id": "onion",
+  "name": "Onion",
+  "kn": "ಈರುಳ್ಳಿ",
+  "hue": "#A8486B",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 120,
+  "etc": 350,
+  "ph": [
+   6,
+   7.5
+  ],
+  "ky": 1.1,
+  "minCover": 0.7,
+  "good": [
+   "Red loamy",
+   "Red sandy loam",
+   "Clay loam"
+  ],
+  "poor": [
+   "Black cotton",
+   "Laterite"
+  ],
+  "yield": [
+   30,
+   50,
+   80
+  ],
+  "yVol": 0.3,
+  "price": 1700,
+  "pVol": 0.5,
+  "msp": null,
+  "cost": 52000,
+  "difficulty": 3,
+  "labour": 4,
+  "ds": "Onion",
+  "blurb": "Big upside when prices spike, a real chance of loss when they crash. Price swings are the whole story.",
+  "beginner": "High reward, high variance. Never put more than a third of your land in it in year one.",
+  "seed": "4 kg nursery seed/acre · 15 x 10 cm",
+  "plan": [
+   [
+    0,
+    "Raise nursery",
+    "Sow 4 kg seed in raised beds for 45-day seedlings."
+   ],
+   [
+    5,
+    "Prepare and transplant",
+    "Fine tilth, flat beds. Transplant 15 x 10 cm."
+   ],
+   [
+    8,
+    "Weed and fertilise",
+    "Weed twice; split 40 kg N through the crop."
+   ],
+   [
+    12,
+    "Bulb initiation",
+    "Reduce nitrogen. Watch for purple blotch and thrips."
+   ],
+   [
+    16,
+    "Stop irrigation",
+    "Withhold water 10 days before harvest."
+   ],
+   [
+    18,
+    "Harvest and cure",
+    "Lift when tops fall. Cure in shade for 5-7 days before storage or sale."
+   ]
+  ]
+ },
+ {
+  "id": "tomato",
+  "name": "Tomato",
+  "kn": "ಟೊಮೆಟೊ",
+  "hue": "#C0392B",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 120,
+  "etc": 400,
+  "ph": [
+   6,
+   7
+  ],
+  "ky": 1.05,
+  "minCover": 0.8,
+  "good": [
+   "Red loamy",
+   "Red sandy loam"
+  ],
+  "poor": [
+   "Black cotton",
+   "Coastal alluvial"
+  ],
+  "yield": [
+   45,
+   70,
+   110
+  ],
+  "yVol": 0.35,
+  "price": 1700,
+  "pVol": 0.55,
+  "msp": null,
+  "cost": 95000,
+  "difficulty": 5,
+  "labour": 5,
+  "ds": null,
+  "blurb": "Can pay for a whole year in one season, and can wipe you out in a week of price crash or leaf-curl virus.",
+  "beginner": "Left out of beginner plans on purpose. Capital-heavy, staking, and constant disease management.",
+  "seed": "60 g hybrid seed/acre · 90 x 45 cm",
+  "plan": [
+   [
+    0,
+    "Raise seedlings",
+    "Raise in a protected tray nursery for 25 days."
+   ],
+   [
+    4,
+    "Transplant",
+    "Stake and plant 90 x 45 cm on raised beds with mulch."
+   ],
+   [
+    8,
+    "Stake and tie",
+    "Tie plants every week. Prune suckers."
+   ],
+   [
+    10,
+    "Spray programme",
+    "Weekly scouting for leaf curl, early blight and fruit borer."
+   ],
+   [
+    14,
+    "First picking",
+    "Pick at breaker stage; sort and grade."
+   ],
+   [
+    20,
+    "Peak picking",
+    "Pick every 3 days and send to market promptly."
+   ]
+  ]
+ },
+ {
+  "id": "sunflower",
+  "name": "Sunflower",
+  "kn": "ಸೂರ್ಯಕಾಂತಿ",
+  "hue": "#D9A21B",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 100,
+  "etc": 480,
+  "ph": [
+   6,
+   7.5
+  ],
+  "ky": 0.95,
+  "minCover": 0.45,
+  "good": [
+   "Black cotton",
+   "Red loamy",
+   "Clay loam"
+  ],
+  "poor": [
+   "Laterite"
+  ],
+  "yield": [
+   3,
+   4.5,
+   6.5
+  ],
+  "yVol": 0.24,
+  "price": 7500,
+  "pVol": 0.12,
+  "msp": 8343,
+  "cost": 18000,
+  "difficulty": 2,
+  "labour": 2,
+  "ds": null,
+  "blurb": "Short-duration oilseed. Excellent price per quintal and the lowest cultivation cost among oilseeds.",
+  "beginner": "Short, cheap, high price. Bees matter, so avoid spraying during flowering.",
+  "seed": "2 kg hybrid seed/acre · 60 x 30 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough, harrow, 2 tonnes manure."
+   ],
+   [
+    1,
+    "Sow",
+    "Sow 1 seed per hill 3-4 cm deep. Soak seed overnight."
+   ],
+   [
+    3,
+    "Thin and weed",
+    "Thin to one plant, one weeding."
+   ],
+   [
+    6,
+    "Top dress",
+    "20 kg urea; irrigate at button stage."
+   ],
+   [
+    9,
+    "Flowering",
+    "Brush heads by hand if bees are scarce. A boron spray helps seed set."
+   ],
+   [
+    13,
+    "Harvest",
+    "Harvest when the back of the head turns lemon-yellow to brown."
+   ]
+  ]
+ },
+ {
+  "id": "greengram",
+  "name": "Green Gram (Moong)",
+  "kn": "ಹೆಸರುಕಾಳು",
+  "hue": "#6BA043",
+  "seasons": [
+   "kharif",
+   "summer"
+  ],
+  "days": 70,
+  "etc": 380,
+  "ph": [
+   5.5,
+   7.5
+  ],
+  "ky": 0.7,
+  "minCover": 0.35,
+  "good": [
+   "Red loamy",
+   "Red sandy loam",
+   "Clay loam"
+  ],
+  "poor": [
+   "Coastal alluvial"
+  ],
+  "yield": [
+   1.2,
+   2.2,
+   3.5
+  ],
+  "yVol": 0.25,
+  "price": 8000,
+  "pVol": 0.1,
+  "msp": 8780,
+  "cost": 11000,
+  "difficulty": 1,
+  "labour": 1,
+  "ds": "Pulses",
+  "blurb": "Ready in 70 days, so you are paid before most farmers finish weeding. Also improves the soil.",
+  "beginner": "The safest start: fast, cheap, minimal inputs, and it leaves nitrogen behind for the next crop.",
+  "seed": "8 kg/acre · 30 x 10 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "One ploughing and harrow. 1 tonne manure."
+   ],
+   [
+    1,
+    "Sow",
+    "Treat seed with Rhizobium. Sow 3 cm deep."
+   ],
+   [
+    3,
+    "Weed",
+    "One weeding at 20 days."
+   ],
+   [
+    6,
+    "Flowering",
+    "Scout for yellow mosaic virus; rogue out infected plants."
+   ],
+   [
+    9,
+    "First pods",
+    "Pick mature pods in 2 rounds."
+   ],
+   [
+    10,
+    "Final harvest",
+    "Dry and thresh. Turn the residue into the soil."
+   ]
+  ]
+ },
+ {
+  "id": "sugarcane",
+  "name": "Sugarcane",
+  "kn": "ಕಬ್ಬು",
+  "hue": "#3F7F5B",
+  "seasons": [
+   "kharif",
+   "rabi",
+   "summer"
+  ],
+  "days": 365,
+  "etc": 1796,
+  "ph": [
+   6,
+   7.8
+  ],
+  "ky": 1.2,
+  "minCover": 0.85,
+  "good": [
+   "Clay loam",
+   "Black cotton",
+   "Red loamy"
+  ],
+  "poor": [
+   "Laterite",
+   "Red sandy loam"
+  ],
+  "yield": [
+   320,
+   420,
+   500
+  ],
+  "yVol": 0.15,
+  "price": 365,
+  "pVol": 0.05,
+  "msp": 365,
+  "cost": 78000,
+  "difficulty": 4,
+  "labour": 4,
+  "ds": "Sugarcane",
+  "blurb": "Fixed FRP price from factories and a ratoon second crop, but it needs a full year of heavy water.",
+  "beginner": "Only if you have canal or abundant borewell water and can wait 12 months for income.",
+  "seed": "3 tonnes setts/acre · 4 ft rows",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Deep plough, 10 tonnes manure, make furrows 4 ft apart."
+   ],
+   [
+    2,
+    "Plant setts",
+    "Plant 2-3 bud setts after a fungicide dip."
+   ],
+   [
+    8,
+    "Gap fill and earth up",
+    "Weed, earth up, NPK split."
+   ],
+   [
+    20,
+    "Grand growth",
+    "Regular irrigation every 8-10 days."
+   ],
+   [
+    36,
+    "Propping",
+    "Tie canes to prevent lodging."
+   ],
+   [
+    50,
+    "Harvest",
+    "Cut at 12 months; supply to the factory within 24 hours."
+   ]
+  ]
+ },
+ {
+  "id": "turmeric",
+  "name": "Turmeric",
+  "kn": "ಅರಿಶಿನ",
+  "hue": "#D98A1E",
+  "seasons": [
+   "kharif"
+  ],
+  "days": 270,
+  "etc": 700,
+  "ph": [
+   5.5,
+   7.5
+  ],
+  "ky": 1,
+  "minCover": 0.7,
+  "good": [
+   "Red loamy",
+   "Clay loam",
+   "Forest loam",
+   "Red sandy loam"
+  ],
+  "poor": [
+   "Black cotton"
+  ],
+  "yield": [
+   16,
+   23,
+   28
+  ],
+  "yVol": 0.22,
+  "price": 12500,
+  "pVol": 0.3,
+  "msp": null,
+  "cost": 135000,
+  "difficulty": 4,
+  "labour": 4,
+  "ds": null,
+  "blurb": "High-value spice with huge margins in good years, but heavy capital and nine months of work.",
+  "beginner": "A year-two crop. Seed rhizomes alone cost over a lakh per acre.",
+  "seed": "800 kg rhizomes/acre · 45 x 20 cm",
+  "plan": [
+   [
+    0,
+    "Prepare land",
+    "Plough, 10 tonnes manure, raised beds."
+   ],
+   [
+    1,
+    "Plant rhizomes",
+    "Plant finger rhizomes 5 cm deep, mulch."
+   ],
+   [
+    8,
+    "Earth up",
+    "Second mulching and top dress."
+   ],
+   [
+    20,
+    "Leaf spot watch",
+    "Scout for leaf blotch and rhizome rot."
+   ],
+   [
+    34,
+    "Maturity",
+    "Leaves dry and yellow at 7-9 months."
+   ],
+   [
+    38,
+    "Harvest and boil",
+    "Dig, boil, dry and polish rhizomes."
+   ]
+  ]
+ }
+]

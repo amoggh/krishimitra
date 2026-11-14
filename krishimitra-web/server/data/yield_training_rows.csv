@@ -1,0 +1,1208 @@
+source,year,district,crop,season,area_ha,yield_kg_ha,zone,soil,ph,n,p,k,oc,annual
+APY 2021-22,2021,Bagalkote,chickpea,rabi,48241.0,729.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,greengram,kharif,27341.0,293.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,groundnut,kharif,1805.0,863.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,groundnut,summer,32871.0,1460.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,jowar,kharif,1525.0,2077.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,jowar,rabi,55421.0,1265.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,maize,kharif,62166.0,4003.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,maize,rabi,12403.0,3731.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,maize,summer,5704.0,3854.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,onion,kharif,32920.0,7378.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,onion,rabi,1348.0,12149.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,onion,summer,741.0,6136.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,sugarcane,kharif,107170.0,86.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,sunflower,kharif,14922.0,900.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,sunflower,rabi,956.0,875.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,sunflower,summer,652.0,1385.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,tomato,kharif,181.0,12181.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,tomato,rabi,154.0,10722.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,tomato,summer,144.0,11271.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,tur,kharif,68771.0,679.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Bagalkote,turmeric,annual,3010.0,6736.0,Northern Dry Zone,Shallow black,7.0,262,19,329,0.6,570
+APY 2021-22,2021,Ballari,chickpea,rabi,13208.0,723.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,greengram,kharif,144.0,617.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,groundnut,kharif,33445.0,1090.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,groundnut,summer,21291.0,1236.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,jowar,kharif,9386.0,2938.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,jowar,rabi,14125.0,2539.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,maize,kharif,207443.0,3323.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,maize,rabi,5957.0,3987.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,maize,summer,388.0,3562.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,onion,kharif,12445.0,6493.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,onion,rabi,5646.0,7906.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,onion,summer,685.0,7318.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,paddy,kharif,103066.0,5853.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,paddy,summer,73914.0,5327.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,ragi,kharif,14152.0,1095.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,ragi,rabi,19559.0,1466.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,ragi,summer,2798.0,1527.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,sugarcane,kharif,9758.0,96.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,sunflower,kharif,11083.0,1086.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,sunflower,rabi,1795.0,847.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,tomato,kharif,1061.0,7887.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,tomato,rabi,1093.0,10722.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,tomato,summer,267.0,11271.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Ballari,tur,kharif,13832.0,588.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+APY 2021-22,2021,Belagavi,chickpea,rabi,108985.0,808.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,greengram,kharif,51714.0,455.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,greengram,rabi,303.0,307.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,groundnut,kharif,18428.0,914.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,groundnut,summer,8819.0,954.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,jowar,kharif,8676.0,1948.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,jowar,rabi,121600.0,1247.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,maize,kharif,138334.0,4239.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,maize,rabi,48848.0,4391.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,maize,summer,11112.0,3609.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,onion,kharif,7517.0,9874.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,onion,rabi,952.0,10822.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,onion,summer,124.0,12454.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,paddy,kharif,55958.0,4643.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,paddy,summer,170.0,4616.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,ragi,kharif,1282.0,1328.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,sugarcane,kharif,271730.0,96.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,sunflower,kharif,3822.0,914.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,sunflower,rabi,10470.0,890.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,sunflower,summer,258.0,1101.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,tomato,kharif,955.0,9378.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,tomato,rabi,706.0,8745.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,tomato,summer,564.0,6372.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,tur,kharif,17804.0,405.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Belagavi,turmeric,annual,5560.0,7013.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+APY 2021-22,2021,Bengaluru Rural,chickpea,rabi,103.0,689.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,groundnut,kharif,162.0,1268.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,jowar,kharif,2520.0,1617.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,jowar,rabi,183.0,1130.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,maize,kharif,5157.0,3675.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,maize,rabi,107.0,3633.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,paddy,kharif,159.0,3372.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,ragi,kharif,65233.0,1741.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,ragi,rabi,327.0,1348.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,sugarcane,kharif,117.0,96.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,tomato,kharif,725.0,16995.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,tomato,rabi,245.0,10722.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Rural,tur,kharif,684.0,718.0,Eastern Dry Zone,Red sandy loam,6.0,264,15,241,0.63,860
+APY 2021-22,2021,Bengaluru Urban,jowar,kharif,923.0,1617.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,maize,kharif,756.0,5285.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,paddy,kharif,198.0,4242.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,ragi,kharif,17822.0,1703.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,ragi,rabi,112.0,1348.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,tomato,kharif,350.0,28387.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Bengaluru Urban,tur,kharif,516.0,666.0,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+APY 2021-22,2021,Chamarajanagar,chickpea,rabi,2383.0,714.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,greengram,kharif,484.0,209.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,groundnut,kharif,3276.0,1103.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,groundnut,summer,139.0,1070.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,jowar,kharif,18792.0,1151.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,jowar,rabi,142.0,1130.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,maize,kharif,24803.0,3859.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,maize,rabi,5932.0,3506.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,maize,summer,3566.0,3562.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,onion,kharif,1322.0,10007.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,onion,rabi,2309.0,8557.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,onion,summer,297.0,6263.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,paddy,kharif,8163.0,4208.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,paddy,rabi,809.0,3304.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,paddy,summer,1335.0,3493.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,ragi,kharif,6758.0,1269.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,ragi,rabi,133.0,1348.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,sugarcane,kharif,10266.0,94.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,sunflower,kharif,14259.0,966.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,sunflower,rabi,172.0,786.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,tomato,kharif,2079.0,14638.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,tomato,rabi,1189.0,10844.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,tomato,summer,485.0,11916.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,tur,kharif,162.0,382.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chamarajanagar,turmeric,annual,8019.0,4842.0,Southern Dry Zone,Red sandy loam,6.4,262,16,268,0.61,750
+APY 2021-22,2021,Chikkaballapur,chickpea,rabi,417.0,689.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,groundnut,kharif,27585.0,953.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,groundnut,summer,1797.0,1340.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,jowar,kharif,2444.0,1617.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,jowar,rabi,762.0,1130.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,maize,kharif,49798.0,2647.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,maize,rabi,1032.0,4738.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,maize,summer,1740.0,3562.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,onion,kharif,444.0,3150.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,onion,rabi,1538.0,10918.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,onion,summer,1378.0,12454.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,paddy,kharif,3557.0,4288.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,paddy,summer,3159.0,4451.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,ragi,kharif,39786.0,1553.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,ragi,rabi,1812.0,1348.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,ragi,summer,1629.0,1803.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,sugarcane,kharif,152.0,96.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,sunflower,summer,270.0,1912.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,tomato,kharif,7653.0,11393.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,tomato,rabi,1819.0,10722.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,tomato,summer,1440.0,11271.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkaballapur,tur,kharif,3201.0,325.0,Eastern Dry Zone,Red loamy,6.0,268,14,241,0.63,770
+APY 2021-22,2021,Chikkamagaluru,chickpea,rabi,7398.0,835.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,greengram,kharif,3960.0,387.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,groundnut,kharif,3489.0,1115.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,jowar,kharif,1680.0,491.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,jowar,rabi,2896.0,1081.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,maize,kharif,9228.0,2702.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,maize,rabi,572.0,3633.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,onion,kharif,10852.0,7099.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,paddy,kharif,10524.0,3770.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,paddy,summer,324.0,4750.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,ragi,kharif,53654.0,1027.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,ragi,rabi,921.0,1348.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,sugarcane,kharif,222.0,101.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,sunflower,kharif,1088.0,803.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,tomato,kharif,1338.0,11668.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,tomato,rabi,209.0,15261.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chikkamagaluru,tur,kharif,122.0,666.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+APY 2021-22,2021,Chitradurga,chickpea,rabi,37569.0,614.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,greengram,kharif,7423.0,305.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,groundnut,kharif,135249.0,525.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,groundnut,summer,5011.0,870.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,jowar,kharif,2740.0,1831.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,jowar,rabi,4048.0,582.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,maize,kharif,105112.0,2617.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,maize,rabi,7597.0,3813.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,maize,summer,1551.0,3562.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,onion,kharif,30052.0,7300.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,onion,rabi,10052.0,11304.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,onion,summer,777.0,12454.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,paddy,kharif,1223.0,2822.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,paddy,summer,328.0,2771.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,ragi,kharif,42201.0,872.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,ragi,rabi,3216.0,1804.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,ragi,summer,2784.0,2027.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,sunflower,kharif,3585.0,722.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,sunflower,rabi,181.0,948.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,tomato,kharif,2321.0,7383.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,tomato,rabi,2750.0,10722.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,tomato,summer,497.0,11271.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Chitradurga,tur,kharif,9328.0,340.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+APY 2021-22,2021,Dakshina Kannada,paddy,kharif,6139.0,4400.0,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+APY 2021-22,2021,Dakshina Kannada,paddy,rabi,1104.0,4180.0,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+APY 2021-22,2021,Davanagere,chickpea,rabi,7090.0,598.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,groundnut,kharif,4680.0,1256.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,groundnut,summer,1286.0,1458.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,jowar,kharif,303.0,2360.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,jowar,rabi,2733.0,1260.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,maize,kharif,127101.0,3522.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,maize,rabi,2436.0,3303.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,maize,summer,1053.0,3562.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,onion,kharif,5725.0,7740.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,onion,rabi,1778.0,7833.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,onion,summer,107.0,12454.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,paddy,kharif,66436.0,5641.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,paddy,summer,53909.0,5029.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,ragi,kharif,10730.0,1535.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,ragi,rabi,9374.0,1297.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,ragi,summer,780.0,1803.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,sugarcane,kharif,1310.0,108.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,sunflower,kharif,918.0,937.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,sunflower,rabi,595.0,1192.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,tomato,kharif,717.0,15485.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,tomato,rabi,861.0,12265.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,tomato,summer,145.0,10736.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Davanagere,tur,kharif,2199.0,879.0,Central Dry Zone,Red sandy loam,6.8,242,17,303,0.58,650
+APY 2021-22,2021,Dharwad,chickpea,rabi,110548.0,801.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,greengram,kharif,74082.0,541.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,greengram,rabi,8913.0,322.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,groundnut,kharif,25708.0,1096.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,groundnut,summer,635.0,955.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,jowar,kharif,167.0,319.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,jowar,rabi,37443.0,977.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,maize,kharif,52866.0,3780.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,maize,rabi,7228.0,3827.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,maize,summer,466.0,3986.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,onion,kharif,9026.0,5900.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,onion,rabi,145.0,10918.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,paddy,kharif,12788.0,1896.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,sugarcane,kharif,8258.0,92.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,sunflower,rabi,5031.0,722.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,tomato,kharif,221.0,8593.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,tomato,rabi,201.0,10722.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Dharwad,tur,kharif,186.0,678.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+APY 2021-22,2021,Gadag,chickpea,rabi,117815.0,562.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,greengram,kharif,90217.0,207.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,groundnut,kharif,33294.0,539.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,groundnut,summer,12856.0,740.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,jowar,kharif,483.0,1564.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,jowar,rabi,39359.0,868.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,maize,kharif,97780.0,2586.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,maize,rabi,7678.0,2612.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,maize,summer,347.0,3562.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,onion,kharif,32606.0,6628.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,onion,rabi,822.0,7666.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,onion,summer,146.0,12454.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,paddy,kharif,3474.0,3372.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,paddy,summer,2651.0,3329.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,sugarcane,kharif,2100.0,42.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,sunflower,kharif,9832.0,587.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,sunflower,rabi,14924.0,583.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,sunflower,summer,120.0,1016.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,tomato,rabi,145.0,10722.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,tomato,summer,121.0,11271.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Gadag,tur,kharif,661.0,326.0,Northern Dry Zone,Shallow black,7.0,257,18,331,0.61,620
+APY 2021-22,2021,Hassan,chickpea,rabi,1162.0,625.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,greengram,kharif,5391.0,241.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,groundnut,kharif,425.0,900.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,groundnut,summer,166.0,1070.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,jowar,kharif,1574.0,1007.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,jowar,rabi,106.0,532.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,maize,kharif,107503.0,3636.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,maize,rabi,4678.0,2303.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,maize,summer,479.0,3562.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,onion,kharif,485.0,7121.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,paddy,kharif,34413.0,3480.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,paddy,summer,250.0,3400.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,ragi,kharif,94965.0,727.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,ragi,rabi,6347.0,985.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,ragi,summer,131.0,1803.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,sugarcane,kharif,3422.0,92.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,sunflower,kharif,639.0,426.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,tomato,kharif,1141.0,7401.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,tomato,rabi,1032.0,10722.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Hassan,tur,kharif,473.0,248.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+APY 2021-22,2021,Kodagu,maize,kharif,2167.0,4211.0,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+APY 2021-22,2021,Kodagu,paddy,kharif,19801.0,3966.0,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+APY 2021-22,2021,Kolar,groundnut,kharif,8574.0,1034.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,jowar,kharif,1319.0,1617.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,jowar,rabi,200.0,1130.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,maize,kharif,1194.0,3231.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,maize,rabi,486.0,3633.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,maize,summer,789.0,3562.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,paddy,kharif,3860.0,3034.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,paddy,summer,1118.0,5543.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,ragi,kharif,55755.0,1784.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,ragi,rabi,208.0,1348.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,ragi,summer,179.0,1803.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,tomato,kharif,9655.0,13270.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,tomato,rabi,3735.0,10722.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,tomato,summer,3661.0,11271.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Kolar,tur,kharif,1210.0,379.0,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+APY 2021-22,2021,Koppal,chickpea,rabi,63866.0,453.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,greengram,kharif,32102.0,181.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,greengram,rabi,269.0,307.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,groundnut,kharif,8428.0,764.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,groundnut,summer,35776.0,861.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,jowar,kharif,1634.0,1746.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,jowar,rabi,20108.0,733.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,maize,kharif,99695.0,2259.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,maize,rabi,8231.0,2634.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,maize,summer,746.0,3562.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,onion,kharif,9374.0,7139.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,onion,rabi,574.0,10918.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,onion,summer,223.0,12454.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,paddy,kharif,57946.0,5022.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,paddy,summer,48244.0,4929.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,sugarcane,kharif,2052.0,96.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,sunflower,kharif,17441.0,715.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,sunflower,rabi,1835.0,581.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,tomato,kharif,782.0,4126.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,tomato,rabi,1156.0,10722.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,tomato,summer,567.0,11271.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Koppal,tur,kharif,48662.0,354.0,Northern Dry Zone,Black cotton,7.1,256,18,331,0.6,580
+APY 2021-22,2021,Mandya,groundnut,kharif,406.0,998.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,maize,kharif,4355.0,2181.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,maize,rabi,807.0,3633.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,maize,summer,1494.0,3562.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,onion,kharif,504.0,7121.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,paddy,kharif,55751.0,4520.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,paddy,rabi,404.0,3692.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,paddy,summer,16667.0,4628.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,ragi,kharif,56207.0,1300.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,ragi,rabi,4053.0,1416.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,ragi,summer,3323.0,1821.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,sugarcane,kharif,40397.0,118.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,tomato,kharif,1547.0,16002.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,tomato,rabi,862.0,13209.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,tomato,summer,604.0,15462.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mandya,tur,kharif,384.0,474.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+APY 2021-22,2021,Mysuru,chickpea,rabi,735.0,636.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,greengram,kharif,6099.0,279.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,groundnut,kharif,1271.0,886.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,jowar,kharif,5530.0,919.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,jowar,rabi,441.0,1130.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,maize,kharif,48533.0,3350.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,maize,rabi,6093.0,2958.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,maize,summer,952.0,3562.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,onion,rabi,126.0,10918.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,paddy,kharif,79937.0,4725.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,paddy,summer,13535.0,4323.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,ragi,kharif,56925.0,1575.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,ragi,rabi,35004.0,1312.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,ragi,summer,496.0,1958.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,sugarcane,kharif,14719.0,113.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,sunflower,kharif,2388.0,747.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,tomato,kharif,3323.0,16392.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,tomato,rabi,1473.0,15670.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,tomato,summer,885.0,11271.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,tur,kharif,1429.0,416.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Mysuru,turmeric,annual,1548.0,3436.0,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+APY 2021-22,2021,Ramanagara,groundnut,kharif,848.0,1607.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,jowar,kharif,1696.0,1617.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,jowar,rabi,125.0,1130.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,maize,kharif,3521.0,2413.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,maize,rabi,336.0,3633.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,maize,summer,118.0,3562.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,paddy,kharif,2974.0,4206.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,paddy,summer,139.0,4086.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,ragi,kharif,73155.0,1773.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,ragi,rabi,371.0,1348.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,ragi,summer,274.0,1803.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,sugarcane,kharif,286.0,65.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,tomato,kharif,210.0,12181.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Ramanagara,tur,kharif,890.0,681.0,Eastern Dry Zone,Red loamy,6.0,265,14,239,0.65,850
+APY 2021-22,2021,Shimoga,greengram,rabi,350.0,307.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,groundnut,kharif,126.0,740.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,jowar,rabi,143.0,1130.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,maize,kharif,45301.0,4322.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,maize,rabi,416.0,4451.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,maize,summer,7672.0,3562.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,paddy,kharif,73635.0,3967.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,paddy,summer,11686.0,4201.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,ragi,kharif,408.0,1479.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,sugarcane,kharif,804.0,136.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Shimoga,sunflower,rabi,396.0,2069.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+APY 2021-22,2021,Tumakuru,chickpea,rabi,1003.0,329.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,greengram,kharif,21784.0,136.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,groundnut,kharif,66379.0,617.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,groundnut,summer,397.0,728.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,jowar,kharif,8404.0,1617.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,jowar,rabi,939.0,1130.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,maize,kharif,29243.0,1885.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,maize,rabi,745.0,1746.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,maize,summer,244.0,3562.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,onion,kharif,919.0,8697.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,onion,rabi,135.0,10918.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,paddy,kharif,2989.0,3616.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,paddy,summer,270.0,4418.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,ragi,kharif,161274.0,1181.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,ragi,summer,490.0,1803.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,sugarcane,kharif,449.0,104.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,sunflower,kharif,111.0,899.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,tomato,kharif,3992.0,11230.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,tomato,rabi,1635.0,10722.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Tumakuru,tur,kharif,11351.0,208.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+APY 2021-22,2021,Udupi,groundnut,rabi,1709.0,1962.0,Coastal Zone,Laterite,6.0,278,14,244,0.67,4100
+APY 2021-22,2021,Udupi,paddy,kharif,36987.0,4479.0,Coastal Zone,Laterite,6.0,278,14,244,0.67,4100
+APY 2021-22,2021,Udupi,paddy,rabi,5682.0,4004.0,Coastal Zone,Laterite,6.0,278,14,244,0.67,4100
+APY 2021-22,2021,Uttara Kannada,greengram,rabi,1919.0,237.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,groundnut,rabi,1182.0,1908.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,maize,kharif,7173.0,4725.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,maize,rabi,1020.0,3633.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,maize,summer,710.0,3562.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,paddy,kharif,44500.0,3278.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,paddy,rabi,620.0,3560.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,paddy,summer,399.0,3822.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Uttara Kannada,sugarcane,kharif,11676.0,92.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+APY 2021-22,2021,Vijayapura,chickpea,rabi,38971.0,661.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,greengram,kharif,1080.0,232.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,groundnut,kharif,3542.0,751.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,groundnut,summer,7772.0,811.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,jowar,rabi,37742.0,764.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,maize,kharif,57926.0,3191.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,maize,rabi,5951.0,3008.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,maize,summer,3095.0,2792.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,onion,kharif,20281.0,7154.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,onion,rabi,26094.0,11931.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,onion,summer,4061.0,14925.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,paddy,kharif,125.0,4643.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,sugarcane,kharif,78033.0,101.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,sunflower,kharif,12771.0,992.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,sunflower,rabi,552.0,930.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,sunflower,summer,124.0,1462.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,tomato,kharif,460.0,10467.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,tomato,rabi,190.0,10722.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,tomato,summer,137.0,11271.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,tur,kharif,528346.0,422.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+APY 2021-22,2021,Vijayapura,turmeric,annual,168.0,5671.0,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Ballari,chickpea,rabi,60230.0,515.86,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,groundnut,kharif,66800.0,727.54,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,jowar,kharif,26780.0,1625.47,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,jowar,rabi,15410.0,1345.23,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,maize,kharif,103650.0,2660.01,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,paddy,kharif,116170.0,5302.094999999999,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,ragi,kharif,3740.0,665.78,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,sugarcane,annual,7610.0,8360.01,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,sunflower,kharif,21630.0,599.63,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Ballari,tur,kharif,9070.0,370.45,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2011,Belagavi,chickpea,rabi,52170.0,507.38000000000005,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,groundnut,kharif,36250.0,919.72,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,jowar,kharif,26500.0,1430.94,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,jowar,rabi,128240.00000000001,1075.87,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,maize,kharif,148000.0,2973.31,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,paddy,kharif,68310.0,2909.535,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,ragi,kharif,530.0,905.66,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,sugarcane,annual,342410.0,9500.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,sunflower,kharif,16810.0,559.79,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Belagavi,tur,kharif,4160.0,305.29,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2011,Bengaluru Urban,groundnut,kharif,5350.0,923.36,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Bengaluru Urban,maize,kharif,17770.0,4643.22,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Bengaluru Urban,paddy,kharif,11080.0,4399.8150000000005,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Bengaluru Urban,ragi,kharif,138580.0,2606.51,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Bengaluru Urban,sugarcane,annual,1750.0,8455.02,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Bengaluru Urban,tur,kharif,5870.0,698.47,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2011,Chikkamagaluru,chickpea,rabi,6940.0,597.98,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,groundnut,kharif,5560.0,737.41,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,jowar,kharif,1000.0,640.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,jowar,rabi,5790.0,829.02,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,maize,kharif,25060.0,2513.97,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,paddy,kharif,45380.0,3859.4099999999994,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,ragi,kharif,39220.0,1254.72,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,sugarcane,annual,1790.0,7694.97,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,sunflower,kharif,3920.0,362.24,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chikkamagaluru,tur,kharif,600.0,466.67,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2011,Chitradurga,chickpea,rabi,31240.0,329.39,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,groundnut,kharif,112740.0,636.86,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,jowar,kharif,14680.0,2023.84,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,jowar,rabi,26890.0,857.57,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,maize,kharif,280880.0,2879.02,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,paddy,kharif,151320.0,5124.51,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,ragi,kharif,55540.0,1266.11,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,sugarcane,annual,10580.0,13292.1,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,sunflower,kharif,16880.0,597.75,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Chitradurga,tur,kharif,16920.0,737.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2011,Dakshina Kannada,groundnut,kharif,2050.0,824.39,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2011,Dakshina Kannada,paddy,kharif,110500.0,3638.955,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2011,Dharwad,chickpea,rabi,129389.99999999999,348.87,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,groundnut,kharif,106270.0,943.07,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,jowar,kharif,18940.0,1545.41,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,jowar,rabi,108960.0,656.3900000000001,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,maize,kharif,248110.0,3010.8400000000006,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,paddy,kharif,77220.0,2676.375,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,ragi,kharif,660.0,1121.21,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,sugarcane,annual,22330.0,7887.15,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,sunflower,kharif,46540.0,453.59,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Dharwad,tur,kharif,8290.0,492.16,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2011,Hassan,chickpea,rabi,2280.0,662.28,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,groundnut,kharif,790.0,734.18,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,jowar,kharif,1740.0,919.54,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,maize,kharif,65700.0,3530.44,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,paddy,kharif,48870.0,3709.635,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,ragi,kharif,71940.0,1518.35,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,sugarcane,annual,4360.0,9785.0,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,sunflower,kharif,2580.0,1011.63,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Hassan,tur,kharif,2570.0,622.57,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2011,Kodagu,maize,kharif,3700.0,3797.3,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2011,Kodagu,paddy,kharif,34220.0,4086.6449999999995,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2011,Kolar,groundnut,kharif,40170.0,713.22,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,maize,kharif,60030.0,3147.09,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,paddy,kharif,10820.0,3758.325,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,ragi,kharif,103930.0,2115.65,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,sugarcane,annual,540.0,9119.85,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,sunflower,kharif,1460.0,1020.55,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Kolar,tur,kharif,10680.0,1014.04,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2011,Mandya,maize,kharif,5260.0,2958.17,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2011,Mandya,paddy,kharif,74160.0,5089.799999999999,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2011,Mandya,ragi,kharif,55530.0,2072.75,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2011,Mandya,sugarcane,annual,61930.0,13205.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2011,Mandya,tur,kharif,1370.0,364.96,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2011,Mysuru,chickpea,rabi,4019.9999999999995,611.94,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,groundnut,kharif,23220.0,620.16,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,jowar,kharif,35080.0,952.68,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,maize,kharif,71910.0,2459.19,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,paddy,kharif,136450.0,4745.1449999999995,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,ragi,kharif,62430.0,1599.71,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,sugarcane,annual,40030.0,11284.44,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,sunflower,kharif,10520.0,450.57000000000005,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Mysuru,tur,kharif,5750.0,486.96,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2011,Shimoga,groundnut,kharif,1070.0,700.93,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Shimoga,maize,kharif,63020.0,4215.8,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Shimoga,paddy,kharif,128979.99999999999,4379.5199999999995,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Shimoga,ragi,kharif,1060.0,1622.64,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Shimoga,sugarcane,annual,8390.0,10545.01,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Shimoga,sunflower,kharif,1000.0,2400.0,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2011,Tumakuru,chickpea,rabi,750.0,493.33,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,groundnut,kharif,88550.0,300.51,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,maize,kharif,25890.0,2377.75,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,paddy,kharif,28440.0,4200.42,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,ragi,kharif,151460.0,1592.7,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,sugarcane,annual,4130.0,8645.01,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,sunflower,kharif,2500.0,1036.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Tumakuru,tur,kharif,14480.0,337.02,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2011,Uttara Kannada,groundnut,kharif,2550.0,1301.96,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2011,Uttara Kannada,maize,kharif,3790.0,3023.75,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2011,Uttara Kannada,paddy,kharif,75750.0,3077.2349999999997,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2011,Uttara Kannada,sugarcane,annual,5490.0,5509.99,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2011,Vijayapura,chickpea,rabi,194880.0,379.61999999999995,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,groundnut,kharif,68430.0,658.19,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,jowar,kharif,6440.0,2071.43,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,jowar,rabi,272250.0,948.21,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,maize,kharif,164190.0,3191.79,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,sugarcane,annual,267140.0,8459.03,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,sunflower,kharif,110510.0,491.5400000000001,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2011,Vijayapura,tur,kharif,109530.0,348.76,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Ballari,chickpea,rabi,60890.0,749.88,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,groundnut,kharif,60120.0,709.41,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,jowar,kharif,13930.0,1281.41,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,jowar,rabi,24060.0,1239.4,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,maize,kharif,109120.0,2332.02,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,paddy,kharif,109150.0,5329.095,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,ragi,kharif,4170.0,508.38999999999993,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,sugarcane,annual,5660.0,8549.47,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,sunflower,kharif,38870.0,541.03,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Ballari,tur,kharif,5130.0,350.88,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2012,Belagavi,chickpea,rabi,41760.0,512.21,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,groundnut,kharif,37430.0,791.61,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,jowar,kharif,25220.0,1124.5,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,jowar,rabi,95730.0,781.99,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,maize,kharif,133170.0,2649.47,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,paddy,kharif,63700.0,2238.93,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,ragi,kharif,900.0,744.44,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,sugarcane,annual,168130.0,8264.91,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,sunflower,kharif,13450.0,563.57,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Belagavi,tur,kharif,2310.0,506.48999999999995,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2012,Bengaluru Urban,groundnut,kharif,3800.0,736.84,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,jowar,kharif,750.0,1226.67,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,maize,kharif,14870.0,3264.29,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,paddy,kharif,8920.0,3842.49,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,ragi,kharif,124960.0,2167.89,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,sugarcane,annual,730.0,9260.27,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Bengaluru Urban,tur,kharif,5400.0,590.74,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2012,Chikkamagaluru,chickpea,rabi,8310.0,624.55,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,groundnut,kharif,4610.0,568.33,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,jowar,kharif,1940.0,556.7,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,jowar,rabi,6980.0,560.17,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,maize,kharif,17390.0,2077.63,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,paddy,kharif,37990.0,3453.6749999999997,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,ragi,kharif,38660.0,975.6899999999999,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,sugarcane,annual,1530.0,5614.38,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,sunflower,kharif,3750.0,293.33,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chikkamagaluru,tur,kharif,500.0,700.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2012,Chitradurga,chickpea,rabi,24530.0,470.85,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,groundnut,kharif,97500.0,700.92,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,jowar,kharif,13320.0,1539.79,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,jowar,rabi,22140.0,936.77,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,maize,kharif,286040.0,2593.73,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,paddy,kharif,120430.0,4924.6050000000005,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,ragi,kharif,59660.0,1130.57,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,sugarcane,annual,4400.0,10995.45,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,sunflower,kharif,61250.0,548.41,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Chitradurga,tur,kharif,14280.0,608.54,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2012,Dakshina Kannada,groundnut,kharif,1870.0,1508.02,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2012,Dakshina Kannada,paddy,kharif,105810.0,3811.455,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2012,Dharwad,chickpea,rabi,171450.0,362.67,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,groundnut,kharif,68730.0,653.86,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,jowar,kharif,13980.0,947.78,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,jowar,rabi,162740.0,562.37,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,maize,kharif,240360.0,2087.04,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,paddy,kharif,79780.0,1404.48,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,sugarcane,annual,11780.0,6797.11,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,sunflower,kharif,79790.0,413.34,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Dharwad,tur,kharif,5000.0,390.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2012,Hassan,chickpea,rabi,1290.0,503.87999999999994,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,groundnut,kharif,660.0,666.67,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,jowar,kharif,2530.0,478.26,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,maize,kharif,70130.0,2645.52,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,paddy,kharif,49290.0,3279.975000000001,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,ragi,kharif,74480.0,972.8800000000001,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,sugarcane,annual,2430.0,7497.94,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,sunflower,kharif,1140.0,324.56,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Hassan,tur,kharif,1830.0,333.33000000000004,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2012,Kodagu,maize,kharif,3910.0,4478.26,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2012,Kodagu,paddy,kharif,31370.0,3719.1599999999994,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2012,Kolar,groundnut,kharif,32600.0,524.23,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,jowar,kharif,2770.0,1227.44,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,maize,kharif,61530.0,2791.32,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,paddy,kharif,7200.0,3700.005,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,ragi,kharif,104990.0,2216.97,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,sunflower,kharif,950.0,1252.63,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Kolar,tur,kharif,9630.0,688.47,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2012,Mandya,groundnut,kharif,1450.0,531.03,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,jowar,kharif,840.0,1226.19,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,maize,kharif,4310.0,1791.18,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,paddy,kharif,49950.0,4674.4800000000005,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,ragi,kharif,47280.0,1606.81,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,sugarcane,annual,28750.0,12065.39,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mandya,tur,kharif,1750.0,302.86,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2012,Mysuru,chickpea,rabi,10150.0,287.68,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,groundnut,kharif,11060.0,484.63,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,jowar,kharif,29150.0,338.59,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,jowar,rabi,1090.0,192.66,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,maize,kharif,75070.0,2664.18,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,paddy,kharif,102100.0,4776.345,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,ragi,kharif,46570.0,1307.06,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,sugarcane,annual,14100.0,7847.52,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,sunflower,kharif,10860.0,168.51,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Mysuru,tur,kharif,5720.0,774.4800000000001,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2012,Shimoga,groundnut,kharif,680.0,720.59,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,maize,kharif,69530.0,4131.17,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,paddy,kharif,123310.0,4000.8900000000003,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,ragi,kharif,1070.0,1663.55,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,sugarcane,annual,3940.0,11408.63,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,sunflower,kharif,1390.0,1820.14,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Shimoga,tur,kharif,670.0,701.49,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2012,Tumakuru,groundnut,kharif,83980.0,298.05,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,jowar,rabi,3330.0,1024.02,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,maize,kharif,25250.0,2316.04,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,paddy,kharif,14890.0,3799.8599999999997,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,ragi,kharif,142000.0,1067.46,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,sugarcane,annual,1750.0,8440.0,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,sunflower,kharif,1780.0,893.26,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Tumakuru,tur,kharif,10990.0,282.07,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2012,Uttara Kannada,groundnut,kharif,2400.0,1558.33,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2012,Uttara Kannada,maize,kharif,4510.0,5494.46,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2012,Uttara Kannada,paddy,kharif,74280.0,3030.495,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2012,Uttara Kannada,sugarcane,annual,3080.0,10636.36,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2012,Vijayapura,chickpea,rabi,255620.0,511.78,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,groundnut,kharif,67590.0,818.02,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,jowar,kharif,1710.0,1836.26,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,jowar,rabi,350800.0,1159.72,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,maize,kharif,140720.0,2884.74,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,sugarcane,annual,128740.00000000001,8354.05,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,sunflower,kharif,115270.0,471.68,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2012,Vijayapura,tur,kharif,87150.0,584.05,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Ballari,chickpea,rabi,53820.0,858.79,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,groundnut,kharif,53750.0,1206.14,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,jowar,kharif,31440.0,1770.67,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,jowar,rabi,20160.0,1261.41,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,maize,kharif,84630.0,2766.51,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,paddy,kharif,110550.0,5680.049999999999,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,ragi,kharif,3860.0,810.88,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,sugarcane,annual,6000.0,8080.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,sunflower,kharif,21530.0,683.23,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Ballari,tur,kharif,3330.0,483.48,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2013,Belagavi,chickpea,rabi,64069.99999999999,495.86,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,groundnut,kharif,39520.0,992.1599999999999,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,jowar,kharif,27980.0,1187.63,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,jowar,rabi,97770.0,923.6,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,maize,kharif,157640.0,3148.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,paddy,kharif,58670.0,3166.185,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,ragi,kharif,1220.0,909.84,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,sugarcane,annual,159440.0,9025.15,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,sunflower,kharif,10680.0,663.86,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Belagavi,tur,kharif,3830.0,430.81,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2013,Bengaluru Urban,groundnut,kharif,5960.0,1270.13,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Bengaluru Urban,jowar,kharif,850.0,1423.53,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Bengaluru Urban,maize,kharif,16730.0,3176.93,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Bengaluru Urban,paddy,kharif,7750.0,4172.91,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Bengaluru Urban,ragi,kharif,134160.0,2638.19,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Bengaluru Urban,tur,kharif,7310.0,875.51,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2013,Chikkamagaluru,chickpea,rabi,8280.0,780.19,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,groundnut,kharif,6260.0,760.38,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,jowar,kharif,1410.0,815.6,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,jowar,rabi,6730.0,728.08,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,maize,kharif,28080.0,2591.1700000000005,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,paddy,kharif,41050.0,4096.2300000000005,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,ragi,kharif,38550.0,1084.82,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,sugarcane,annual,1550.0,5683.87,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chikkamagaluru,sunflower,kharif,4070.0000000000005,429.98,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2013,Chitradurga,chickpea,rabi,24840.0,484.7,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,groundnut,kharif,128070.0,759.74,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,jowar,kharif,12480.0,1968.75,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,jowar,rabi,11670.0,757.5,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,maize,kharif,287500.0,3111.9,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,paddy,kharif,129789.99999999999,5273.865,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,ragi,kharif,57840.0,1313.97,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,sugarcane,annual,6900.0,11495.65,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,sunflower,kharif,20650.0,554.0,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Chitradurga,tur,kharif,17110.0,783.17,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2013,Dakshina Kannada,groundnut,kharif,1840.0,1885.87,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2013,Dakshina Kannada,paddy,kharif,106930.0,4043.25,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2013,Dharwad,chickpea,rabi,139320.0,635.87,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,groundnut,kharif,104000.0,976.25,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,jowar,kharif,14510.0,1367.3300000000002,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,jowar,rabi,119650.0,787.96,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,maize,kharif,263570.0,3105.85,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,paddy,kharif,73730.0,3165.0,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,sugarcane,annual,12010.0,10114.07,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,sunflower,kharif,55670.0,578.95,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Dharwad,tur,kharif,6170.0,620.75,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2013,Hassan,chickpea,rabi,1880.0,585.11,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,groundnut,kharif,1030.0,844.66,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,jowar,kharif,2340.0,675.21,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,maize,kharif,70020.0,3287.63,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,paddy,kharif,51800.0,4592.37,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,ragi,kharif,76420.0,1761.45,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,sugarcane,annual,1460.0,8376.71,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,sunflower,kharif,650.0,415.38,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Hassan,tur,kharif,2020.0,430.69,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2013,Kodagu,maize,kharif,2100.0,3861.9,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2013,Kodagu,paddy,kharif,32030.0,4318.29,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2013,Kolar,groundnut,kharif,25530.0,927.14,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Kolar,jowar,kharif,6130.0,1422.5100000000002,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Kolar,maize,kharif,59440.0,3592.19,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Kolar,paddy,kharif,4080.0,3488.9700000000003,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Kolar,ragi,kharif,102960.0,2226.3,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Kolar,tur,kharif,7500.0,790.67,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2013,Mandya,groundnut,kharif,1300.0,792.31,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,jowar,kharif,870.0,1425.29,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,maize,kharif,3170.0,3438.49,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,paddy,kharif,65620.0,5238.12,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,ragi,kharif,49980.0,1946.38,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,sugarcane,annual,19460.0,12826.31,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mandya,tur,kharif,1230.0,292.68,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2013,Mysuru,chickpea,rabi,4220.0,552.13,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,groundnut,kharif,18090.0,860.7,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,jowar,kharif,18760.0,947.7600000000001,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,maize,kharif,73680.0,3349.35,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,paddy,kharif,117830.0,5187.179999999999,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,ragi,kharif,51280.0,1675.51,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,sugarcane,annual,11050.0,8809.05,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,sunflower,kharif,8770.0,537.06,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Mysuru,tur,kharif,4880.0,545.08,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2013,Shimoga,maize,kharif,65440.0,2923.9,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2013,Shimoga,paddy,kharif,124620.0,4583.655,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2013,Shimoga,ragi,kharif,680.0,1676.47,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2013,Shimoga,sugarcane,annual,4920.0,9585.37,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2013,Shimoga,sunflower,kharif,920.0,2163.04,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2013,Tumakuru,groundnut,kharif,71870.0,505.36,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,jowar,kharif,1720.0,575.58,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,maize,kharif,25470.0,2131.53,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,paddy,kharif,13040.0,4427.535,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,ragi,kharif,154290.0,1515.07,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,sugarcane,annual,1560.0,7865.39,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,sunflower,kharif,1240.0,661.29,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Tumakuru,tur,kharif,10970.0,386.51,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2013,Uttara Kannada,groundnut,kharif,2380.0,1739.5,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2013,Uttara Kannada,maize,kharif,5910.0,2847.72,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2013,Uttara Kannada,paddy,kharif,69970.0,3651.285,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2013,Uttara Kannada,sugarcane,annual,5320.0,7890.979999999999,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2013,Vijayapura,chickpea,rabi,228660.0,665.44,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,groundnut,kharif,62580.0,853.15,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,jowar,kharif,2710.0,1756.4600000000003,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,jowar,rabi,279390.0,1104.26,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,maize,kharif,156530.0,3520.09,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,sugarcane,annual,131850.0,9449.3,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,sunflower,kharif,107600.0,545.26,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2013,Vijayapura,tur,kharif,184700.0,934.98,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Ballari,chickpea,rabi,67270.0,510.48,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,groundnut,kharif,54810.0,973.54,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,jowar,kharif,21320.0,1885.55,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,jowar,rabi,18270.0,1488.23,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,maize,kharif,99850.0,2616.73,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,paddy,kharif,118640.0,5160.1050000000005,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,ragi,kharif,3150.0,790.48,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,sugarcane,annual,3410.0,10249.27,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,sunflower,kharif,25990.0,608.31,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Ballari,tur,kharif,3430.0,384.84,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2014,Belagavi,chickpea,rabi,78640.0,622.2,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,groundnut,kharif,37730.0,916.78,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,jowar,kharif,20220.0,1374.38,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,jowar,rabi,103880.0,1102.71,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,maize,kharif,156720.0,3704.3100000000004,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,paddy,kharif,59940.0,4421.67,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,ragi,kharif,1130.0,1212.39,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,sugarcane,annual,180570.0,9025.03,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,sunflower,kharif,15450.0,648.54,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Belagavi,tur,kharif,2870.0,808.36,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2014,Bengaluru Urban,groundnut,kharif,4070.0000000000005,1132.68,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,jowar,kharif,540.0,1370.37,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,maize,kharif,18080.0,3196.35,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,paddy,kharif,6840.0,4024.125,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,ragi,kharif,129509.99999999999,2285.77,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,sugarcane,annual,1030.0,6553.4,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Bengaluru Urban,tur,kharif,6110.0,762.68,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2014,Chikkamagaluru,chickpea,rabi,9300.0,918.28,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,groundnut,kharif,4850.0,806.19,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,jowar,kharif,2060.0,868.93,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,jowar,rabi,8600.0,847.67,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,maize,kharif,23590.0,2577.36,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,paddy,kharif,40340.0,3915.4649999999997,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,ragi,kharif,44120.0,1188.58,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,sugarcane,annual,1390.0,9510.79,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,sunflower,kharif,3250.0,452.31,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chikkamagaluru,tur,kharif,550.0,654.55,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2014,Chitradurga,chickpea,rabi,34800.0,669.25,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,groundnut,kharif,138150.0,713.21,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,jowar,kharif,9740.0,2176.59,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,jowar,rabi,15690.0,992.99,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,maize,kharif,273460.0,3091.17,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,paddy,kharif,138710.0,5451.945,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,ragi,kharif,69190.0,1588.24,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,sugarcane,annual,9520.0,12828.78,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,sunflower,kharif,19750.0,631.9,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Chitradurga,tur,kharif,13130.0,1022.85,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2014,Dakshina Kannada,groundnut,kharif,1800.0,2027.78,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2014,Dakshina Kannada,paddy,kharif,101900.0,3979.635,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2014,Dharwad,chickpea,rabi,136570.0,704.25,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,groundnut,kharif,88160.0,917.88,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,jowar,kharif,8480.0,1349.06,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,jowar,rabi,127520.0,997.57,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,maize,kharif,237140.0,2787.59,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,paddy,kharif,68900.0,3425.6099999999997,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,sugarcane,annual,20900.0,9246.89,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,sunflower,kharif,49830.0,551.88,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Dharwad,tur,kharif,4560.0,730.26,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2014,Hassan,chickpea,rabi,1850.0,1027.03,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,groundnut,kharif,810.0,740.74,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,jowar,kharif,1130.0,849.56,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,maize,kharif,83440.0,3874.4,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,paddy,kharif,48070.0,4564.905,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,ragi,kharif,74380.0,2097.07,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,sugarcane,annual,1570.0,10910.830000000002,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,sunflower,kharif,910.0,758.24,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Hassan,tur,kharif,2360.0,1453.39,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2014,Kodagu,maize,kharif,3520.0,5090.91,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2014,Kodagu,paddy,kharif,30960.0,4210.275,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2014,Kolar,groundnut,kharif,31430.0,482.02,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Kolar,jowar,kharif,830.0,1385.54,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Kolar,maize,kharif,65700.0,2033.33,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Kolar,paddy,kharif,1150.0,3652.17,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Kolar,ragi,kharif,99530.0,1412.2399999999998,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Kolar,tur,kharif,8080.0,836.63,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2014,Mandya,groundnut,kharif,1180.0,694.92,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,jowar,kharif,1290.0,1387.6,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,maize,kharif,4490.0,3993.32,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,paddy,kharif,66520.0,5535.03,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,ragi,kharif,59360.0,1804.25,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,sugarcane,annual,21590.0,11780.92,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mandya,tur,kharif,1070.0,299.07,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2014,Mysuru,chickpea,rabi,5020.0,639.44,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,groundnut,kharif,15950.0,700.94,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,jowar,kharif,19480.0,722.28,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,maize,kharif,71430.0,3811.56,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,paddy,kharif,117040.0,5062.365,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,ragi,kharif,55720.0,1930.55,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,sugarcane,annual,7670.0,8774.45,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,sunflower,kharif,9840.0,309.96,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Mysuru,tur,kharif,3750.0,557.33,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2014,Shimoga,maize,kharif,58980.0,3580.87,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2014,Shimoga,paddy,kharif,121870.0,4554.15,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2014,Shimoga,ragi,kharif,560.0,1857.14,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2014,Shimoga,sugarcane,annual,3940.0,9974.62,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2014,Shimoga,sunflower,kharif,570.0,2070.18,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2014,Tumakuru,chickpea,rabi,1890.0,719.5800000000002,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,groundnut,kharif,88010.0,505.17,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,jowar,rabi,2040.0,1318.63,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,maize,kharif,28200.0,2391.49,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,paddy,kharif,9510.0,4247.64,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,ragi,kharif,171530.0,1891.62,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,sugarcane,annual,1670.0,10449.1,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,sunflower,kharif,1470.0,714.2900000000001,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Tumakuru,tur,kharif,10040.0,233.07,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2014,Uttara Kannada,groundnut,kharif,2100.0,1866.67,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2014,Uttara Kannada,maize,kharif,6290.0,3815.58,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2014,Uttara Kannada,paddy,kharif,68510.0,3343.305,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2014,Uttara Kannada,sugarcane,annual,6210.0,7785.83,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2014,Vijayapura,chickpea,rabi,262890.0,512.23,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,groundnut,kharif,68690.0,808.56,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,jowar,kharif,970.0,1536.08,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,jowar,rabi,249640.0,949.41,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,maize,kharif,134090.0,3475.87,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,sugarcane,annual,142730.0,9912.84,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,sunflower,kharif,100370.0,535.52,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2014,Vijayapura,tur,kharif,193460.0,607.1,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Ballari,chickpea,rabi,75360.0,645.97,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,groundnut,kharif,49760.0,936.0899999999999,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,jowar,kharif,17110.0,1636.47,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,jowar,rabi,33130.0,1757.32,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,maize,kharif,99740.0,2640.16,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,paddy,kharif,93670.0,5467.71,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,ragi,kharif,3130.0,664.54,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,sugarcane,annual,7840.0,10260.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,sunflower,kharif,18800.0,507.45,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Ballari,tur,kharif,2930.0,354.95,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2015,Belagavi,chickpea,rabi,104260.0,298.29,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,groundnut,kharif,37420.0,570.28,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,jowar,kharif,18500.0,761.08,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,jowar,rabi,145220.0,571.55,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,maize,kharif,131160.0,2147.38,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,paddy,kharif,61230.0,999.51,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,sugarcane,annual,175780.0,8265.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,sunflower,kharif,23980.0,392.83000000000004,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Belagavi,tur,kharif,5080.0,224.41,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2015,Bengaluru Urban,groundnut,kharif,3560.0,1412.92,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Bengaluru Urban,maize,kharif,17990.0,2867.15,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Bengaluru Urban,paddy,kharif,5970.0,3678.3900000000003,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Bengaluru Urban,ragi,kharif,128970.0,1966.89,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Bengaluru Urban,sugarcane,annual,500.0,9201.2,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Bengaluru Urban,tur,kharif,5440.0,637.87,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2015,Chikkamagaluru,chickpea,rabi,13250.0,1206.79,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,groundnut,kharif,5850.0,656.41,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,jowar,kharif,1330.0,699.25,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,jowar,rabi,8430.0,957.3,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,maize,kharif,25830.0,2387.53,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,paddy,kharif,33040.0,4009.68,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,ragi,kharif,43660.0,1393.72,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,sugarcane,annual,1110.0,6269.99,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,sunflower,kharif,5090.0,308.45,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chikkamagaluru,tur,kharif,750.0,373.33,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2015,Chitradurga,chickpea,rabi,41610.0,629.42,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,groundnut,kharif,111990.0,717.7399999999999,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,jowar,kharif,12620.0,1719.49,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,jowar,rabi,10980.0,923.5,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,maize,kharif,265590.0,3011.48,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,paddy,kharif,99560.0,5598.03,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,ragi,kharif,63670.0,1556.78,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,sugarcane,annual,4450.0,12822.88,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,sunflower,kharif,23950.0,543.22,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Chitradurga,tur,kharif,17960.0,831.85,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2015,Dakshina Kannada,groundnut,kharif,1820.0,2175.82,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2015,Dakshina Kannada,paddy,kharif,98300.0,3866.13,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2015,Dharwad,chickpea,rabi,203610.0,256.03,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,groundnut,kharif,95110.0,565.24,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,jowar,kharif,5780.0,775.09,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,jowar,rabi,132840.0,506.16999999999996,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,maize,kharif,235760.0,2154.56,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,paddy,kharif,70590.0,1435.83,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,sugarcane,annual,22990.0,8316.55,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,sunflower,kharif,46540.0,343.58,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Dharwad,tur,kharif,4390.0,316.63,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2015,Hassan,chickpea,rabi,3590.0,632.31,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,groundnut,kharif,860.0,686.05,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,jowar,kharif,960.0,604.17,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,maize,kharif,79060.0,3163.67,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,paddy,kharif,42820.0,4101.36,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,ragi,kharif,69660.0,1573.07,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,sugarcane,annual,690.0,14249.930000000002,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,sunflower,kharif,880.0,579.55,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Hassan,tur,kharif,1920.0,515.63,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2015,Kodagu,maize,kharif,3450.0,4484.06,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2015,Kodagu,paddy,kharif,28340.0,4048.5150000000003,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2015,Kolar,groundnut,kharif,28150.0,804.62,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Kolar,jowar,kharif,1750.0,1142.86,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Kolar,maize,kharif,60020.0,3350.72,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Kolar,paddy,kharif,1730.0,3667.635,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Kolar,ragi,kharif,105320.0,1434.58,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Kolar,tur,kharif,10320.0,542.64,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2015,Mandya,groundnut,kharif,1360.0,823.5300000000001,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,jowar,kharif,1010.0,1138.61,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,maize,kharif,4890.0,3509.2,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,paddy,kharif,58490.0,5497.86,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,ragi,kharif,61090.0,1835.49,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,sugarcane,annual,27780.0,11020.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mandya,tur,kharif,1250.0,368.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2015,Mysuru,chickpea,rabi,4250.0,632.94,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,groundnut,kharif,14570.0,761.84,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,jowar,kharif,16500.0,765.45,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,maize,kharif,75770.0,3578.3300000000004,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,paddy,kharif,107400.0,5112.99,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,ragi,kharif,66800.0,1874.25,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,sugarcane,annual,9160.0,9549.28,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,sunflower,kharif,9850.0,343.15,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Mysuru,tur,kharif,3310.0,398.79,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2015,Shimoga,maize,kharif,51300.0,3957.12,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2015,Shimoga,paddy,kharif,110030.0,3909.2999999999993,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2015,Shimoga,ragi,kharif,1310.0,1694.66,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2015,Shimoga,sugarcane,annual,3980.0,9024.99,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2015,Shimoga,sunflower,kharif,650.0,1784.62,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2015,Tumakuru,chickpea,rabi,1540.0,136.36,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,groundnut,kharif,64890.0,687.16,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,maize,kharif,24210.0,2584.06,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,paddy,kharif,10380.0,4226.88,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,ragi,kharif,161630.0,1684.4,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,sunflower,kharif,510.0,666.67,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Tumakuru,tur,kharif,9820.0,344.2,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2015,Uttara Kannada,groundnut,kharif,1950.0,1528.21,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2015,Uttara Kannada,maize,kharif,5230.0,4508.6,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2015,Uttara Kannada,paddy,kharif,67340.0,2486.79,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2015,Uttara Kannada,sugarcane,annual,6540.0,7315.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2015,Vijayapura,chickpea,rabi,455090.0,307.59,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,groundnut,kharif,51110.0,652.91,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,jowar,kharif,1460.0,1164.38,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,jowar,rabi,286140.0,664.29,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,maize,kharif,84510.0,2673.06,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,sugarcane,annual,137930.0,8145.45,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,sunflower,kharif,74570.0,343.03,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2015,Vijayapura,tur,kharif,140250.0,291.19,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Ballari,chickpea,rabi,9470.0,278.37,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,groundnut,kharif,36380.0,1174.7,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,jowar,kharif,17060.0,2037.76,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,jowar,rabi,14990.0,617.37,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,maize,kharif,95100.0,2634.99,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,paddy,kharif,87010.0,5823.51,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,ragi,kharif,2380.0,1070.62,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,sugarcane,annual,6990.0,7315.0,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,sunflower,kharif,13770.0,673.54,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Ballari,tur,kharif,11950.0,588.98,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2016,Belagavi,chickpea,rabi,102640.0,503.5,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,groundnut,kharif,35360.0,980.32,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,jowar,kharif,25620.0,1455.39,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,jowar,rabi,106440.0,751.73,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,maize,kharif,165600.0,3132.11,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,paddy,kharif,65590.0,2830.2599999999998,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,ragi,kharif,1200.0,1324.98,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,sugarcane,annual,163510.0,6555.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,sunflower,kharif,9770.0,618.9,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Belagavi,tur,kharif,9900.0,737.24,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2016,Bengaluru Urban,groundnut,kharif,2690.0,1030.44,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2016,Bengaluru Urban,maize,kharif,14630.0,2353.77,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2016,Bengaluru Urban,paddy,kharif,4960.0,2800.32,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2016,Bengaluru Urban,ragi,kharif,119050.0,830.24,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2016,Bengaluru Urban,tur,kharif,5370.0,777.65,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2016,Chikkamagaluru,chickpea,rabi,3970.0,252.77,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,groundnut,kharif,4770.0,686.37,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,jowar,kharif,750.0,198.66,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,jowar,rabi,3800.0,584.32,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,maize,kharif,28470.0,3521.6600000000003,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,paddy,kharif,29930.0,3600.4800000000005,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,ragi,kharif,41200.0,595.66,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,sugarcane,annual,1040.0,6935.0,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,sunflower,kharif,3800.0,842.73,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chikkamagaluru,tur,kharif,780.0,998.7199999999999,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2016,Chitradurga,chickpea,rabi,6020.0,113.21,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,groundnut,kharif,143250.0,271.14,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,jowar,kharif,7510.0,1457.33,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,jowar,rabi,3700.0,1123.51,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,maize,kharif,292830.0,1678.73,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,paddy,kharif,78720.0,4806.555,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,ragi,kharif,65019.99999999999,770.25,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,sugarcane,annual,3850.0,10729.07,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,sunflower,kharif,7420.0,322.91,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Chitradurga,tur,kharif,36370.0,393.04,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2016,Dakshina Kannada,groundnut,kharif,1670.0,2401.67,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2016,Dakshina Kannada,paddy,kharif,87130.0,4252.7699999999995,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2016,Dharwad,chickpea,rabi,186750.0,139.3,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,groundnut,kharif,99760.0,597.95,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,jowar,kharif,6290.0,857.87,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,jowar,rabi,150260.0,270.09,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,maize,kharif,275800.0,2325.56,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,paddy,kharif,59820.0,1423.32,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,sugarcane,annual,17810.0,7698.66,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,sunflower,kharif,37270.0,220.21,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Dharwad,tur,kharif,8370.0,554.09,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2016,Hassan,chickpea,rabi,1290.0,96.67,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,groundnut,kharif,650.0,768.16,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,maize,kharif,90140.0,2300.98,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,paddy,kharif,26100.0,3059.145,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,ragi,kharif,64140.0,708.27,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,sugarcane,annual,830.0,7029.939999999999,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Hassan,tur,kharif,1770.0,522.6,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2016,Kodagu,maize,kharif,3860.0,5537.55,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2016,Kodagu,paddy,kharif,27930.0,3647.115,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2016,Kolar,groundnut,kharif,35420.0,371.3,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Kolar,jowar,kharif,1270.0,1163.78,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Kolar,maize,kharif,53310.0,1646.85,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Kolar,paddy,kharif,2640.0,3344.58,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Kolar,ragi,kharif,102420.0,645.64,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Kolar,tur,kharif,16710.0,356.18,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2016,Mandya,groundnut,kharif,710.0,45.01,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mandya,maize,kharif,3810.0,1093.13,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mandya,paddy,kharif,43660.0,3905.19,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mandya,ragi,kharif,38030.0,1207.94,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mandya,sugarcane,annual,17630.0,12445.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mandya,tur,kharif,890.0,340.09,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2016,Mysuru,chickpea,rabi,850.0,227.97,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,groundnut,kharif,11780.0,243.34,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,jowar,kharif,20690.0,768.03,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,maize,kharif,63190.0,2004.53,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,paddy,kharif,72460.0,4239.345,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,ragi,kharif,22510.0,817.38,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,sugarcane,annual,5210.0,8881.58,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,sunflower,kharif,10500.0,323.94,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Mysuru,tur,kharif,3720.0,308.54,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2016,Shimoga,maize,kharif,52780.0,3368.74,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2016,Shimoga,paddy,kharif,104440.0,3139.425,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2016,Shimoga,ragi,kharif,950.0,1324.95,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2016,Shimoga,sugarcane,annual,2450.0,8644.99,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2016,Tumakuru,groundnut,kharif,93250.0,335.15,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Tumakuru,maize,kharif,28420.0,1659.9899999999998,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Tumakuru,paddy,kharif,10760.0,3652.32,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Tumakuru,ragi,kharif,141570.0,963.78,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Tumakuru,sugarcane,annual,740.0,9025.03,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Tumakuru,tur,kharif,14140.0,212.77,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2016,Uttara Kannada,groundnut,kharif,1710.0,2049.18,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2016,Uttara Kannada,maize,kharif,5660.0,5424.58,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2016,Uttara Kannada,paddy,kharif,66670.0,2944.29,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2016,Uttara Kannada,sugarcane,annual,5940.0,6270.0,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2016,Vijayapura,chickpea,rabi,263770.0,469.7,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,groundnut,kharif,69980.0,922.85,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,jowar,kharif,970.0,1715.17,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,jowar,rabi,193160.0,718.94,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,maize,kharif,128669.99999999999,3734.72,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,sugarcane,annual,123490.0,7111.6,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,sunflower,kharif,56280.0,584.61,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2016,Vijayapura,tur,kharif,426190.0,843.65,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Ballari,chickpea,rabi,26860.0,989.91,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,groundnut,kharif,60420.0,1491.96,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,jowar,kharif,11270.0,2520.32,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,jowar,rabi,28040.0,2084.26,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,maize,kharif,97820.0,3849.4200000000005,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,paddy,kharif,101930.0,5714.61,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,ragi,kharif,11000.0,1383.84,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,sugarcane,annual,4410.0,8455.01,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,sunflower,kharif,8039.999999999999,1282.21,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Ballari,tur,kharif,9360.0,821.75,Northern Dry Zone,Black cotton,7.1,250,18,337,0.6,580
+ICRISAT,2017,Belagavi,chickpea,rabi,112240.0,745.75,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,groundnut,kharif,32630.000000000004,1223.77,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,jowar,kharif,12630.0,2339.83,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,jowar,rabi,132370.0,1160.19,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,maize,kharif,141200.0,4413.1,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,paddy,kharif,64580.0,3451.935,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,sugarcane,annual,208730.0,9880.0,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,sunflower,kharif,7790.0,1162.97,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Belagavi,tur,kharif,6280.0,681.11,Northern Dry Zone,Clay loam,7.0,253,18,325,0.61,1000
+ICRISAT,2017,Bengaluru Urban,groundnut,kharif,1710.0,1177.5,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2017,Bengaluru Urban,maize,kharif,12760.0,4801.21,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2017,Bengaluru Urban,paddy,kharif,5240.0,4425.8550000000005,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2017,Bengaluru Urban,ragi,kharif,125460.0,2410.8,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2017,Bengaluru Urban,tur,kharif,5320.0,775.54,Eastern Dry Zone,Red loamy,6.0,266,14,238,0.64,900
+ICRISAT,2017,Chikkamagaluru,chickpea,rabi,11270.0,723.88,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,groundnut,kharif,4220.0,1021.8300000000002,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,jowar,rabi,12740.0,881.62,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,maize,kharif,15290.0,2957.35,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,paddy,kharif,26900.0,3604.29,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,ragi,kharif,52120.0,1370.85,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,sugarcane,annual,940.0,7410.03,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,sunflower,kharif,650.0,638.04,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chikkamagaluru,tur,kharif,510.0,948.92,Central Dry Zone,Red sandy loam,6.4,258,15,267,0.61,1900
+ICRISAT,2017,Chitradurga,chickpea,rabi,38170.0,710.75,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,groundnut,kharif,108390.0,1106.5,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,jowar,kharif,9820.0,1591.67,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,jowar,rabi,14190.0,871.93,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,maize,kharif,270300.0,4256.05,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,paddy,kharif,65990.0,5644.1849999999995,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,ragi,kharif,73390.0,1870.6199999999997,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,sugarcane,annual,3800.0,10829.23,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,sunflower,kharif,4080.0,833.78,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Chitradurga,tur,kharif,21480.0,863.04,Central Dry Zone,Clay loam,6.8,248,17,307,0.57,580
+ICRISAT,2017,Dakshina Kannada,groundnut,kharif,1770.0,2329.2,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2017,Dakshina Kannada,paddy,kharif,80260.0,4357.11,Coastal Zone,Laterite,6.0,276,14,240,0.68,3900
+ICRISAT,2017,Dharwad,chickpea,rabi,237580.0,493.85,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,groundnut,kharif,78400.0,984.45,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,jowar,kharif,4940.0,1354.85,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,jowar,rabi,165030.0,701.61,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,maize,kharif,251610.0,3932.23,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,paddy,kharif,52590.0,2135.25,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,sugarcane,annual,22510.0,8297.89,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,sunflower,kharif,36590.0,597.09,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Dharwad,tur,kharif,5470.0,686.03,Northern Dry Zone,Clay loam,7.0,256,19,328,0.6,800
+ICRISAT,2017,Hassan,chickpea,rabi,1180.0,758.71,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,groundnut,kharif,720.0,709.14,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,jowar,kharif,1030.0,1655.98,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,maize,kharif,82850.0,6371.48,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,paddy,kharif,21630.0,4861.799999999999,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,ragi,kharif,94630.0,2560.25,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,sugarcane,annual,2170.0,12730.02,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Hassan,tur,kharif,1620.0,784.83,Southern Dry Zone,Red loamy,6.4,264,16,270,0.61,1000
+ICRISAT,2017,Kodagu,maize,kharif,3560.0,7516.3,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2017,Kodagu,paddy,kharif,27170.0,3547.425,Hilly Zone,Laterite,6.0,269,14,237,0.65,2700
+ICRISAT,2017,Kolar,groundnut,kharif,24170.0,1350.66,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2017,Kolar,maize,kharif,59610.0,4448.56,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2017,Kolar,paddy,kharif,1690.0,4850.325000000001,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2017,Kolar,ragi,kharif,115080.0,2546.9,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2017,Kolar,tur,kharif,13020.0,1062.07,Eastern Dry Zone,Red sandy loam,6.0,271,14,235,0.65,740
+ICRISAT,2017,Mandya,groundnut,kharif,550.0,845.87,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mandya,maize,kharif,10290.0,3077.18,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mandya,paddy,kharif,33850.0,4453.6050000000005,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mandya,ragi,kharif,83790.0,1678.8199999999997,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mandya,sugarcane,annual,20940.0,11210.0,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mandya,tur,kharif,1050.0,645.04,Southern Dry Zone,Red sandy loam,6.4,261,16,270,0.62,700
+ICRISAT,2017,Mysuru,chickpea,rabi,3100.0,764.42,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,groundnut,kharif,8780.0,1170.1,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,jowar,kharif,29250.0,802.78,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,maize,kharif,78600.0,4205.46,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,paddy,kharif,68140.0,4638.885,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,ragi,kharif,76140.0,1789.0200000000002,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,sugarcane,annual,10940.0,11488.57,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,sunflower,kharif,8590.0,737.69,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Mysuru,tur,kharif,2810.0,806.6200000000001,Southern Dry Zone,Red loamy,6.4,263,16,274,0.6,800
+ICRISAT,2017,Shimoga,maize,kharif,71210.0,5045.43,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2017,Shimoga,paddy,kharif,93520.0,3770.9549999999995,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2017,Shimoga,ragi,kharif,1050.0,1839.35,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2017,Shimoga,sugarcane,annual,1270.0,8835.02,Hilly Zone,Laterite,6.0,269,14,239,0.65,1800
+ICRISAT,2017,Tumakuru,groundnut,kharif,55300.0,788.33,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Tumakuru,maize,kharif,20120.0,2928.44,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Tumakuru,paddy,kharif,4860.0,3793.5299999999993,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Tumakuru,ragi,kharif,144550.0,1569.33,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Tumakuru,sugarcane,annual,920.0,9405.02,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Tumakuru,tur,kharif,10960.0,262.15,Eastern Dry Zone,Red sandy loam,6.5,255,16,284,0.6,700
+ICRISAT,2017,Uttara Kannada,groundnut,kharif,1680.0,2111.11,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2017,Uttara Kannada,maize,kharif,9870.0,5450.75,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2017,Uttara Kannada,paddy,kharif,62870.0,2964.18,Coastal Zone,Laterite,6.0,274,14,240,0.66,3000
+ICRISAT,2017,Vijayapura,chickpea,rabi,354620.0,725.92,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,groundnut,kharif,76210.0,1038.85,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,jowar,rabi,256579.99999999997,1046.43,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,maize,kharif,113440.0,4083.32,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,sugarcane,annual,104120.0,8226.66,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,sunflower,kharif,50410.0,1004.68,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570
+ICRISAT,2017,Vijayapura,tur,kharif,285570.0,614.96,Northern Dry Zone,Clay loam,7.0,256,18,337,0.6,570

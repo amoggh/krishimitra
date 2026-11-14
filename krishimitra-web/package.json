@@ -1,0 +1,15 @@
+{
+  "name": "krishimitra-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5173",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "cd server && python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload --reload-dir app",
+    "test:server": "cd server && python -m pytest -q"
+  },
+  "dependencies": { "react": "18.3.1", "react-dom": "18.3.1" },
+  "devDependencies": { "@vitejs/plugin-react": "4.3.4", "vite": "5.4.11" }
+}
