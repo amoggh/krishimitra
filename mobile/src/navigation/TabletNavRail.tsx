@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
-import { Home, Sprout, TrendingUp, ScanLine, User } from "lucide-react-native";
+import { Home, Sprout, TrendingUp, ScanLine, Bot, User } from "lucide-react-native";
 import { colors, shadows } from "@/theme/tokens";
 
 export type TabletNavRailProps = {
@@ -15,6 +15,7 @@ const RAIL_ITEMS = [
   { key: "Plan", label: "Plan", icon: Sprout, route: "Plan" },
   { key: "Market", label: "Market", icon: TrendingUp, route: "Market" },
   { key: "Disease", label: "Scan", icon: ScanLine, route: "DiseaseDetection", isStack: true },
+  { key: "Chatbot", label: "Krishi AI", icon: Bot, route: "Chatbot", isStack: true },
   { key: "Profile", label: "Profile", icon: User, route: "Profile" },
 ];
 

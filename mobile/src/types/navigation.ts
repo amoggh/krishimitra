@@ -29,6 +29,9 @@ export type RootStackParamList = {
     state?: string;
     district?: string;
   } | undefined;
+  Chatbot: {
+    initialPrompt?: string;
+  } | undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

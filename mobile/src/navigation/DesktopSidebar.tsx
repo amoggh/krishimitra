@@ -11,6 +11,7 @@ import {
   HelpCircle,
   Settings,
   ShieldCheck,
+  Bot,
 } from "lucide-react-native";
 import { colors, radii, shadows } from "@/theme/tokens";
 import { useActiveDistrict } from "@/services/locationState";
@@ -28,6 +29,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: "Plan", label: "Crop Planning", icon: Sprout, route: "Plan" },
   { key: "Market", label: "Mandi Insights", icon: TrendingUp, route: "Market" },
   { key: "Disease", label: "Plant Disease AI", icon: ScanLine, route: "DiseaseDetection", isStack: true },
+  { key: "Chatbot", label: "Krishi AI Advisor", icon: Bot, route: "Chatbot", isStack: true },
   { key: "Profile", label: "Farmer Profile", icon: User, route: "Profile" },
 ];
 

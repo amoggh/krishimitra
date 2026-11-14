@@ -6,3 +6,4 @@ export * from "./marketService";
 export * from "./riskService";
 export * from "./diseaseService";
 export * from "./weatherService";
+export * from "./chatService";

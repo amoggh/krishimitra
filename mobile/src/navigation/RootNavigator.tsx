@@ -8,6 +8,7 @@ import { RecommendationsScreen } from "@/screens/main/RecommendationsScreen";
 import { RiskAnalysisScreen } from "@/screens/main/RiskAnalysisScreen";
 import { SettingsScreen } from "@/screens/main/SettingsScreen";
 import { DiseaseDetectionScreen } from "@/screens/main/DiseaseDetectionScreen";
+import { ChatbotScreen } from "@/screens/main/ChatbotScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,7 @@ export function RootNavigator() {
       <Stack.Screen name="Recommendations" component={RecommendationsScreen} />
       <Stack.Screen name="RiskAnalysis" component={RiskAnalysisScreen} />
       <Stack.Screen name="DiseaseDetection" component={DiseaseDetectionScreen} />
+      <Stack.Screen name="Chatbot" component={ChatbotScreen} />
       <Stack.Screen
         name="Settings"
         component={SettingsScreen}

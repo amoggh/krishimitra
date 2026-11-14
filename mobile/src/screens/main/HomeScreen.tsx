@@ -200,7 +200,7 @@ export function HomeScreen({ navigation }: Props) {
   const handleNavigatePlan = () => navigation.getParent()?.navigate("FarmInput");
   const handleNavigateDisease = () => navigation.getParent()?.navigate("DiseaseDetection");
   const handleNavigateMarket = () => navigation.navigate("Market");
-  const handleNavigateAssistant = () => navigation.navigate("Plan");
+  const handleNavigateAssistant = () => navigation.getParent()?.navigate("Chatbot");
   const handleNavigateProfile = () => navigation.navigate("Profile");
   const handleViewFullPlan = () => {
     navigation.getParent()?.navigate("Recommendations", { result: recommendation });
