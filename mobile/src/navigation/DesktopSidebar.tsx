@@ -15,6 +15,7 @@ import {
 } from "lucide-react-native";
 import { colors, radii, shadows } from "@/theme/tokens";
 import { useActiveDistrict } from "@/services/locationState";
+import { useFarms } from "@/services/farmProfileService";
 
 export type NavItem = {
   key: string;
@@ -44,19 +45,21 @@ export type DesktopSidebarProps = {
 export function DesktopSidebar({
   currentRoute,
   onNavigate,
-  farmerName = "Ramesh Patel",
+  farmerName = "Ravi Kumar",
   totalAcres = 5.0,
   className = "",
 }: DesktopSidebarProps) {
   const { district } = useActiveDistrict();
-  const effectiveDistrict = district || "Mandya";
+  const { activeFarm } = useFarms();
+  const effectiveDistrict = activeFarm?.district || district || "Shivamogga";
+  const effectiveAcres = Number(activeFarm?.acres) || totalAcres;
 
   const initials = farmerName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase() || "RP";
+    .toUpperCase() || "RK";
 
   return (
     <View
@@ -140,12 +143,17 @@ export function DesktopSidebar({
 
       {/* Footer Area: Location Indicator & Profile Summary */}
       <View className="border-t border-[#183B2B]/15 p-4">
-        {/* Active District Pill */}
+        {/* Active District & Farm Pill */}
         <View className="mb-3 flex-row items-center gap-2 rounded-xl bg-cream px-3 py-2 border border-[#183B2B]/15 shadow-xs">
-          <MapPin size={13} color={colors.primary} />
-          <Text className="font-sans text-[11px] text-ink-muted">
-            Location: <Text className="font-sans-bold text-ink">{effectiveDistrict}</Text>
-          </Text>
+          <MapPin size={14} color={colors.primary} />
+          <View className="flex-1">
+            <Text className="font-sans text-[10px] text-ink-muted" numberOfLines={1}>
+              {activeFarm?.name || "Active Farm"}
+            </Text>
+            <Text className="font-sans-bold text-[11px] text-ink">
+              {effectiveDistrict} · {effectiveAcres.toFixed(1)} ac
+            </Text>
+          </View>
         </View>
 
         {/* Profile User Card */}

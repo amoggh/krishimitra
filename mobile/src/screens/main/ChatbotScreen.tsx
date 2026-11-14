@@ -23,6 +23,7 @@ import {
 import type { RootStackScreenProps } from "@/types/navigation";
 import { colors, radii, shadows } from "@/theme/tokens";
 import { useActiveDistrict } from "@/services/locationState";
+import { useFarms } from "@/services/farmProfileService";
 import {
   sendChatMessage,
   type ChatMessage,
@@ -49,23 +50,30 @@ const DEFAULT_SUGGESTIONS = [
 
 export function ChatbotScreen({ navigation, route }: Props) {
   const { district, profile } = useActiveDistrict();
-  const effectiveDistrict = district || "Mandya";
+  const { activeFarm } = useFarms();
+  const effectiveDistrict = activeFarm?.district || district || "Shivamogga";
 
-  // Build farm context from active profile
+  // Build farm context from active farm & profile
   const farmContext: FarmContext = useMemo(() => {
+    const crops =
+      activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0
+        ? activeFarm.allocatedCrops.map((c) => c.crop)
+        : profile?.primary_crops || ["Arecanut", "Paddy", "Maize"];
+
     return {
       district: effectiveDistrict,
       location: effectiveDistrict,
       state: "Karnataka",
-      soil_type: profile?.soil?.type || "Red Sandy Loam",
-      current_crops: profile?.primary_crops || ["Ragi", "Maize", "Groundnut"],
+      soil_type: activeFarm?.soilType || activeFarm?.soil_type || profile?.soil?.type || "Red Sandy Loam",
+      total_acres: Number(activeFarm?.acres) || 10.0,
+      current_crops: crops,
       recent_weather: {
         temp_c: profile?.weather?.temp_c ?? 28,
         condition: profile?.weather?.condition ?? "Partly Cloudy",
         humidity_pct: profile?.weather?.rain_chance_pct ? 65 : 45,
       },
     };
-  }, [effectiveDistrict, profile]);
+  }, [effectiveDistrict, activeFarm, profile]);
 
   const [messages, setMessages] = useState<DisplayMessage[]>([
     {
@@ -247,7 +255,7 @@ export function ChatbotScreen({ navigation, route }: Props) {
         <View className="flex-row items-center gap-2 flex-1">
           <Sprout size={16} color={colors.primary} />
           <Text className="text-xs text-forest font-medium" numberOfLines={1}>
-            Farm: {effectiveDistrict} • {farmContext.soil_type} • {farmContext.current_crops?.slice(0, 2).join(", ")}
+            Farm: {activeFarm?.name ? `${activeFarm.name} (${effectiveDistrict})` : effectiveDistrict} • {farmContext.total_acres} ac • {farmContext.current_crops?.slice(0, 2).join(", ")}
           </Text>
         </View>
         <Text className="text-[11px] text-textMuted font-medium">Context Active</Text>

@@ -19,10 +19,12 @@ import {
   RecommendationHeroCard,
   MarketIntelligenceSection,
   FarmInsightsSection,
+  FarmSelectorModal,
 } from "@/components/home";
 import { getDashboard, getMandiPrices, getLiveWeather, type ExtendedWeatherData } from "@/services/api";
 import { useSavedPlans } from "@/services/savedPlansService";
 import { useActiveDistrict } from "@/services/locationState";
+import { useFarms } from "@/services/farmProfileService";
 import { getDistrictProfile } from "@/constants/districtProfiles";
 import { mockDashboard, mockRecommendation } from "@/data/mockData";
 import { useResponsive, useReducedMotion } from "@/theme/responsive";
@@ -39,12 +41,14 @@ export function HomeScreen({ navigation }: Props) {
 
   const { activePlan, plans: savedPlans } = useSavedPlans();
   const { district: activeDistrict } = useActiveDistrict();
+  const { farms, activeFarm, defaultFarm, setActiveFarm, setDefaultFarm, addFarm } = useFarms();
 
   const [mandiPrices, setMandiPrices] = useState<MandiPrice[]>([]);
   const [loadingMandi, setLoadingMandi] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [showFarmModal, setShowFarmModal] = useState(false);
 
   // 1. Fetch initial dashboard data
   const loadDashboardData = () => {
@@ -75,7 +79,7 @@ export function HomeScreen({ navigation }: Props) {
   const planTitle = currentPlan?.title;
 
   // 3. Resolve location and profile dynamically
-  const effectiveDistrict = currentPlan?.district || activeDistrict || "Mandya";
+  const effectiveDistrict = activeFarm?.district || currentPlan?.district || activeDistrict || "Shivamogga";
   const profile = getDistrictProfile(effectiveDistrict);
 
   // Live real-time weather fetched from API (OpenWeather / WeatherAPI / Open-Meteo)
@@ -119,8 +123,11 @@ export function HomeScreen({ navigation }: Props) {
 
   // 4. Recommended crops for price filtering
   const recommendedCrops = useMemo(() => {
-    return recommendation.recommendations?.map((r) => r.crop) || ["ragi", "maize"];
-  }, [recommendation]);
+    if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
+      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase());
+    }
+    return recommendation.recommendations?.map((r) => r.crop) || ["arecanut", "paddy"];
+  }, [activeFarm, recommendation]);
   const recommendedCropsKey = recommendedCrops.join(",");
 
   // 5. Fetch mandi prices matching district and crops
@@ -186,15 +193,21 @@ export function HomeScreen({ navigation }: Props) {
   }, [reduceMotion]);
 
   const totalAcres =
-    currentPlan?.totalAcres ?? recommendation.total_land_acres ?? dashboard.farmer.acres;
+    activeFarm?.acres ?? currentPlan?.totalAcres ?? recommendation.total_land_acres ?? dashboard.farmer.acres;
 
   // Active crops for the farm overview card
   const activeCropsList = useMemo(() => {
+    if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
+      return activeFarm.allocatedCrops.map((c) => ({
+        name: c.crop,
+        acres: c.acres,
+      }));
+    }
     return (recommendation.recommendations || []).map((r) => ({
       name: r.crop.charAt(0).toUpperCase() + r.crop.slice(1),
       acres: r.area_acres,
     }));
-  }, [recommendation]);
+  }, [activeFarm, recommendation]);
 
   // Navigation handlers
   const handleNavigatePlan = () => navigation.getParent()?.navigate("FarmInput");
@@ -254,6 +267,9 @@ export function HomeScreen({ navigation }: Props) {
         onProfilePress={handleNavigateProfile}
         onNotificationPress={handleNotificationPress}
         hasNotification={true}
+        farmName={activeFarm?.name}
+        isDefaultFarm={Boolean(activeFarm?.isDefault || activeFarm?.is_default)}
+        onOpenFarmSelector={() => setShowFarmModal(true)}
       />
 
       <ScrollView
@@ -285,7 +301,7 @@ export function HomeScreen({ navigation }: Props) {
                   activeCrops={activeCropsList}
                   latitude={profile.coordinates.lat}
                   longitude={profile.coordinates.lon}
-                  soilType={profile.soil.type}
+                  soilType={activeFarm?.soilType || activeFarm?.soil_type || profile.soil.type}
                   soilPh={profile.soil.ph}
                   waterBudgetMm={profile.water_budget_litres_per_acre}
                 />
@@ -306,7 +322,7 @@ export function HomeScreen({ navigation }: Props) {
                 <FarmInsightsSection
                   weather={activeWeather}
                   mandiPrices={mandiPrices}
-                  soilType={profile.soil.type}
+                  soilType={activeFarm?.soilType || activeFarm?.soil_type || profile.soil.type}
                   soilPh={profile.soil.ph}
                   waterBudgetMm={seasonalWaterBudgetMm}
                   waterLitresPerAcre={profile.water_budget_litres_per_acre}
@@ -485,6 +501,17 @@ export function HomeScreen({ navigation }: Props) {
           </Pressable>
         </Pressable>
       </Modal>
+
+      {/* ── Multi-Farm / District Selector Modal ── */}
+      <FarmSelectorModal
+        visible={showFarmModal}
+        onClose={() => setShowFarmModal(false)}
+        farms={farms}
+        activeFarm={activeFarm}
+        onSelectFarm={setActiveFarm}
+        onSetDefaultFarm={setDefaultFarm}
+        onAddFarm={addFarm}
+      />
     </View>
   );
 }

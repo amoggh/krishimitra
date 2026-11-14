@@ -7,4 +7,5 @@ export * from "./QuickActions";
 export * from "./RecentRecommendationCard";
 export * from "./SummaryCards";
 export * from "./WeatherWidget";
+export * from "./FarmSelectorModal";
 

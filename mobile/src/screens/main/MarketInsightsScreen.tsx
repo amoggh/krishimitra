@@ -7,6 +7,7 @@ import { PriceTrendChart } from "@/components/charts/PriceTrendChart";
 import { getMandiPrices } from "@/services/api";
 import { useActiveDistrict } from "@/services/locationState";
 import { useSavedPlans } from "@/services/savedPlansService";
+import { useFarms } from "@/services/farmProfileService";
 import { mockMandiPrices } from "@/data/mockData";
 import { colors } from "@/theme/tokens";
 import type { MandiPrice } from "@/types/api";
@@ -28,18 +29,22 @@ const COMMON_CROP_TAGS = [
 export function MarketInsightsScreen(_props: Props) {
   const { district: activeDistrict } = useActiveDistrict();
   const { activePlan } = useSavedPlans();
-  const effectiveDistrict = activePlan?.district || activeDistrict || "Mandya";
+  const { activeFarm, saveFarmMandiPrices } = useFarms();
+  const effectiveDistrict = activeFarm?.district || activePlan?.district || activeDistrict || "Shivamogga";
 
   const [prices, setPrices] = useState<MandiPrice[]>(mockMandiPrices);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
   const [loading, setLoading] = useState(false);
 
-  // Extract recommended crops from the current saved plan
+  // Extract recommended crops from active farm or current saved plan
   const recommendedCrops = useMemo(() => {
+    if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
+      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase());
+    }
     if (!activePlan?.result?.recommendations) return [];
     return activePlan.result.recommendations.map((r) => r.crop.toLowerCase());
-  }, [activePlan]);
+  }, [activeFarm, activePlan]);
 
   // Fetch mandi prices for the district and specific crop filter
   const fetchPrices = useCallback(
@@ -56,6 +61,9 @@ export function MarketInsightsScreen(_props: Props) {
         .then((data) => {
           if (data && data.length > 0) {
             setPrices(data);
+            if (activeFarm) {
+              saveFarmMandiPrices(activeFarm.id, data);
+            }
           } else {
             setPrices(mockMandiPrices);
           }

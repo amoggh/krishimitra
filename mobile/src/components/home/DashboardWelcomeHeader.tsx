@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Bell, MapPin, Calendar, CloudSun, Sun, CloudRain } from "lucide-react-native";
+import { Bell, MapPin, Calendar, CloudSun, Sun, CloudRain, ChevronDown, Star } from "lucide-react-native";
 import { CircularIconButton, SearchBar } from "@/components/ui";
 import { useResponsive } from "@/theme/responsive";
 import { colors } from "@/theme/tokens";
@@ -18,6 +18,9 @@ export type DashboardWelcomeHeaderProps = {
   onProfilePress?: () => void;
   onNotificationPress?: () => void;
   hasNotification?: boolean;
+  farmName?: string;
+  isDefaultFarm?: boolean;
+  onOpenFarmSelector?: () => void;
 };
 
 function getGreeting(): string {
@@ -56,18 +59,21 @@ export function DashboardWelcomeHeader({
   onProfilePress,
   onNotificationPress,
   hasNotification = true,
+  farmName,
+  isDefaultFarm = false,
+  onOpenFarmSelector,
 }: DashboardWelcomeHeaderProps) {
   const { isDesktop, isTablet, contentMaxWidth } = useResponsive();
   const greeting = getGreeting();
   const dateStr = getFormattedDate();
 
-  // Extract initials from name e.g. "Ramesh Patel" -> "RP"
+  // Extract initials from name e.g. "Ravi Kumar" -> "RK"
   const initials = farmerName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase() || "RP";
+    .toUpperCase() || "RK";
 
   const safeTemp = typeof tempC === "number" ? Number(tempC.toFixed(1)) : 28;
 
@@ -147,13 +153,27 @@ export function DashboardWelcomeHeader({
           </View>
         ) : null}
 
-        {/* Quick Location & Weather Status Pill */}
-        <View className="mb-1 flex-row items-center justify-between rounded-full bg-white/12 px-4 py-2 backdrop-blur-md border border-white/25 shadow-xs">
+        {/* Quick Location & Weather Status Pill — Interactive Farm / District Selector */}
+        <Pressable
+          onPress={onOpenFarmSelector}
+          accessibilityRole="button"
+          accessibilityLabel="Switch farm or district"
+          className="mb-1 flex-row items-center justify-between rounded-full bg-white/12 px-4 py-2 backdrop-blur-md border border-white/25 shadow-xs active:bg-white/20 cursor-pointer"
+        >
           <View className="flex-row items-center gap-1.5 flex-1 pr-2">
-            <MapPin size={12} color="rgba(255, 255, 255, 0.9)" />
+            <MapPin size={13} color="rgba(255, 255, 255, 0.95)" />
             <Text className="font-sans-bold text-[11px] text-white/95" numberOfLines={1}>
-              {location} · {totalAcres.toFixed(1)} acres
+              {farmName ? `${farmName} (${location})` : location} · {totalAcres.toFixed(1)} acres
             </Text>
+
+            {isDefaultFarm && (
+              <View className="bg-gold px-1.5 py-0.5 rounded-full flex-row items-center gap-0.5 ml-1 shadow-xs">
+                <Star size={9} color="#183B2B" fill="#183B2B" />
+                <Text className="text-[9px] font-sans-extrabold text-[#183B2B]">Default</Text>
+              </View>
+            )}
+
+            <ChevronDown size={13} color="rgba(255, 255, 255, 0.85)" />
           </View>
 
           <View className="flex-row items-center gap-1.5">
@@ -165,7 +185,7 @@ export function DashboardWelcomeHeader({
               {weatherCondition}
             </Text>
           </View>
-        </View>
+        </Pressable>
       </SafeAreaView>
     </LinearGradient>
   );

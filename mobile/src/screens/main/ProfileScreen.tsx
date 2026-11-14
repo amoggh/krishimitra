@@ -1,14 +1,22 @@
+import React, { useState } from "react";
 import { Alert, Platform, Pressable, Text, View } from "react-native";
+import { Star, Check, Plus, Sprout, MapPin } from "lucide-react-native";
 import type { MainTabScreenProps } from "@/types/navigation";
 import { Card, GradientHeader, ScreenContainer, SectionTitle } from "@/components/ui";
 import { mockDashboard } from "@/data/mockData";
 import { formatTimeAgo, useSavedPlans, type SavedPlan } from "@/services/savedPlansService";
+import { useFarms } from "@/services/farmProfileService";
+import { FarmSelectorModal } from "@/components/home/FarmSelectorModal";
 
 type Props = MainTabScreenProps<"Profile">;
 
 export function ProfileScreen({ navigation }: Props) {
   const farmer = mockDashboard.farmer;
   const { plans, activePlan, setActivePlan, removePlan, sharePlan } = useSavedPlans();
+  const { farms, activeFarm, setActiveFarm, setDefaultFarm, addFarm } = useFarms();
+  const [showAddFarmModal, setShowAddFarmModal] = useState(false);
+
+  const totalAllAcres = farms.reduce((acc, f) => acc + (Number(f.acres) || 0), 0);
 
   const handleOpenPlan = (plan: SavedPlan) => {
     // Navigate to RecommendationsScreen with this plan's result
@@ -42,20 +50,106 @@ export function ProfileScreen({ navigation }: Props) {
     }
   };
 
+  const farmerInitials = farmer.name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() || "RK";
+
   return (
     <View className="flex-1 bg-cream">
       <GradientHeader>
         <View className="mb-2 h-16 w-16 items-center justify-center rounded-full bg-earth-soft">
-          <Text className="font-sans-extrabold text-2xl text-white">RP</Text>
+          <Text className="font-sans-extrabold text-2xl text-white">{farmerInitials}</Text>
         </View>
         <Text className="font-sans-extrabold text-xl text-white">{farmer.name}</Text>
         <Text className="text-sm text-white/90">{farmer.phone}</Text>
         <Text className="text-xs text-white/75">
-          {farmer.acres} acres · {farmer.location}
+          {farms.length} Allocated Farms · {totalAllAcres.toFixed(1)} Total Acres · Default: {farms.find(f => f.isDefault || f.is_default)?.district || "Shivamogga"}
         </Text>
       </GradientHeader>
 
       <ScreenContainer safe={false} className="px-4">
+        {/* ── Allocated Farms & Districts Section ── */}
+        <View className="mb-1 flex-row items-center justify-between">
+          <SectionTitle>Allocated Farms ({farms.length})</SectionTitle>
+          <Pressable
+            onPress={() => setShowAddFarmModal(true)}
+            className="rounded-full bg-forest/10 px-2.5 py-1 flex-row items-center gap-1 active:opacity-75"
+          >
+            <Plus size={12} color="#145C3A" />
+            <Text className="font-sans-bold text-xs text-forest">Add farm</Text>
+          </Pressable>
+        </View>
+
+        {farms.map((farm) => {
+          const isActive = farm.id === activeFarm.id;
+          const isDefault = Boolean(farm.isDefault || farm.is_default);
+          const cropsList = farm.allocatedCrops || farm.allocated_crops || [];
+
+          return (
+            <Card key={farm.id} className={`mb-3 ${isActive ? "border-2 border-forest" : ""}`}>
+              <View className="flex-row items-start justify-between">
+                <View className="flex-1 pr-2">
+                  <View className="flex-row items-center gap-1.5 flex-wrap mb-1">
+                    <Text className="font-sans-bold text-sm text-ink">{farm.name}</Text>
+                    {isDefault && (
+                      <View className="bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-full flex-row items-center gap-1">
+                        <Star size={10} color="#b45309" fill="#b45309" />
+                        <Text className="text-[10px] font-sans-bold text-amber-800">Default Farm</Text>
+                      </View>
+                    )}
+                    {isActive && (
+                      <View className="bg-emerald-100 px-2 py-0.5 rounded-full">
+                        <Text className="text-[10px] font-sans-bold text-emerald-800">Active Now</Text>
+                      </View>
+                    )}
+                  </View>
+
+                  <Text className="text-xs text-ink-muted">
+                    📍 {farm.district}, Karnataka · {Number(farm.acres).toFixed(1)} acres · {farm.soilType || farm.soil_type}
+                  </Text>
+
+                  {cropsList.length > 0 && (
+                    <View className="flex-row items-center gap-1 mt-1.5 flex-wrap">
+                      <Sprout size={12} color="#145C3A" />
+                      <Text className="text-[11px] font-sans-semibold text-forest">
+                        Allocated: {cropsList.map((c) => `${c.crop} (${c.acres} ac)`).join(", ")}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View className="items-end gap-1.5">
+                  {!isActive ? (
+                    <Pressable
+                      onPress={() => setActiveFarm(farm.id)}
+                      className="bg-forest px-3 py-1 rounded-full active:opacity-80"
+                    >
+                      <Text className="text-[11px] font-sans-bold text-white">Select</Text>
+                    </Pressable>
+                  ) : (
+                    <View className="bg-forest/10 px-2 py-1 rounded-full flex-row items-center gap-1">
+                      <Check size={12} color="#145C3A" strokeWidth={3} />
+                      <Text className="text-[10px] font-sans-bold text-forest">Active</Text>
+                    </View>
+                  )}
+
+                  {!isDefault && (
+                    <Pressable
+                      onPress={() => setDefaultFarm(farm.id)}
+                      className="bg-cream-dark/50 px-2 py-0.5 rounded-md active:opacity-75"
+                    >
+                      <Text className="text-[10px] font-sans-bold text-ink-muted">Make Default</Text>
+                    </Pressable>
+                  )}
+                </View>
+              </View>
+            </Card>
+          );
+        })}
+
         {/* ── Saved Plans Section ── */}
         <View className="mb-1 flex-row items-center justify-between">
           <SectionTitle>Saved crop plans ({plans.length})</SectionTitle>
@@ -215,6 +309,17 @@ export function ProfileScreen({ navigation }: Props) {
           </Text>
         </Pressable>
       </ScreenContainer>
+
+      {/* ── Farm Selector / Add Modal ── */}
+      <FarmSelectorModal
+        visible={showAddFarmModal}
+        onClose={() => setShowAddFarmModal(false)}
+        farms={farms}
+        activeFarm={activeFarm}
+        onSelectFarm={setActiveFarm}
+        onSetDefaultFarm={setDefaultFarm}
+        onAddFarm={addFarm}
+      />
     </View>
   );
 }

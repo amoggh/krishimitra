@@ -14,7 +14,7 @@ def get_dashboard() -> dict:
     return {
         "farmer": {
             "id": "1",
-            "name": "Ramesh Patil",
+            "name": "Ravi Kumar",
             "phone": "+919876543210",
             "location": "Mandya, Karnataka",
             "acres": 5.0,

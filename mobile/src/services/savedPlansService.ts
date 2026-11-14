@@ -8,9 +8,11 @@ import {
   savePlanApi,
 } from "./api/farmService";
 import { setActiveDistrict } from "./locationState";
+import { getActiveFarm, saveFarmAllocations } from "./farmProfileService";
 
 export interface SavedPlan {
   id: string;
+  farmId?: string;
   title: string;
   subtitle: string;
   savedAt: string;
@@ -282,6 +284,17 @@ export async function savePlan(
   // Mark as the current active recommendation
   inMemoryActivePlanId = newPlan.id;
   writeActivePlanIdToStorage(newPlan.id);
+
+  // Also allocate crops to the currently active farm
+  const activeF = getActiveFarm();
+  if (activeF && result.recommendations && result.recommendations.length > 0) {
+    const allocated = result.recommendations.map((r) => ({
+      crop: r.crop.charAt(0).toUpperCase() + r.crop.slice(1),
+      acres: r.area_acres,
+      percentage: r.percentage_of_total,
+    }));
+    saveFarmAllocations(activeF.id, allocated, newPlan.id);
+  }
 
   notifyListeners();
   setActiveDistrict(newPlan.district);

@@ -22,7 +22,7 @@ const RAIL_ITEMS = [
 export function TabletNavRail({
   currentRoute,
   onNavigate,
-  farmerName = "RP",
+  farmerName = "Ravi Kumar",
   className = "",
 }: TabletNavRailProps) {
   const initials = farmerName
@@ -30,7 +30,7 @@ export function TabletNavRail({
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase() || "RP";
+    .toUpperCase() || "RK";
 
   return (
     <View
