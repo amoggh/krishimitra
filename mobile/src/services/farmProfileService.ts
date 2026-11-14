@@ -339,6 +339,19 @@ export function saveFarmAllocations(
  * Saves mandi prices specific to this farm's district and crops.
  */
 export function saveFarmMandiPrices(farmId: string, mandiPrices: any[]) {
+  const target = inMemoryFarms.find((f) => f.id === farmId);
+  if (!target || !Array.isArray(mandiPrices)) return;
+
+  // Prevent infinite loops if prices are already identical or empty
+  if (
+    Array.isArray(target.savedMandiPrices) &&
+    target.savedMandiPrices.length === mandiPrices.length &&
+    target.savedMandiPrices.length > 0 &&
+    target.savedMandiPrices[0]?.price_inr === mandiPrices[0]?.price_inr
+  ) {
+    return;
+  }
+
   inMemoryFarms = inMemoryFarms.map((f) => {
     if (f.id === farmId) {
       return {

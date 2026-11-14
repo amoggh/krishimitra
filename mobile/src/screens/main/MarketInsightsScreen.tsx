@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { Calendar, Clock, RefreshCw, TrendingUp, TrendingDown, Store } from "lucide-react-native";
 import type { MainTabScreenProps } from "@/types/navigation";
@@ -36,15 +36,20 @@ export function MarketInsightsScreen(_props: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
   const [loading, setLoading] = useState(false);
+  const lastSavedKeyRef = useRef<string>("");
 
-  // Extract recommended crops from active farm or current saved plan
-  const recommendedCrops = useMemo(() => {
+  // Stable string key of recommended crops to prevent object reference churn
+  const cropsKey = useMemo(() => {
     if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
-      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase());
+      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase()).join(",");
     }
-    if (!activePlan?.result?.recommendations) return [];
-    return activePlan.result.recommendations.map((r) => r.crop.toLowerCase());
-  }, [activeFarm, activePlan]);
+    if (!activePlan?.result?.recommendations) return "";
+    return activePlan.result.recommendations.map((r) => r.crop.toLowerCase()).join(",");
+  }, [activeFarm?.id, activeFarm?.allocatedCrops?.length, activePlan?.id]);
+
+  const recommendedCrops = useMemo(() => {
+    return cropsKey ? cropsKey.split(",") : [];
+  }, [cropsKey]);
 
   // Fetch mandi prices for the district and specific crop filter
   const fetchPrices = useCallback(
@@ -54,14 +59,16 @@ export function MarketInsightsScreen(_props: Props) {
         cropFilter === "All"
           ? undefined
           : cropFilter === "Recommended"
-          ? recommendedCrops.join(",")
+          ? cropsKey || undefined
           : cropFilter;
 
       getMandiPrices(effectiveDistrict, targetCrop, search)
         .then((data) => {
           if (data && data.length > 0) {
             setPrices(data);
-            if (activeFarm) {
+            const saveKey = `${activeFarm?.id || ""}_${effectiveDistrict}_${targetCrop || "all"}`;
+            if (activeFarm && lastSavedKeyRef.current !== saveKey) {
+              lastSavedKeyRef.current = saveKey;
               saveFarmMandiPrices(activeFarm.id, data);
             }
           } else {
@@ -75,7 +82,7 @@ export function MarketInsightsScreen(_props: Props) {
           setLoading(false);
         });
     },
-    [effectiveDistrict, recommendedCrops]
+    [effectiveDistrict, cropsKey, activeFarm?.id]
   );
 
   useEffect(() => {
