@@ -26,7 +26,7 @@ import { useSavedPlans } from "@/services/savedPlansService";
 import { useActiveDistrict } from "@/services/locationState";
 import { useFarms } from "@/services/farmProfileService";
 import { getDistrictProfile } from "@/constants/districtProfiles";
-import { mockDashboard, mockRecommendation } from "@/data/mockData";
+import { mockDashboard, mockRecommendation, mockMandiPrices } from "@/data/mockData";
 import { useResponsive, useReducedMotion } from "@/theme/responsive";
 import type { DashboardSummary, MandiPrice, RecommendationResult } from "@/types/api";
 import { colors } from "@/theme/tokens";
@@ -122,16 +122,25 @@ export function HomeScreen({ navigation }: Props) {
   }, [profile.water_budget_litres_per_acre]);
 
   // 4. Recommended crops for price filtering
-  const recommendedCrops = useMemo(() => {
+  const lastFetchedMandiKeyRef = useRef<string>("");
+
+  const recommendedCropsKey = useMemo(() => {
     if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
-      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase());
+      return activeFarm.allocatedCrops.map((c) => c.crop.toLowerCase()).join(",");
     }
-    return recommendation.recommendations?.map((r) => r.crop) || ["arecanut", "paddy"];
-  }, [activeFarm, recommendation]);
-  const recommendedCropsKey = recommendedCrops.join(",");
+    return (recommendation.recommendations?.map((r) => r.crop) || ["arecanut", "paddy"]).join(",");
+  }, [activeFarm?.id, activeFarm?.allocatedCrops?.length, currentPlan?.id]);
+
+  const recommendedCrops = useMemo(() => {
+    return recommendedCropsKey ? recommendedCropsKey.split(",") : ["arecanut", "paddy"];
+  }, [recommendedCropsKey]);
 
   // 5. Fetch mandi prices matching district and crops
   const loadMandiPrices = useCallback(() => {
+    const fetchKey = `${effectiveDistrict}__${recommendedCropsKey}`;
+    if (lastFetchedMandiKeyRef.current === fetchKey) return;
+    lastFetchedMandiKeyRef.current = fetchKey;
+
     setLoadingMandi(true);
     getMandiPrices(effectiveDistrict, recommendedCrops)
       .then((data) => {
@@ -139,7 +148,7 @@ export function HomeScreen({ navigation }: Props) {
           setMandiPrices(data);
         } else {
           // Fallback constructed from recommendation's actual price results
-          const fallbackList: MandiPrice[] = recommendation.recommendations.map((rec) => {
+          const fallbackList: MandiPrice[] = (recommendation.recommendations || []).map((rec) => {
             const p = rec.price_result?.expected_inr_per_quintal ?? 3200;
             return {
               crop: rec.crop.charAt(0).toUpperCase() + rec.crop.slice(1),
@@ -154,23 +163,12 @@ export function HomeScreen({ navigation }: Props) {
         }
       })
       .catch(() => {
-        const fallbackList: MandiPrice[] = recommendation.recommendations.map((rec) => {
-          const p = rec.price_result?.expected_inr_per_quintal ?? 3200;
-          return {
-            crop: rec.crop.charAt(0).toUpperCase() + rec.crop.slice(1),
-            mandi: `${effectiveDistrict} APMC`,
-            price_inr: p,
-            change_pct: 1.8,
-            updated_at: "Local Index",
-            trend_7d: [p * 0.96, p * 0.98, p * 0.97, p * 1.01, p * 0.99, p * 1.02, p],
-          };
-        });
-        setMandiPrices(fallbackList);
+        setMandiPrices(mockMandiPrices);
       })
       .finally(() => {
         setLoadingMandi(false);
       });
-  }, [effectiveDistrict, recommendedCropsKey, recommendation]);
+  }, [effectiveDistrict, recommendedCropsKey]);
 
   useEffect(() => {
     loadMandiPrices();

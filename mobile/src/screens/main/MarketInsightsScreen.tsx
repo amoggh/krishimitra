@@ -66,11 +66,6 @@ export function MarketInsightsScreen(_props: Props) {
         .then((data) => {
           if (data && data.length > 0) {
             setPrices(data);
-            const saveKey = `${activeFarm?.id || ""}_${effectiveDistrict}_${targetCrop || "all"}`;
-            if (activeFarm && lastSavedKeyRef.current !== saveKey) {
-              lastSavedKeyRef.current = saveKey;
-              saveFarmMandiPrices(activeFarm.id, data);
-            }
           } else {
             setPrices(mockMandiPrices);
           }
@@ -82,7 +77,7 @@ export function MarketInsightsScreen(_props: Props) {
           setLoading(false);
         });
     },
-    [effectiveDistrict, cropsKey, activeFarm?.id]
+    [effectiveDistrict, cropsKey]
   );
 
   useEffect(() => {

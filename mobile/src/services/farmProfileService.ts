@@ -338,35 +338,18 @@ export function saveFarmAllocations(
 /**
  * Saves mandi prices specific to this farm's district and crops.
  */
+/**
+ * Saves mandi prices specific to this farm's district and crops.
+ * Kept purely in local cache without notifying listeners or making PUT requests
+ * to avoid circular network re-render cascades.
+ */
 export function saveFarmMandiPrices(farmId: string, mandiPrices: any[]) {
   const target = inMemoryFarms.find((f) => f.id === farmId);
-  if (!target || !Array.isArray(mandiPrices)) return;
+  if (!target || !Array.isArray(mandiPrices) || mandiPrices.length === 0) return;
 
-  // Prevent infinite loops if prices are already identical or empty
-  if (
-    Array.isArray(target.savedMandiPrices) &&
-    target.savedMandiPrices.length === mandiPrices.length &&
-    target.savedMandiPrices.length > 0 &&
-    target.savedMandiPrices[0]?.price_inr === mandiPrices[0]?.price_inr
-  ) {
-    return;
-  }
-
-  inMemoryFarms = inMemoryFarms.map((f) => {
-    if (f.id === farmId) {
-      return {
-        ...f,
-        savedMandiPrices: mandiPrices,
-        saved_mandi_prices: mandiPrices,
-      };
-    }
-    return f;
-  });
-
+  target.savedMandiPrices = mandiPrices;
+  target.saved_mandi_prices = mandiPrices;
   writeStorageFarms(inMemoryFarms);
-  notifyListeners();
-
-  updateFarmApi(farmId, { saved_mandi_prices: mandiPrices }).catch(() => {});
 }
 
 /**
