@@ -307,7 +307,16 @@ def filter_crops(
     available_water_mm = water_budget.total_available_mm_mid
     soil_ph = farmer_input.soil.ph if farmer_input.soil else None
 
+    # Crops with a real 2021-22 record of being grown in this district
+    k21 = karnataka_2021_df if karnataka_2021_df is not None else load_karnataka_2021_data()
+    district_grown: set[str] = set()
+    if k21 is not None and not k21.empty:
+        rows = k21[(k21["district"] == normalize_district(farmer_input.district)) & (k21["area_ha"] > 0)]
+        district_grown = set(rows["crop"].dropna())
+
     results: list[CropCompatibilityResult] = []
+    # Season is a hard constraint: the safety net below must never re-admit these
+    season_failed: set[str] = set()
 
     for crop in candidates:
         failed_constraints: list[str] = []
@@ -321,6 +330,7 @@ def filter_crops(
             failed_constraints.append(
                 f"{crop} is primarily grown during {valid_list}, not in {farmer_input.season.capitalize()}."
             )
+            season_failed.add(crop)
         else:
             reasons.append(f"Suitable for {farmer_input.season.capitalize()} season.")
 
@@ -340,9 +350,19 @@ def filter_crops(
                 f"({available_water_mm:.0f} mm); allocation will be restricted to a smaller plot."
             )
             reasons.append(f"Water requirement ({water_req_mm:.0f} mm) can be supported on partial acreage.")
+        elif available_water_mm > 0 and water_req_mm > available_water_mm:
+            reasons.append(
+                f"Water requirement ({water_req_mm:.0f} mm) is slightly above the farm-wide budget "
+                f"({available_water_mm:.0f} mm); its area is sized so the pump can supply it."
+            )
+        elif available_water_mm > 0 and water_req_mm > 0.85 * available_water_mm:
+            reasons.append(
+                f"Water requirement ({water_req_mm:.0f} mm) is within the available budget "
+                f"({available_water_mm:.0f} mm), with little margin."
+            )
         else:
             reasons.append(
-                f"Water requirement ({water_req_mm:.0f} mm) fits well within available water budget ({available_water_mm:.0f} mm)."
+                f"Water requirement ({water_req_mm:.0f} mm) fits within the available budget ({available_water_mm:.0f} mm)."
             )
 
         # 3. Soil pH Constraint (if provided)
@@ -362,8 +382,14 @@ def filter_crops(
             else:
                 warnings.append(f"Soil pH {soil_ph:.1f} is slightly outside ideal range ({min_ph}–{max_ph}).")
 
-        # District presence reason
-        reasons.append(f"Documented cultivation history in {farmer_input.district} district.")
+        # District presence reason — only claim history when the 2021-22 records show it
+        if crop in district_grown:
+            reasons.append(f"Grown in {farmer_input.district} district (2021-22 crop records).")
+        else:
+            reasons.append(
+                f"Common {farmer_input.season.capitalize()} crop in Karnataka; no 2021-22 record of it "
+                f"being grown in {farmer_input.district}."
+            )
 
         # Determine overall compatibility
         compatible = len(failed_constraints) == 0
@@ -391,11 +417,8 @@ def filter_crops(
     # always receives a viable plan.
     compatible_count = sum(1 for r in results if r.compatible)
     if compatible_count == 0 and results:
-        season_matched = [
-            r for r in results
-            if not any("Season mismatch" in f for f in r.failed_constraints)
-        ]
-        pool = season_matched if season_matched else results
+        # Only crops that failed on water/soil may be promoted — never season failures
+        pool = [r for r in results if r.crop not in season_failed]
         pool.sort(key=lambda r: CROP_WATER_REQUIREMENTS_MM.get(r.crop, 500.0))
         for r in pool[:3]:
             r.compatible = True

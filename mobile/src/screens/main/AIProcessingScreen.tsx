@@ -35,7 +35,12 @@ export function AIProcessingScreen({ navigation, route }: Props) {
       try {
         // Direct call — synchronous backend response
         const result = await getCropRecommendation(route.params.farmInput);
-        if (result && result.recommendations && result.recommendations.length > 0) {
+        // A deliberate "no plan" (e.g. not enough water) is a real answer, not a failure
+        const isRealAnswer =
+          result &&
+          ((result.recommendations && result.recommendations.length > 0) ||
+            result.status === "no_recommendation");
+        if (isRealAnswer) {
           setTimeout(() => {
             navigation.replace("Recommendations", { result });
           }, 1200);

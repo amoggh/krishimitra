@@ -24,7 +24,7 @@ import argparse
 import sys
 import warnings
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 warnings.filterwarnings("ignore")
 
@@ -203,58 +203,76 @@ def get_crop_validation_stats(
     actual_yield = get_actual_yield_stats(c_crop, c_dist, c_season)
     actual_price = get_actual_price_stats(c_crop, c_dist)
 
-    # Yield verification
+    # Yield verification — "verified" only when real records exist AND the
+    # prediction lies inside the observed range. No records → not verified.
+    ay_med: Optional[float] = None
+    y_range: Optional[str] = None
+    y_dev: Optional[float] = None
+    y_ok = False
     if actual_yield["records_found"] > 0:
         ay_med = actual_yield["median"]
         ay_min = actual_yield["min"]
         ay_max = actual_yield["max"]
         y_range = f"{ay_min:.2f} – {ay_max:.2f} t/ha"
-        y_dev = round(((pred_yield_t_ha - ay_med) / ay_med) * 100.0, 1) if pred_yield_t_ha else 0.0
-        in_range = (ay_min <= pred_yield_t_ha <= ay_max) if pred_yield_t_ha else True
-        y_verdict = "Verified in Historical Range" if in_range else "Consistent with Regional Records"
+        if pred_yield_t_ha:
+            y_dev = round(((pred_yield_t_ha - ay_med) / ay_med) * 100.0, 1)
+            y_ok = ay_min <= pred_yield_t_ha <= ay_max
+            y_verdict = (
+                "Within historical range" if y_ok
+                else f"Outside historical range ({y_dev:+.0f}% vs median)"
+            )
+        else:
+            y_verdict = "No yield prediction to check"
         y_sources = actual_yield["sources"]
         y_count = actual_yield["records_found"]
     else:
-        ay_med = pred_yield_t_ha or 2.5
-        ay_min = round(ay_med * 0.80, 2)
-        ay_max = round(ay_med * 1.25, 2)
-        y_range = f"{ay_min:.2f} – {ay_max:.2f} t/ha"
-        y_dev = 0.0
-        y_verdict = "Verified with Karnataka Directorate of Agriculture Benchmark"
-        y_sources = ["Karnataka Directorate of Agriculture State Statistics"]
-        y_count = 1
+        y_verdict = "No historical yield records found — estimate not verified"
+        y_sources = []
+        y_count = 0
 
     # Price verification
+    ap_med: Optional[float] = None
+    p_range: Optional[str] = None
+    p_dev: Optional[float] = None
+    p_ok = False
     if actual_price["records_found"] > 0:
         ap_med = actual_price["median"]
         ap_min = actual_price["min"]
         ap_max = actual_price["max"]
         p_range = f"₹{ap_min:,.0f} – ₹{ap_max:,.0f}/q"
-        p_dev = round(((pred_price_inr - ap_med) / ap_med) * 100.0, 1) if pred_price_inr else 0.0
-        in_range = (ap_min <= pred_price_inr <= ap_max) if pred_price_inr else True
-        p_verdict = "Verified in APMC Mandi Range" if in_range else "Aligned with Market Demand Index"
+        if pred_price_inr:
+            p_dev = round(((pred_price_inr - ap_med) / ap_med) * 100.0, 1)
+            p_ok = ap_min <= pred_price_inr <= ap_max
+            p_verdict = (
+                "Within mandi price range" if p_ok
+                else f"Outside mandi price range ({p_dev:+.0f}% vs median)"
+            )
+        else:
+            p_verdict = "No price prediction to check"
         p_sources = actual_price["sources"]
         p_count = actual_price["records_found"]
     else:
-        ap_med = pred_price_inr or 3200.0
-        ap_min = round(ap_med * 0.85, 0)
-        ap_max = round(ap_med * 1.15, 0)
-        p_range = f"₹{ap_min:,.0f} – ₹{ap_max:,.0f}/q"
-        p_dev = 0.0
-        p_verdict = "Verified with Karnataka APMC Mandi Baseline"
-        p_sources = ["APMC Mandi Price Monitoring System"]
-        p_count = 1
+        p_verdict = "No mandi price records found — estimate not verified"
+        p_sources = []
+        p_count = 0
+
+    if y_ok and p_ok:
+        badge = "Matches historical records"
+    elif y_ok or p_ok:
+        badge = "Partially verified"
+    else:
+        badge = "Not verified"
 
     return {
-        "is_ground_truth_verified": True,
-        "badge": "Ground-Truth Verified",
-        "historical_yield_median_t_ha": round(ay_med, 2),
+        "is_ground_truth_verified": y_ok and p_ok,
+        "badge": badge,
+        "historical_yield_median_t_ha": round(ay_med, 2) if ay_med is not None else None,
         "historical_yield_range_str": y_range,
         "yield_deviation_pct": y_dev,
         "yield_verdict": y_verdict,
         "yield_sources": y_sources,
         "yield_samples_count": y_count,
-        "market_price_median_inr": round(ap_med, 0),
+        "market_price_median_inr": round(ap_med, 0) if ap_med is not None else None,
         "market_price_range_str": p_range,
         "price_deviation_pct": p_dev,
         "price_verdict": p_verdict,

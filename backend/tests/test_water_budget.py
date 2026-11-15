@@ -110,8 +110,9 @@ def test_zero_electricity_means_zero_pumped():
     assert result.seasonal_pumped_mm_mid == 0.0
 
 
-def test_missing_weather_data_warning():
-    """When weather_df is None, a warning about rainfall should appear."""
+def test_missing_weather_data_warning(monkeypatch):
+    """With no IMD table and no weather_df, a warning about rainfall should appear."""
+    monkeypatch.setattr("crop_optimization.water.water_budget.load_imd_rainfall", lambda: None)
     inp = make_input()
     result = calculate_water_budget(inp, weather_df=None)
     assert any("weather" in w.lower() or "rainfall" in w.lower() for w in result.warnings)
@@ -150,8 +151,10 @@ def test_low_range_always_less_than_high():
 def test_total_available_includes_pumped():
     inp = make_input()
     result = calculate_water_budget(inp, None)
-    # With no weather data, effective_rainfall = 0, so total = pumped_mid
-    assert result.total_available_mm_mid == result.seasonal_pumped_mm_mid
+    # Total = pumped + effective rainfall (IMD P25 when the table is built, else 0)
+    assert result.total_available_mm_mid == pytest.approx(
+        result.seasonal_pumped_mm_mid + result.effective_rainfall_mm, abs=0.11
+    )
 
 
 # ---------------------------------------------------------------------------

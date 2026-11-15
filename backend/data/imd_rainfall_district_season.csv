@@ -1,0 +1,94 @@
+district,season,n_years,first_year,last_year,p25_mm,median_mm,mean_mm,min_mm,source
+Bagalkote,kharif,10,2014,2023,323.1,395.1,384.6,216.2,IMD Pune 0.25deg gridded daily rainfall
+Bagalkote,rabi,9,2014,2023,72.6,122.7,115.9,15.0,IMD Pune 0.25deg gridded daily rainfall
+Bagalkote,summer,10,2014,2023,84.7,89.9,97.1,55.2,IMD Pune 0.25deg gridded daily rainfall
+Ballari,kharif,10,2014,2023,307.6,331.0,371.4,195.7,IMD Pune 0.25deg gridded daily rainfall
+Ballari,rabi,9,2014,2023,100.0,137.4,137.3,19.0,IMD Pune 0.25deg gridded daily rainfall
+Ballari,summer,10,2014,2023,66.4,90.6,85.7,36.3,IMD Pune 0.25deg gridded daily rainfall
+Belagavi,kharif,10,2014,2023,1019.1,1236.0,1235.0,624.2,IMD Pune 0.25deg gridded daily rainfall
+Belagavi,rabi,9,2014,2023,133.5,180.4,180.9,37.2,IMD Pune 0.25deg gridded daily rainfall
+Belagavi,summer,10,2014,2023,93.1,130.2,135.4,51.6,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Rural,kharif,10,2014,2023,397.5,465.1,500.6,301.7,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Rural,rabi,9,2014,2023,236.5,266.9,282.5,92.2,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Rural,summer,10,2014,2023,154.8,184.8,202.9,123.5,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Urban,kharif,10,2014,2023,388.1,447.0,496.2,323.7,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Urban,rabi,9,2014,2023,266.4,278.8,294.7,106.4,IMD Pune 0.25deg gridded daily rainfall
+Bengaluru Urban,summer,10,2014,2023,176.0,221.2,227.2,135.9,IMD Pune 0.25deg gridded daily rainfall
+Bidar,kharif,10,2014,2023,556.8,796.0,799.0,472.7,IMD Pune 0.25deg gridded daily rainfall
+Bidar,rabi,9,2014,2023,48.5,139.4,116.2,27.5,IMD Pune 0.25deg gridded daily rainfall
+Bidar,summer,10,2014,2023,51.0,82.4,94.3,13.1,IMD Pune 0.25deg gridded daily rainfall
+Chamarajanagar,kharif,10,2014,2023,270.8,315.9,352.3,209.6,IMD Pune 0.25deg gridded daily rainfall
+Chamarajanagar,rabi,9,2014,2023,227.8,243.1,269.5,74.9,IMD Pune 0.25deg gridded daily rainfall
+Chamarajanagar,summer,10,2014,2023,131.5,183.1,198.1,101.9,IMD Pune 0.25deg gridded daily rainfall
+Chikkaballapur,kharif,10,2014,2023,353.1,404.6,428.8,252.1,IMD Pune 0.25deg gridded daily rainfall
+Chikkaballapur,rabi,9,2014,2023,146.7,269.5,264.3,70.8,IMD Pune 0.25deg gridded daily rainfall
+Chikkaballapur,summer,10,2014,2023,142.6,156.0,160.7,98.0,IMD Pune 0.25deg gridded daily rainfall
+Chikkamagaluru,kharif,10,2014,2023,716.4,910.1,938.6,596.9,IMD Pune 0.25deg gridded daily rainfall
+Chikkamagaluru,rabi,9,2014,2023,144.3,253.5,260.7,79.8,IMD Pune 0.25deg gridded daily rainfall
+Chikkamagaluru,summer,10,2014,2023,191.9,220.7,244.2,126.0,IMD Pune 0.25deg gridded daily rainfall
+Chitradurga,kharif,10,2014,2023,281.5,333.4,338.4,187.3,IMD Pune 0.25deg gridded daily rainfall
+Chitradurga,rabi,9,2014,2023,181.0,199.0,196.5,37.9,IMD Pune 0.25deg gridded daily rainfall
+Chitradurga,summer,10,2014,2023,74.9,111.4,123.6,57.6,IMD Pune 0.25deg gridded daily rainfall
+Dakshina Kannada,kharif,10,2014,2023,2680.6,2968.4,3074.2,2548.0,IMD Pune 0.25deg gridded daily rainfall
+Dakshina Kannada,rabi,9,2014,2023,293.7,319.6,410.7,104.2,IMD Pune 0.25deg gridded daily rainfall
+Dakshina Kannada,summer,10,2014,2023,182.2,294.6,314.1,88.1,IMD Pune 0.25deg gridded daily rainfall
+Davanagere,kharif,10,2014,2023,339.5,428.6,425.8,297.9,IMD Pune 0.25deg gridded daily rainfall
+Davanagere,rabi,9,2014,2023,154.8,223.0,217.5,34.4,IMD Pune 0.25deg gridded daily rainfall
+Davanagere,summer,10,2014,2023,96.7,156.8,154.7,78.8,IMD Pune 0.25deg gridded daily rainfall
+Dharwad,kharif,10,2014,2023,404.1,467.0,519.9,305.5,IMD Pune 0.25deg gridded daily rainfall
+Dharwad,rabi,9,2014,2023,123.7,172.0,162.9,26.8,IMD Pune 0.25deg gridded daily rainfall
+Dharwad,summer,10,2014,2023,98.1,157.4,172.3,89.3,IMD Pune 0.25deg gridded daily rainfall
+Gadag,kharif,10,2014,2023,336.4,438.8,428.3,249.2,IMD Pune 0.25deg gridded daily rainfall
+Gadag,rabi,9,2014,2023,70.3,141.9,141.9,8.9,IMD Pune 0.25deg gridded daily rainfall
+Gadag,summer,10,2014,2023,83.5,137.7,135.1,69.0,IMD Pune 0.25deg gridded daily rainfall
+Hassan,kharif,10,2014,2023,543.4,619.8,658.7,429.9,IMD Pune 0.25deg gridded daily rainfall
+Hassan,rabi,9,2014,2023,143.2,235.6,254.2,81.9,IMD Pune 0.25deg gridded daily rainfall
+Hassan,summer,10,2014,2023,195.7,228.2,249.6,127.8,IMD Pune 0.25deg gridded daily rainfall
+Haveri,kharif,10,2014,2023,353.0,494.6,484.6,345.6,IMD Pune 0.25deg gridded daily rainfall
+Haveri,rabi,9,2014,2023,122.5,202.1,200.9,28.8,IMD Pune 0.25deg gridded daily rainfall
+Haveri,summer,10,2014,2023,101.1,149.1,160.1,59.1,IMD Pune 0.25deg gridded daily rainfall
+Kalaburagi,kharif,10,2014,2023,502.8,582.8,617.1,331.2,IMD Pune 0.25deg gridded daily rainfall
+Kalaburagi,rabi,9,2014,2023,62.0,129.1,112.6,43.5,IMD Pune 0.25deg gridded daily rainfall
+Kalaburagi,summer,10,2014,2023,56.2,78.3,86.8,29.3,IMD Pune 0.25deg gridded daily rainfall
+Kodagu,kharif,10,2014,2023,1269.6,1524.2,1533.1,1055.7,IMD Pune 0.25deg gridded daily rainfall
+Kodagu,rabi,9,2014,2023,167.4,228.0,253.0,115.8,IMD Pune 0.25deg gridded daily rainfall
+Kodagu,summer,10,2014,2023,219.6,271.5,290.8,161.3,IMD Pune 0.25deg gridded daily rainfall
+Kolar,kharif,10,2014,2023,359.7,431.7,477.2,264.1,IMD Pune 0.25deg gridded daily rainfall
+Kolar,rabi,9,2014,2023,196.3,389.9,348.9,120.3,IMD Pune 0.25deg gridded daily rainfall
+Kolar,summer,10,2014,2023,127.8,156.3,159.0,82.7,IMD Pune 0.25deg gridded daily rainfall
+Koppal,kharif,10,2014,2023,361.3,431.6,439.1,244.5,IMD Pune 0.25deg gridded daily rainfall
+Koppal,rabi,9,2014,2023,91.8,149.5,165.1,9.6,IMD Pune 0.25deg gridded daily rainfall
+Koppal,summer,10,2014,2023,87.8,110.2,110.5,40.4,IMD Pune 0.25deg gridded daily rainfall
+Mandya,kharif,10,2014,2023,442.0,487.6,519.3,363.0,IMD Pune 0.25deg gridded daily rainfall
+Mandya,rabi,9,2014,2023,211.7,259.4,264.2,93.1,IMD Pune 0.25deg gridded daily rainfall
+Mandya,summer,10,2014,2023,166.3,210.8,222.9,104.6,IMD Pune 0.25deg gridded daily rainfall
+Mysuru,kharif,10,2014,2023,323.4,375.7,406.3,241.2,IMD Pune 0.25deg gridded daily rainfall
+Mysuru,rabi,9,2014,2023,194.1,226.5,257.7,75.3,IMD Pune 0.25deg gridded daily rainfall
+Mysuru,summer,10,2014,2023,153.8,219.1,219.1,98.0,IMD Pune 0.25deg gridded daily rainfall
+Raichur,kharif,10,2014,2023,433.9,512.7,525.1,256.9,IMD Pune 0.25deg gridded daily rainfall
+Raichur,rabi,9,2014,2023,51.6,111.4,109.2,19.1,IMD Pune 0.25deg gridded daily rainfall
+Raichur,summer,10,2014,2023,50.3,71.4,77.7,17.4,IMD Pune 0.25deg gridded daily rainfall
+Ramanagara,kharif,10,2014,2023,395.1,421.3,482.2,305.2,IMD Pune 0.25deg gridded daily rainfall
+Ramanagara,rabi,9,2014,2023,256.5,282.2,287.6,111.6,IMD Pune 0.25deg gridded daily rainfall
+Ramanagara,summer,10,2014,2023,169.3,222.5,239.3,158.6,IMD Pune 0.25deg gridded daily rainfall
+Shivamogga,kharif,10,2014,2023,730.9,882.3,859.8,595.4,IMD Pune 0.25deg gridded daily rainfall
+Shivamogga,rabi,9,2014,2023,135.8,199.1,224.0,39.5,IMD Pune 0.25deg gridded daily rainfall
+Shivamogga,summer,10,2014,2023,127.8,173.4,181.6,67.3,IMD Pune 0.25deg gridded daily rainfall
+Tumakuru,kharif,10,2014,2023,426.1,499.2,520.8,372.8,IMD Pune 0.25deg gridded daily rainfall
+Tumakuru,rabi,9,2014,2023,236.5,251.4,283.8,86.2,IMD Pune 0.25deg gridded daily rainfall
+Tumakuru,summer,10,2014,2023,149.0,182.8,206.1,111.1,IMD Pune 0.25deg gridded daily rainfall
+Udupi,kharif,10,2014,2023,3215.3,3419.2,3486.2,2767.4,IMD Pune 0.25deg gridded daily rainfall
+Udupi,rabi,9,2014,2023,217.3,294.1,366.2,81.6,IMD Pune 0.25deg gridded daily rainfall
+Udupi,summer,10,2014,2023,149.2,197.9,247.4,44.2,IMD Pune 0.25deg gridded daily rainfall
+Uttara Kannada,kharif,10,2014,2023,2509.2,2812.3,2956.9,2182.8,IMD Pune 0.25deg gridded daily rainfall
+Uttara Kannada,rabi,9,2014,2023,146.5,159.7,236.4,94.1,IMD Pune 0.25deg gridded daily rainfall
+Uttara Kannada,summer,10,2014,2023,73.6,123.1,136.5,30.3,IMD Pune 0.25deg gridded daily rainfall
+Vijayapura,kharif,10,2014,2023,323.4,389.0,407.9,216.7,IMD Pune 0.25deg gridded daily rainfall
+Vijayapura,rabi,9,2014,2023,78.1,116.5,113.3,14.2,IMD Pune 0.25deg gridded daily rainfall
+Vijayapura,summer,10,2014,2023,67.6,92.8,92.0,42.4,IMD Pune 0.25deg gridded daily rainfall
+Yadgir,kharif,10,2014,2023,514.1,605.6,641.9,401.5,IMD Pune 0.25deg gridded daily rainfall
+Yadgir,rabi,9,2014,2023,44.1,119.6,111.0,29.2,IMD Pune 0.25deg gridded daily rainfall
+Yadgir,summer,10,2014,2023,54.6,73.9,83.8,24.3,IMD Pune 0.25deg gridded daily rainfall
+Vijayanagara,kharif,10,2014,2023,335.3,429.5,419.6,223.8,IMD Pune 0.25deg gridded daily rainfall
+Vijayanagara,rabi,9,2014,2023,80.0,146.8,154.2,10.7,IMD Pune 0.25deg gridded daily rainfall
+Vijayanagara,summer,10,2014,2023,77.7,94.0,97.5,39.4,IMD Pune 0.25deg gridded daily rainfall

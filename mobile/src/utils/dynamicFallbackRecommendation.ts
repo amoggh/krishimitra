@@ -73,32 +73,26 @@ export function buildInputAwareRecommendation(
 
     const allocReason =
       pct >= 50.0
-        ? `Allocated ${pct.toFixed(0)}% (${acres.toFixed(1)} acres) as the primary revenue generator. Produces maximum financial return within your pump's water capacity.`
-        : `Allocated ${pct.toFixed(0)}% (${acres.toFixed(1)} acres) for risk diversification. Shields your farm income against market price slumps or monsoon variations.`;
+        ? `Allocated ${pct.toFixed(0)}% (${acres.toFixed(1)} acres) as the main crop (offline estimate; not checked against your pump or market prices).`
+        : `Allocated ${pct.toFixed(0)}% (${acres.toFixed(1)} acres) to spread risk across a second crop (offline estimate).`;
 
     const cropReasons = [
-      `💧 Water Fit: Needs ~${config.waterMm} mm, fully supported by your ${motorHp.toFixed(1)} HP pump (${electHours.toFixed(1)} hrs/day power supply).`,
+      `💧 Water: Needs ~${config.waterMm} mm this season; not checked against your ${motorHp.toFixed(1)} HP pump offline.`,
       `💰 Profit Return: Estimated net profit of ₹${profit.toLocaleString("en-IN")} (range: ₹${profitLow.toLocaleString("en-IN")} – ₹${profitHigh.toLocaleString("en-IN")}) from ₹${cost.toLocaleString("en-IN")} input budget.`,
-      `🌱 Climate Match: Proven high harvest yields during ${season.toUpperCase()} in ${district} agro-climatic conditions.`,
-      `📈 Mandi Demand: Actively traded across Karnataka APMC mandis averaging ~₹${config.priceQtl.toLocaleString("en-IN")}/quintal.`,
-      `✓ Ground-Truth: Verified in historical range with Karnataka Directorate of Agriculture records.`,
+      `🌱 Season Fit: Commonly grown during ${season.toUpperCase()} in Karnataka.`,
+      `📈 Mandi Price: Regional benchmark of ~₹${config.priceQtl.toLocaleString("en-IN")}/quintal (not live market data).`,
+      `⚠ Offline estimate: the server could not be reached, so this crop was not checked against historical records.`,
     ];
 
     const cropValidation: CropValidation = {
-      is_ground_truth_verified: true,
-      badge: "Ground-Truth Verified",
-      historical_yield_median_t_ha: config.yieldTHa,
-      historical_yield_range_str: `${(config.yieldTHa * 0.8).toFixed(1)} – ${(config.yieldTHa * 1.2).toFixed(1)} t/ha`,
-      yield_deviation_pct: 0.0,
-      yield_verdict: "Verified in Historical Range",
-      yield_sources: ["Karnataka Directorate of Agriculture APY 2021-22"],
-      yield_samples_count: 14,
-      market_price_median_inr: config.priceQtl,
-      market_price_range_str: `₹${Math.round(config.priceQtl * 0.9).toLocaleString("en-IN")} – ₹${Math.round(config.priceQtl * 1.1).toLocaleString("en-IN")}/q`,
-      price_deviation_pct: 0.0,
-      price_verdict: "Verified in APMC Mandi Range",
-      price_sources: ["APMC Mandi Price Monitoring Network"],
-      price_samples_count: 8,
+      is_ground_truth_verified: false,
+      badge: "Not verified",
+      yield_verdict: "Offline estimate — not checked",
+      yield_sources: [],
+      yield_samples_count: 0,
+      price_verdict: "Offline estimate — not checked",
+      price_sources: [],
+      price_samples_count: 0,
     };
 
     return {
@@ -112,8 +106,8 @@ export function buildInputAwareRecommendation(
         lower_t_per_ha: Math.round(config.yieldTHa * 0.85 * 100) / 100,
         upper_t_per_ha: Math.round(config.yieldTHa * 1.15 * 100) / 100,
         unit: "tonnes/hectare",
-        source: "karnataka_2021_22_yield.csv",
-        confidence: "high",
+        source: "offline_regional_benchmark",
+        confidence: "low",
         available: true,
       },
       price_result: {
@@ -122,8 +116,8 @@ export function buildInputAwareRecommendation(
         lower_inr_per_quintal: Math.round(config.priceQtl * 0.9),
         upper_inr_per_quintal: Math.round(config.priceQtl * 1.1),
         unit: "INR/quintal",
-        source: "mandi_data.csv",
-        confidence: "high",
+        source: "offline_price_benchmark",
+        confidence: "low",
         available: true,
       },
       risk_result: {
@@ -147,6 +141,8 @@ export function buildInputAwareRecommendation(
       warnings: [],
       allocation_reason: allocReason,
       validation: cropValidation,
+      confidence: "Low",
+      confidence_factors: ["Offline estimate from fixed regional benchmarks."],
     };
   });
 
@@ -174,11 +170,11 @@ export function buildInputAwareRecommendation(
 
   const dataQuality: DataQualitySummary = {
     soil_data_available: farmInput.soil !== undefined,
-    weather_data_available: true,
-    mandi_data_available: true,
-    yield_model_trained: true,
-    price_model_trained: true,
-    warnings: [],
+    weather_data_available: false,
+    mandi_data_available: false,
+    yield_model_trained: false,
+    price_model_trained: false,
+    warnings: ["Offline estimate: the KrushiMitra server could not be reached."],
   };
 
   const seasonCap = season.charAt(0).toUpperCase() + season.slice(1);
@@ -193,8 +189,9 @@ export function buildInputAwareRecommendation(
       "Karnataka Agro-Climatic Multi-Model Soil & ETc Dataset",
     ],
     total_datasets_count: 5,
-    all_crops_verified: true,
-    verdict: "100% of recommended crops verified against Karnataka agricultural & APMC mandi ground truth",
+    all_crops_verified: false,
+    verified_crops_count: 0,
+    verdict: "Offline estimate: crops were not checked against historical records",
   };
 
   return {
@@ -205,23 +202,23 @@ export function buildInputAwareRecommendation(
     water_budget: waterBudget,
     recommendations,
     rejected_crops: [],
-    warnings: [],
+    warnings: ["The server could not be reached. This is a rough offline estimate — retry when you are online."],
     data_quality: dataQuality,
     status: "ok",
-    confidence: "High",
-    confidence_explanation: `Tailored plan calibrated for ${district} (${seasonCap}) across ${totalAcres} acres.`,
+    confidence: "Low",
+    confidence_explanation: `Low confidence: offline estimate for ${district} (${seasonCap}) using fixed regional benchmarks, not live analysis.`,
+    confidence_factors: [
+      "The server could not be reached, so no data-driven analysis was run.",
+      "Yields and prices are fixed regional benchmarks.",
+      "Cultivation costs are estimated.",
+    ],
     why_this_plan: [
       `🎯 Land Division (${recommendations.map(r => `${r.percentage_of_total.toFixed(0)}% ${r.crop}`).join(" + ")}): Balances high income with insurance against price drops and rainfall delays.`,
-      `💧 Water Security: Combined water need is within your ${totalAvailableMm.toFixed(0)} mm seasonal supply (${(dailyLitres/1000).toFixed(1)}k L/day from your ${motorHp.toFixed(1)} HP pump).`,
-      `💰 Budget Safety: Crafted specifically for your ₹${budget.toLocaleString("en-IN")} budget, generating an estimated net profit of ₹${totalProfit.toLocaleString("en-IN")}.`,
-      "🛡️ Ground-Truth Tested: All crop predictions counter-checked against 5 official Karnataka state agricultural & APMC datasets.",
+      `💧 Water (rough): about ${totalAvailableMm.toFixed(0)} mm seasonal supply estimated offline (${(dailyLitres/1000).toFixed(1)}k L/day from your ${motorHp.toFixed(1)} HP pump); crops were not fitted to it.`,
+      `💰 Rough profit: ~₹${totalProfit.toLocaleString("en-IN")} using estimated costs against your ₹${budget.toLocaleString("en-IN")} budget (offline estimate).`,
+      "⚠ Offline estimate: not checked against historical records. Retry when online for a full analysis.",
     ],
-    data_sources: [
-      "Karnataka Directorate of Agriculture APY 2021-22",
-      "Agmarknet Mandi Price Monitoring Network",
-      "ICRISAT District-Level Agricultural Yield Dataset",
-      "Agro-climatic Crop Water ETc Database",
-    ],
+    data_sources: ["Offline regional benchmarks (fixed values)"],
     validation_summary: planValidation,
   };
 }

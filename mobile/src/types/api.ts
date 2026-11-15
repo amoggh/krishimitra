@@ -39,6 +39,11 @@ export interface WaterBudgetResult {
   seasonal_pumped_mm_mid: number;
   seasonal_pumped_mm_high: number;
   effective_rainfall_mm: number;
+  effective_rainfall_dry_year_mm?: number;
+  rainfall_basis?: string;
+  groundwater_stage_pct?: number;
+  groundwater_category?: "safe" | "semi_critical" | "critical" | "over_exploited";
+  groundwater_pump_derate?: number;
   total_available_mm_mid: number;
   warnings: string[];
 }
@@ -51,6 +56,8 @@ export interface YieldResult {
   unit: string;
   available: boolean;
   unavailable_reason?: string;
+  interval_method?: string;
+  coverage_target?: number;
 }
 
 export interface PriceResult {
@@ -97,6 +104,7 @@ export interface PlanValidationSummary {
   datasets_checked: string[];
   total_datasets_count: number;
   all_crops_verified: boolean;
+  verified_crops_count?: number;
   verdict: string;
 }
 
@@ -118,6 +126,9 @@ export interface CropResult {
   warnings: string[];
   allocation_reason?: string;
   validation?: CropValidation;
+  confidence?: string;
+  confidence_score?: number;
+  confidence_factors?: string[];
 }
 
 export interface RejectedCrop {
@@ -148,9 +159,17 @@ export interface RecommendationResult {
   message?: string;
   confidence?: string;
   confidence_explanation?: string;
+  confidence_score?: number;
+  confidence_factors?: string[];
   why_this_plan?: string[];
   data_sources?: string[];
   validation_summary?: PlanValidationSummary;
+  /** Plan totals; fallow_acres / water_limited are set when water caps the planted area */
+  summary?: {
+    fallow_acres?: number;
+    water_limited?: boolean;
+    [key: string]: unknown;
+  };
 }
 
 // ---- Legacy/local-only shape for UI display helpers ----
