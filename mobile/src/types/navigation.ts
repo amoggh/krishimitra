@@ -12,6 +12,7 @@ export type AuthStackParamList = {
 export type MainTabParamList = {
   Home: undefined;
   Plan: undefined;
+  Learn: undefined;
   Market: undefined;
   Profile: undefined;
 };
@@ -23,6 +24,8 @@ export type RootStackParamList = {
   AIProcessing: { farmInput: FarmInputPayload };
   Recommendations: { result: RecommendationResult };
   RiskAnalysis: { planId?: string; result?: RecommendationResult };
+  Learn: undefined;
+  Support: undefined;
   Settings: undefined;
   DiseaseDetection: {
     imageUri?: string;

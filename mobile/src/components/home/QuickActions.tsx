@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Sprout, ScanLine, TrendingUp, Bot } from "lucide-react-native";
+import { Sprout, ScanLine, TrendingUp, Bot, GraduationCap, HelpCircle } from "lucide-react-native";
 import { QuickActionCard, type QuickActionItem } from "@/components/ui/QuickActionCard";
 import { useResponsive } from "@/theme/responsive";
 import { colors } from "@/theme/tokens";
@@ -22,11 +22,17 @@ function getFallbackIcon(id: string, emoji?: string) {
   if (id === "plan" || (emoji && emoji.includes("🌾"))) {
     return <Sprout size={size} color={iconColor} />;
   }
+  if (id === "learn" || (emoji && emoji.includes("🎓"))) {
+    return <GraduationCap size={size} color={iconColor} />;
+  }
   if (id === "scan" || (emoji && (emoji.includes("🔍") || emoji.includes("📷")))) {
     return <ScanLine size={size} color={iconColor} />;
   }
   if (id === "mandi" || (emoji && emoji.includes("📊"))) {
     return <TrendingUp size={size} color={iconColor} />;
+  }
+  if (id === "support" || (emoji && emoji.includes("🏛️"))) {
+    return <HelpCircle size={size} color={iconColor} />;
   }
   return <Bot size={size} color={iconColor} />;
 }

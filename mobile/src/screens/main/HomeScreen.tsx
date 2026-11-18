@@ -30,6 +30,7 @@ import { mockDashboard, mockRecommendation, mockMandiPrices } from "@/data/mockD
 import { useResponsive, useReducedMotion } from "@/theme/responsive";
 import type { DashboardSummary, MandiPrice, RecommendationResult } from "@/types/api";
 import { colors } from "@/theme/tokens";
+import { LivingField } from "@/components/animation/LivingField";
 
 type Props = MainTabScreenProps<"Home">;
 
@@ -135,32 +136,16 @@ export function HomeScreen({ navigation }: Props) {
     return recommendedCropsKey ? recommendedCropsKey.split(",") : ["arecanut", "paddy"];
   }, [recommendedCropsKey]);
 
-  // 5. Fetch mandi prices matching district and crops
-  const loadMandiPrices = useCallback(() => {
+  // 5. Fetch mandi prices matching district and crops (strictly once per district/crops change)
+  const loadMandiPrices = useCallback((force: boolean = false) => {
     const fetchKey = `${effectiveDistrict}__${recommendedCropsKey}`;
-    if (lastFetchedMandiKeyRef.current === fetchKey) return;
+    if (!force && lastFetchedMandiKeyRef.current === fetchKey) return;
     lastFetchedMandiKeyRef.current = fetchKey;
 
     setLoadingMandi(true);
     getMandiPrices(effectiveDistrict, recommendedCrops)
       .then((data) => {
-        if (data && data.length > 0) {
-          setMandiPrices(data);
-        } else {
-          // Fallback constructed from recommendation's actual price results
-          const fallbackList: MandiPrice[] = (recommendation.recommendations || []).map((rec) => {
-            const p = rec.price_result?.expected_inr_per_quintal ?? 3200;
-            return {
-              crop: rec.crop.charAt(0).toUpperCase() + rec.crop.slice(1),
-              mandi: `${effectiveDistrict} APMC`,
-              price_inr: p,
-              change_pct: 2.4,
-              updated_at: "Live (Today)",
-              trend_7d: [p * 0.96, p * 0.98, p * 0.97, p * 1.01, p * 0.99, p * 1.02, p],
-            };
-          });
-          setMandiPrices(fallbackList);
-        }
+        setMandiPrices(data && data.length > 0 ? data : mockMandiPrices);
       })
       .catch(() => {
         setMandiPrices(mockMandiPrices);
@@ -229,6 +214,12 @@ export function HomeScreen({ navigation }: Props) {
       onPress: handleNavigatePlan,
     },
     {
+      id: "learn",
+      label: "Agri Academy",
+      subtitle: "8 Interactive labs",
+      onPress: () => navigation.getParent()?.navigate("Learn" as any),
+    },
+    {
       id: "scan",
       label: "Scan Leaf",
       subtitle: "Disease AI",
@@ -239,6 +230,12 @@ export function HomeScreen({ navigation }: Props) {
       label: "Mandi Rates",
       subtitle: "Live APMC prices",
       onPress: handleNavigateMarket,
+    },
+    {
+      id: "support",
+      label: "Govt Schemes",
+      subtitle: "1800-180-1551 help",
+      onPress: () => navigation.getParent()?.navigate("Support" as any),
     },
     {
       id: "assistant",
@@ -294,6 +291,15 @@ export function HomeScreen({ navigation }: Props) {
             <View className="flex-row items-start gap-4 lg:gap-6">
               {/* Left Column (Primary: Farm Overview, Hero Recommendation, Daily Insights) */}
               <View className="flex-1 gap-4">
+                {/* Dynamic Interactive Living Field */}
+                <LivingField
+                  district={effectiveDistrict}
+                  season={(recommendation.season as any) || "kharif"}
+                  acres={totalAcres}
+                  source={((activeFarm?.irrigationType || "borewell") as any)}
+                  height={190}
+                />
+
                 {/* 2. Farm Overview */}
                 <FarmOverviewCard
                   location={`${effectiveDistrict} Agricultural Zone`}
@@ -385,6 +391,15 @@ export function HomeScreen({ navigation }: Props) {
                6. Today's Farm Insights
                ══════════════════════════════════════════════════════════ */
             <View className="gap-3.5">
+              {/* Dynamic Interactive Living Field */}
+              <LivingField
+                district={effectiveDistrict}
+                season={(recommendation.season as any) || "kharif"}
+                acres={totalAcres}
+                source={((activeFarm?.irrigationType || "borewell") as any)}
+                height={165}
+              />
+
               {/* 2. Farm Overview */}
               <FarmOverviewCard
                 location={`${effectiveDistrict} Farm Zone`}

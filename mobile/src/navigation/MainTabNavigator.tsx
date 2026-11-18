@@ -2,10 +2,11 @@ import React, { useMemo } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Platform } from "react-native";
 import { useNavigation, useNavigationState } from "@react-navigation/native";
-import { Home, Sprout, TrendingUp, User } from "lucide-react-native";
+import { Home, Sprout, TrendingUp, User, GraduationCap } from "lucide-react-native";
 import type { MainTabParamList } from "@/types/navigation";
 import { HomeScreen } from "@/screens/main/HomeScreen";
 import { PlanHubScreen } from "@/screens/main/PlanHubScreen";
+import { LearnScreen } from "@/screens/main/LearnScreen";
 import { MarketInsightsScreen } from "@/screens/main/MarketInsightsScreen";
 import { ProfileScreen } from "@/screens/main/ProfileScreen";
 import { DesktopSidebar } from "./DesktopSidebar";
@@ -23,6 +24,7 @@ function TabIcon({ label, focused }: { label: keyof MainTabParamList; focused: b
 
   let IconComponent = Home;
   if (label === "Plan") IconComponent = Sprout;
+  if (label === "Learn") IconComponent = GraduationCap;
   if (label === "Market") IconComponent = TrendingUp;
   if (label === "Profile") IconComponent = User;
 
@@ -60,7 +62,7 @@ export function MainTabNavigator() {
   });
 
   const handleSidebarNavigate = (route: string, isStack?: boolean) => {
-    const tabRoutes = ["Home", "Plan", "Market", "Profile"];
+    const tabRoutes = ["Home", "Plan", "Learn", "Market", "Profile"];
     if (tabRoutes.includes(route)) {
       navigation.navigate("Main", { screen: route });
     } else {
@@ -113,6 +115,7 @@ export function MainTabNavigator() {
         >
           <Tab.Screen name="Home" component={HomeScreen} options={{ title: "Home" }} />
           <Tab.Screen name="Plan" component={PlanHubScreen} options={{ title: "Crop Plan" }} />
+          <Tab.Screen name="Learn" component={LearnScreen} options={{ title: "Academy" }} />
           <Tab.Screen name="Market" component={MarketInsightsScreen} options={{ title: "Market" }} />
           <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: "My Profile" }} />
         </Tab.Navigator>

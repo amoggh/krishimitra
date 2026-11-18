@@ -80,7 +80,15 @@ export async function setDefaultFarmApi(farmId: string): Promise<FarmEntity> {
   return data;
 }
 
+const lastFarmUpdateCache = new Map<string, { timestamp: number; payloadStr: string }>();
+
 export async function updateFarmApi(farmId: string, updates: Partial<FarmEntity>): Promise<FarmEntity> {
+  const payloadStr = JSON.stringify(updates);
+  const cached = lastFarmUpdateCache.get(farmId);
+  if (cached && cached.payloadStr === payloadStr && Date.now() - cached.timestamp < 60000) {
+    return { id: farmId, ...updates } as FarmEntity;
+  }
+  lastFarmUpdateCache.set(farmId, { timestamp: Date.now(), payloadStr });
   const { data } = await apiClient.put<FarmEntity>(`/farm/farms/${farmId}`, updates);
   return data;
 }
