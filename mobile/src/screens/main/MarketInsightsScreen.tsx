@@ -347,7 +347,7 @@ export function MarketInsightsScreen(_props: Props) {
                           mandiName={item.mandi}
                           minPrice={item.min_price_inr}
                           maxPrice={item.max_price_inr}
-                          height={155}
+                          height={175}
                         />
                       </View>
                     )}

@@ -197,7 +197,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 3420,
     change_pct: 3.2,
     updated_at: "Today",
-    trend_7d: [3250, 3280, 3310, 3350, 3380, 3400, 3420],
+    trend_7d: [3310, 3350, 3380, 3420, 3450, 3480, 3510],
   },
   {
     crop: "Maize",
@@ -205,7 +205,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 2180,
     change_pct: 1.8,
     updated_at: "Today",
-    trend_7d: [2100, 2120, 2140, 2150, 2160, 2170, 2180],
+    trend_7d: [2140, 2150, 2165, 2180, 2195, 2210, 2220],
   },
   {
     crop: "Cotton",
@@ -213,7 +213,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 6850,
     change_pct: -0.8,
     updated_at: "Today",
-    trend_7d: [6950, 6920, 6900, 6880, 6870, 6860, 6850],
+    trend_7d: [6920, 6890, 6870, 6850, 6830, 6815, 6800],
   },
   {
     crop: "Groundnut",
@@ -221,7 +221,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 5900,
     change_pct: 2.4,
     updated_at: "Today",
-    trend_7d: [5750, 5780, 5810, 5840, 5860, 5880, 5900],
+    trend_7d: [5810, 5840, 5870, 5900, 5930, 5960, 5985],
   },
   {
     crop: "Rice / Paddy",
@@ -229,7 +229,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 2450,
     change_pct: 0.5,
     updated_at: "Today",
-    trend_7d: [2420, 2430, 2435, 2440, 2445, 2448, 2450],
+    trend_7d: [2435, 2440, 2445, 2450, 2455, 2460, 2465],
   },
   {
     crop: "Sugarcane",
@@ -237,7 +237,7 @@ export const mockMandiPrices: MandiPrice[] = [
     price_inr: 3100,
     change_pct: -1.2,
     updated_at: "Today",
-    trend_7d: [3200, 3180, 3150, 3140, 3120, 3110, 3100],
+    trend_7d: [3150, 3130, 3115, 3100, 3085, 3075, 3060],
   },
   {
     crop: "Onion",

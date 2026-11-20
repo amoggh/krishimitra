@@ -181,17 +181,19 @@ export function MarketIntelligenceSection({
 
   // Chart data points
   const chartData = useMemo(() => {
+    const p = currentPriceItem.price_inr;
+    const isPositive = currentPriceItem.change_pct >= 0;
     const base7d =
-      currentPriceItem.trend_7d && currentPriceItem.trend_7d.length >= 2
+      currentPriceItem.trend_7d && currentPriceItem.trend_7d.length === 7
         ? currentPriceItem.trend_7d
         : [
-            Math.round(currentPriceItem.price_inr * 0.94),
-            Math.round(currentPriceItem.price_inr * 0.97),
-            Math.round(currentPriceItem.price_inr * 0.96),
-            Math.round(currentPriceItem.price_inr * 0.99),
-            Math.round(currentPriceItem.price_inr * 0.98),
-            Math.round(currentPriceItem.price_inr * 1.01),
-            currentPriceItem.price_inr,
+            Math.round(p * (isPositive ? 0.95 : 1.05)),
+            Math.round(p * (isPositive ? 0.97 : 1.03)),
+            Math.round(p * (isPositive ? 0.985 : 1.015)),
+            p, // Index 3: Today (Center)
+            Math.round(p * (isPositive ? 1.012 : 0.99)),
+            Math.round(p * (isPositive ? 1.022 : 0.98)),
+            Math.round(p * (isPositive ? 1.030 : 0.97)),
           ];
 
     if (timeframe === "7D") {
@@ -199,7 +201,6 @@ export function MarketIntelligenceSection({
     }
 
     // 30D simulated progression based on historical variance
-    const p = currentPriceItem.price_inr;
     return [
       Math.round(p * 0.91),
       Math.round(p * 0.92),
@@ -435,7 +436,7 @@ export function MarketIntelligenceSection({
             mandiName={currentPriceItem.mandi}
             minPrice={minPrice}
             maxPrice={maxPrice}
-            height={160}
+            height={175}
           />
         </View>
       </View>
@@ -443,9 +444,9 @@ export function MarketIntelligenceSection({
       {/* Historical vs Predicted Guidance Note */}
       <View className="pt-2 border-t border-cream-muted/50 flex-row items-center justify-between">
         <Text className="font-sans text-[11px] text-ink-muted">
-          Actual mandi modal rates verified with AGMARKNET
+          Left: Agmarknet actuals · Center: Today · Right: 3-day forecast (prices may change)
         </Text>
-        <Badge label="Live Index" tone="success" size="sm" dot />
+        <Badge label="AI Forecast" tone="success" size="sm" dot />
       </View>
     </Card>
   );
