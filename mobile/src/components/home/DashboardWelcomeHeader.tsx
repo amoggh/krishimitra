@@ -3,7 +3,7 @@ import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Bell, MapPin, Calendar, CloudSun, Sun, CloudRain, ChevronDown, Star } from "lucide-react-native";
-import { CircularIconButton, SearchBar } from "@/components/ui";
+import { CircularIconButton } from "@/components/ui";
 import { useResponsive } from "@/theme/responsive";
 import { colors } from "@/theme/tokens";
 
@@ -143,21 +143,6 @@ export function DashboardWelcomeHeader({
             </Pressable>
           </View>
         </View>
-
-        {/* ── Search Bar: Centered in the middle with generous room ── */}
-        {onSearchChange ? (
-          <View className="my-3.5 w-full items-center justify-center">
-            <View className="w-full max-w-xl">
-              <SearchBar
-                value={searchValue}
-                onChangeText={onSearchChange}
-                variant="dark"
-                placeholder="Search crops, mandis, advisories..."
-                onClear={() => onSearchChange("")}
-              />
-            </View>
-          </View>
-        ) : null}
 
         {/* Quick Location & Weather Status Pill — Interactive Farm / District Selector */}
         <Pressable

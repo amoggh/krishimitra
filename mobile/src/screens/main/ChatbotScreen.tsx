@@ -39,6 +39,7 @@ interface DisplayMessage {
   isFarmingOnly?: boolean;
   timestamp: string;
   suggestedFollowups?: string[];
+  isStreaming?: boolean;
 }
 
 const DEFAULT_SUGGESTIONS = [
@@ -92,6 +93,7 @@ export function ChatbotScreen({ navigation, route }: Props) {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const streamTimerRef = useRef<any>(null);
 
   // Auto-scroll when messages update
   const scrollToBottom = () => {
@@ -104,6 +106,15 @@ export function ChatbotScreen({ navigation, route }: Props) {
     scrollToBottom();
   }, [messages, loading]);
 
+  // Clean up streaming timer on unmount
+  useEffect(() => {
+    return () => {
+      if (streamTimerRef.current) {
+        clearInterval(streamTimerRef.current);
+      }
+    };
+  }, []);
+
   // Handle initial prompt from route params if passed
   useEffect(() => {
     if (route.params?.initialPrompt) {
@@ -114,6 +125,12 @@ export function ChatbotScreen({ navigation, route }: Props) {
   const handleSendMessage = async (textToSend?: string) => {
     const rawText = textToSend || inputText;
     if (!rawText.trim() || loading) return;
+
+    // Clear any previous ongoing stream
+    if (streamTimerRef.current) {
+      clearInterval(streamTimerRef.current);
+      streamTimerRef.current = null;
+    }
 
     const userMsg: DisplayMessage = {
       id: "user-" + Date.now(),
@@ -137,17 +154,59 @@ export function ChatbotScreen({ navigation, route }: Props) {
         }));
 
       const res = await sendChatMessage(rawText.trim(), historyPayload, farmContext);
+      setLoading(false);
 
-      const aiMsg: DisplayMessage = {
-        id: "ai-" + Date.now(),
+      const aiMsgId = "ai-" + Date.now();
+      const fullText = res.response;
+      const isFarming = res.is_farming_related;
+      const followups = res.suggested_followups || [];
+
+      // Split into words for authentic word-by-word streaming animation
+      const words = fullText.split(" ");
+      let wordCursor = 0;
+
+      // Initial empty message with streaming flag
+      const initialAiMsg: DisplayMessage = {
+        id: aiMsgId,
         role: "model",
-        content: res.response,
-        isFarmingOnly: res.is_farming_related,
+        content: words[0] || "",
+        isFarmingOnly: isFarming,
         timestamp: "Now",
-        suggestedFollowups: res.suggested_followups,
+        isStreaming: true,
+        suggestedFollowups: [],
       };
 
-      setMessages((prev) => [...prev, aiMsg]);
+      setMessages((prev) => [...prev, initialAiMsg]);
+
+      // Stream words smoothly (2 words every 28ms)
+      const chunkSize = 2;
+      streamTimerRef.current = setInterval(() => {
+        wordCursor += chunkSize;
+        if (wordCursor >= words.length) {
+          clearInterval(streamTimerRef.current);
+          streamTimerRef.current = null;
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === aiMsgId
+                ? {
+                    ...m,
+                    content: fullText,
+                    isStreaming: false,
+                    suggestedFollowups: followups,
+                  }
+                : m
+            )
+          );
+        } else {
+          const partial = words.slice(0, wordCursor).join(" ");
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === aiMsgId ? { ...m, content: partial } : m
+            )
+          );
+        }
+        scrollToBottom();
+      }, 28);
     } catch (err) {
       const errorMsg: DisplayMessage = {
         id: "err-" + Date.now(),
@@ -159,28 +218,39 @@ export function ChatbotScreen({ navigation, route }: Props) {
         timestamp: "Now",
       };
       setMessages((prev) => [...prev, errorMsg]);
-    } finally {
       setLoading(false);
     }
   };
 
-  const renderFormattedContent = (content: string) => {
-    // Basic Markdown-like renderer for bold and bullet lists
+  const renderFormattedContent = (content: string, isStreaming?: boolean) => {
+    // Markdown-like renderer with progressive typing cursor support
     const lines = content.split("\n");
     return (
       <View className="gap-1">
         {lines.map((line, idx) => {
+          const isLastLine = idx === lines.length - 1;
           if (!line.trim()) {
-            return <View key={idx} className="h-1" />;
+            return (
+              <View key={idx} className="h-1">
+                {isLastLine && isStreaming && (
+                  <Text className="text-forest font-bold text-sm">▌</Text>
+                )}
+              </View>
+            );
           }
 
           // Bullet points
-          if (line.startsWith("- ") || line.startsWith("* ")) {
-            const clean = line.substring(2).replace(/\*\*(.*?)\*\*/g, "$1");
+          if (line.startsWith("- ") || line.startsWith("* ") || line.startsWith("• ")) {
+            const clean = line.replace(/^[-*•]\s+/, "").replace(/\*\*(.*?)\*\*/g, "$1");
             return (
               <View key={idx} className="flex-row items-start gap-1.5 pl-1 my-0.5">
                 <Text className="text-forest font-bold text-sm leading-5">•</Text>
-                <Text className="text-earth-dark text-sm leading-5 flex-1">{clean}</Text>
+                <Text className="text-earth-dark text-sm leading-5 flex-1">
+                  {clean}
+                  {isLastLine && isStreaming && (
+                    <Text className="text-forest font-bold text-sm"> ▌</Text>
+                  )}
+                </Text>
               </View>
             );
           }
@@ -190,21 +260,37 @@ export function ChatbotScreen({ navigation, route }: Props) {
             const clean = line.replace(/\*\*(.*?)\*\*/g, "$1");
             return (
               <View key={idx} className="flex-row items-start gap-1 pl-1 my-0.5">
-                <Text className="text-earth-dark text-sm leading-5 flex-1">{clean}</Text>
+                <Text className="text-earth-dark text-sm leading-5 flex-1">
+                  {clean}
+                  {isLastLine && isStreaming && (
+                    <Text className="text-forest font-bold text-sm"> ▌</Text>
+                  )}
+                </Text>
               </View>
+            );
+          }
+
+          // Headers
+          if (line.startsWith("#")) {
+            const clean = line.replace(/^#+\s*/, "").replace(/\*\*(.*?)\*\*/g, "$1");
+            return (
+              <Text key={idx} className="font-bold text-forest text-base mt-1">
+                {clean}
+                {isLastLine && isStreaming && (
+                  <Text className="text-forest font-bold text-sm"> ▌</Text>
+                )}
+              </Text>
             );
           }
 
           // Regular text
           const clean = line.replace(/\*\*(.*?)\*\*/g, "$1");
           return (
-            <Text
-              key={idx}
-              className={`text-sm leading-5 ${
-                line.startsWith("#") ? "font-bold text-forest text-base mt-1" : "text-earth-dark"
-              }`}
-            >
+            <Text key={idx} className="text-sm leading-5 text-earth-dark">
               {clean}
+              {isLastLine && isStreaming && (
+                <Text className="text-forest font-bold text-sm"> ▌</Text>
+              )}
             </Text>
           );
         })}
@@ -294,10 +380,10 @@ export function ChatbotScreen({ navigation, route }: Props) {
                   <Text className="text-white text-sm leading-5">{msg.content}</Text>
                 ) : (
                   <>
-                    {renderFormattedContent(msg.content)}
+                    {renderFormattedContent(msg.content, msg.isStreaming)}
 
-                    {/* Follow-up suggestions if available */}
-                    {msg.suggestedFollowups && msg.suggestedFollowups.length > 0 && (
+                    {/* Follow-up suggestions if available (only after streaming completes) */}
+                    {!msg.isStreaming && msg.suggestedFollowups && msg.suggestedFollowups.length > 0 && (
                       <View className="mt-3 pt-2.5 border-t border-sand/60 gap-1.5">
                         <View className="flex-row items-center gap-1 mb-1">
                           <Lightbulb size={12} color={colors.accent} />

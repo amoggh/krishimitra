@@ -47,7 +47,6 @@ export function HomeScreen({ navigation }: Props) {
   const [mandiPrices, setMandiPrices] = useState<MandiPrice[]>([]);
   const [loadingMandi, setLoadingMandi] = useState(true);
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showFarmModal, setShowFarmModal] = useState(false);
 
