@@ -2,10 +2,11 @@ import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Bell, MapPin, Calendar, CloudSun, Sun, CloudRain, ChevronDown, Star } from "lucide-react-native";
+import { Bell, MapPin, Calendar, CloudSun, Sun, CloudRain, ChevronDown, Star, Sprout, AlertTriangle, Droplet, ChevronRight } from "lucide-react-native";
 import { CircularIconButton } from "@/components/ui";
 import { useResponsive } from "@/theme/responsive";
 import { colors } from "@/theme/tokens";
+import type { AgronomicAdvisory } from "@/services/agronomicAdvisoryService";
 
 export type DashboardWelcomeHeaderProps = {
   farmerName: string;
@@ -21,6 +22,8 @@ export type DashboardWelcomeHeaderProps = {
   farmName?: string;
   isDefaultFarm?: boolean;
   onOpenFarmSelector?: () => void;
+  advisory?: AgronomicAdvisory | null;
+  onOpenAdvisoryModal?: () => void;
 };
 
 function getGreeting(): string {
@@ -62,6 +65,8 @@ export function DashboardWelcomeHeader({
   farmName,
   isDefaultFarm = false,
   onOpenFarmSelector,
+  advisory,
+  onOpenAdvisoryModal,
 }: DashboardWelcomeHeaderProps) {
   const { isDesktop, isTablet, contentMaxWidth } = useResponsive();
   const greeting = getGreeting();
@@ -143,6 +148,45 @@ export function DashboardWelcomeHeader({
             </Pressable>
           </View>
         </View>
+
+        {/* ── Daily Agronomic Advisory Pill (Replaces search bar) ── */}
+        {advisory && (
+          <Pressable
+            onPress={onOpenAdvisoryModal}
+            accessibilityRole="button"
+            accessibilityLabel="Open daily agronomic advisory"
+            className="my-2.5 w-full rounded-2xl bg-white/15 px-3.5 py-2.5 border border-white/25 backdrop-blur-md active:bg-white/25 shadow-xs"
+          >
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center gap-2.5 flex-1 pr-2">
+                <View className="w-7 h-7 rounded-full bg-gold/90 items-center justify-center shadow-xs">
+                  {advisory.badgeIcon === "alert" ? (
+                    <AlertTriangle size={14} color="#183B2B" />
+                  ) : advisory.badgeIcon === "droplet" ? (
+                    <Droplet size={14} color="#183B2B" />
+                  ) : (
+                    <Sprout size={14} color="#183B2B" />
+                  )}
+                </View>
+                <View className="flex-1">
+                  <View className="flex-row items-center gap-1.5 mb-0.5">
+                    <Text className="text-[10px] font-sans-extrabold uppercase tracking-wider text-gold">
+                      {advisory.badgeText}
+                    </Text>
+                    <Text className="text-[10px] text-white/70">• Tap for details</Text>
+                  </View>
+                  <Text
+                    className="text-xs font-sans-bold text-white leading-4"
+                    numberOfLines={2}
+                  >
+                    {advisory.headline}
+                  </Text>
+                </View>
+              </View>
+              <ChevronRight size={16} color="rgba(255, 255, 255, 0.75)" />
+            </View>
+          </Pressable>
+        )}
 
         {/* Quick Location & Weather Status Pill — Interactive Farm / District Selector */}
         <Pressable

@@ -8,4 +8,5 @@ export * from "./RecentRecommendationCard";
 export * from "./SummaryCards";
 export * from "./WeatherWidget";
 export * from "./FarmSelectorModal";
+export * from "./AgronomicAdvisoryModal";
 

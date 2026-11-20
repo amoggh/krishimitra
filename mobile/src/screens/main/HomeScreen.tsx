@@ -20,6 +20,7 @@ import {
   MarketIntelligenceSection,
   FarmInsightsSection,
   FarmSelectorModal,
+  AgronomicAdvisoryModal,
 } from "@/components/home";
 import { getDashboard, getMandiPrices, getLiveWeather, type ExtendedWeatherData } from "@/services/api";
 import { useSavedPlans } from "@/services/savedPlansService";
@@ -31,6 +32,7 @@ import { useResponsive, useReducedMotion } from "@/theme/responsive";
 import type { DashboardSummary, MandiPrice, RecommendationResult } from "@/types/api";
 import { colors } from "@/theme/tokens";
 import { LivingField } from "@/components/animation/LivingField";
+import { generateAgronomicAdvisory, type AgronomicAdvisory } from "@/services/agronomicAdvisoryService";
 
 type Props = MainTabScreenProps<"Home">;
 
@@ -49,6 +51,7 @@ export function HomeScreen({ navigation }: Props) {
 
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showFarmModal, setShowFarmModal] = useState(false);
+  const [showAdvisoryModal, setShowAdvisoryModal] = useState(false);
 
   // 1. Fetch initial dashboard data
   const loadDashboardData = () => {
@@ -177,6 +180,33 @@ export function HomeScreen({ navigation }: Props) {
   const totalAcres =
     activeFarm?.acres ?? currentPlan?.totalAcres ?? recommendation.total_land_acres ?? dashboard.farmer.acres;
 
+  // Authentic real-time agronomic field advisory derived strictly from live weather, soil & crops
+  const dailyAdvisory = useMemo<AgronomicAdvisory>(() => {
+    const soilType =
+      activeFarm?.soilType || activeFarm?.soil_type || profile.soil.type || "Red Sandy Loam";
+    const irrigationType =
+      activeFarm?.irrigationType || activeFarm?.irrigation_type || "Drip Irrigation";
+
+    return generateAgronomicAdvisory({
+      district: effectiveDistrict,
+      soilType,
+      irrigationType,
+      acres: totalAcres,
+      crops: recommendedCrops,
+      weather: activeWeather,
+    });
+  }, [
+    effectiveDistrict,
+    activeFarm?.soilType,
+    activeFarm?.soil_type,
+    activeFarm?.irrigationType,
+    activeFarm?.irrigation_type,
+    profile.soil.type,
+    totalAcres,
+    recommendedCrops,
+    activeWeather,
+  ]);
+
   // Active crops for the farm overview card
   const activeCropsList = useMemo(() => {
     if (activeFarm?.allocatedCrops && activeFarm.allocatedCrops.length > 0) {
@@ -260,14 +290,14 @@ export function HomeScreen({ navigation }: Props) {
         totalAcres={totalAcres}
         tempC={activeWeather.temp_c}
         weatherCondition={activeWeather.condition}
-        searchValue={searchQuery}
-        onSearchChange={setSearchQuery}
         onProfilePress={handleNavigateProfile}
         onNotificationPress={handleNotificationPress}
         hasNotification={true}
         farmName={activeFarm?.name}
         isDefaultFarm={Boolean(activeFarm?.isDefault || activeFarm?.is_default)}
         onOpenFarmSelector={() => setShowFarmModal(true)}
+        advisory={dailyAdvisory}
+        onOpenAdvisoryModal={() => setShowAdvisoryModal(true)}
       />
 
       <ScrollView
@@ -536,6 +566,16 @@ export function HomeScreen({ navigation }: Props) {
         onSelectFarm={setActiveFarm}
         onSetDefaultFarm={setDefaultFarm}
         onAddFarm={addFarm}
+      />
+
+      {/* ── Daily Agronomic Advisory Detail Modal ── */}
+      <AgronomicAdvisoryModal
+        visible={showAdvisoryModal}
+        onClose={() => setShowAdvisoryModal(false)}
+        advisory={dailyAdvisory}
+        onAskAI={(prompt) => {
+          navigation.getParent()?.navigate("Chatbot", { initialPrompt: prompt });
+        }}
       />
     </View>
   );
