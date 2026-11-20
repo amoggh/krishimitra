@@ -44,7 +44,16 @@ export function SoilRaceLab() {
           Lab 1: The Soil Race
         </Text>
         <Text className="font-sans-bold text-xs text-primary">
-          Pour 100 mm on Four Soils
+          💧 Simulate 100 mm Water Soak (400,000 L / Acre)
+        </Text>
+      </View>
+
+      {/* Practical Clarification Banner */}
+      <View className="mb-3 rounded-xl bg-sky-50 px-3 py-2 border border-sky-200/70">
+        <Text className="font-sans text-[11px] text-sky-900 leading-4">
+          <Text className="font-sans-bold">💧 What we are pouring:</Text> We are pouring{" "}
+          <Text className="font-sans-bold">100 mm depth of irrigation water or rainfall</Text>{" "}
+          (approx. 400,000 litres per acre) to observe which soil drinks it fastest and how deep it soaks down to the roots.
         </Text>
       </View>
 
@@ -126,7 +135,7 @@ export function SoilRaceLab() {
           className="rounded-full bg-primary px-3.5 py-1.5 active:bg-primary-dark shadow-2xs"
         >
           <Text className="font-sans-bold text-xs text-white">
-            {elapsedHours === 0 ? "Pour 100 mm" : "Pour Again"}
+            {elapsedHours === 0 ? "💧 Pour 100 mm Water" : "💧 Pour 100 mm Water Again"}
           </Text>
         </Pressable>
         <Text className="font-sans text-xs text-ink-muted">

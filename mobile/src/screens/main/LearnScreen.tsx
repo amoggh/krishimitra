@@ -17,6 +17,7 @@ import { CourseClimbTree } from "@/components/learn/CourseClimbTree";
 import { CropAtlas } from "@/components/learn/CropAtlas";
 import { VideoShelf } from "@/components/learn/VideoShelf";
 import { GlossarySection } from "@/components/learn/GlossarySection";
+import { LessonBriefingCard } from "@/components/learn/LessonBriefingCard";
 import {
   SoilRaceLab,
   WaterEfficiencyLab,
@@ -230,6 +231,9 @@ export function LearnScreen() {
                 </View>
               </View>
             </View>
+
+            {/* Lesson Orientation & Practical Objectives Briefing Card */}
+            <LessonBriefingCard lesson={currentLesson} />
 
             {/* Active Interactive Lab */}
             <View className="mb-4">{renderActiveLab()}</View>
