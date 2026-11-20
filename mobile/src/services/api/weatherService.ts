@@ -10,6 +10,39 @@ export interface ExtendedWeatherData extends WeatherSummary {
   sunset?: string;
   source?: string;
   updated_at?: string;
+  is_day?: number;
+  is_night?: boolean;
+}
+
+/**
+ * Helper to determine whether the current local time is night (before sunrise or after sunset).
+ */
+export function computeIsNight(sunriseStr: string = "06:15 am", sunsetStr: string = "06:00 pm", isDayVal?: number): boolean {
+  if (isDayVal !== undefined) {
+    return isDayVal === 0;
+  }
+  try {
+    const now = new Date();
+    const currMin = now.getHours() * 60 + now.getMinutes();
+
+    const parseMin = (s: string): number | null => {
+      const match = s.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)?$/i);
+      if (!match) return null;
+      let h = parseInt(match[1], 10);
+      const m = parseInt(match[2], 10);
+      const p = match[3]?.toLowerCase();
+      if (p === "pm" && h < 12) h += 12;
+      if (p === "am" && h === 12) h = 0;
+      return h * 60 + m;
+    };
+
+    const rMin = parseMin(sunriseStr) ?? (6 * 60);
+    const sMin = parseMin(sunsetStr) ?? (18 * 60);
+    return currMin < rMin || currMin >= sMin;
+  } catch {
+    const h = new Date().getHours();
+    return h < 6 || h >= 18;
+  }
 }
 
 /**
@@ -33,7 +66,14 @@ export async function getLiveWeather(
       timeout: 6000,
     });
     if (data && data.temp_c != null) {
-      return data;
+      const sRise = data.sunrise || "06:15 am";
+      const sSet = data.sunset || "06:00 pm";
+      const isNight = data.is_night !== undefined ? data.is_night : computeIsNight(sRise, sSet, data.is_day);
+      return {
+        ...data,
+        is_day: isNight ? 0 : 1,
+        is_night: isNight,
+      };
     }
   } catch (err) {
     // Backend endpoint not reachable, continue to direct client fallback
@@ -54,6 +94,14 @@ export async function getLiveWeather(
         const rainMm = d.rain?.["1h"] || 0;
         const clouds = d.clouds?.all || 0;
 
+        const sRise = d.sys?.sunrise
+          ? new Date(d.sys.sunrise * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+          : "06:15 am";
+        const sSet = d.sys?.sunset
+          ? new Date(d.sys.sunset * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+          : "06:00 pm";
+        const isNight = computeIsNight(sRise, sSet);
+
         return {
           location: d.name || district,
           temp_c: Math.round(main.temp || 28),
@@ -63,12 +111,10 @@ export async function getLiveWeather(
           precipitation_mm: Math.round(rainMm * 10) / 10,
           pressure_hpa: Math.round(main.pressure || 1012),
           wind_speed_kmh: Math.round((wind.speed || 3) * 3.6),
-          sunrise: d.sys?.sunrise
-            ? new Date(d.sys.sunrise * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
-            : "06:15 am",
-          sunset: d.sys?.sunset
-            ? new Date(d.sys.sunset * 1000).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
-            : "06:00 pm",
+          sunrise: sRise,
+          sunset: sSet,
+          is_day: isNight ? 0 : 1,
+          is_night: isNight,
           source: "OpenWeatherMap (Client)",
           updated_at: "Just now",
         };
@@ -79,7 +125,7 @@ export async function getLiveWeather(
   // 3. Direct Live Open-Meteo Satellite fallback (No API Key Required - Real Live Data)
   try {
     const res = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,surface_pressure,wind_speed_10m,weather_code&daily=sunrise,sunset,precipitation_probability_max&timezone=auto`
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation,surface_pressure,wind_speed_10m,weather_code,is_day&daily=sunrise,sunset,precipitation_probability_max&timezone=auto`
     );
     if (res.ok) {
       const d = await res.json();
@@ -97,6 +143,16 @@ export async function getLiveWeather(
       const sunriseRaw = daily.sunrise?.[0] || "";
       const sunsetRaw = daily.sunset?.[0] || "";
 
+      const sRise = sunriseRaw.includes("T")
+        ? new Date(sunriseRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+        : "06:15 am";
+      const sSet = sunsetRaw.includes("T")
+        ? new Date(sunsetRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
+        : "06:00 pm";
+
+      const isDayVal = curr.is_day !== undefined ? Number(curr.is_day) : undefined;
+      const isNight = computeIsNight(sRise, sSet, isDayVal);
+
       return {
         location: district,
         temp_c: Math.round(curr.temperature_2m || 30),
@@ -106,12 +162,10 @@ export async function getLiveWeather(
         precipitation_mm: Math.round((curr.precipitation || 0) * 10) / 10,
         pressure_hpa: Math.round(curr.surface_pressure || 1012),
         wind_speed_kmh: Math.round(curr.wind_speed_10m || 12),
-        sunrise: sunriseRaw.includes("T")
-          ? new Date(sunriseRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
-          : "06:15 am",
-        sunset: sunsetRaw.includes("T")
-          ? new Date(sunsetRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
-          : "06:00 pm",
+        sunrise: sRise,
+        sunset: sSet,
+        is_day: isNight ? 0 : 1,
+        is_night: isNight,
         source: "Open-Meteo Live API",
         updated_at: "Live (Satellite)",
       };
@@ -119,6 +173,10 @@ export async function getLiveWeather(
   } catch {}
 
   // 4. Default return fallback
+  const fbRise = "05:45 am";
+  const fbSet = "06:15 pm";
+  const fbIsNight = computeIsNight(fbRise, fbSet);
+
   return {
     location: district,
     temp_c: 32,
@@ -128,8 +186,10 @@ export async function getLiveWeather(
     precipitation_mm: 0,
     pressure_hpa: 1012,
     wind_speed_kmh: 12,
-    sunrise: "05:45 am",
-    sunset: "06:15 pm",
+    sunrise: fbRise,
+    sunset: fbSet,
+    is_day: fbIsNight ? 0 : 1,
+    is_night: fbIsNight,
     source: "Agro-Climate Profile",
     updated_at: "Live Index",
   };

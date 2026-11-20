@@ -221,6 +221,8 @@ export interface WeatherSummary {
   temp_c: number;
   condition: string;
   rain_chance_pct: number;
+  is_night?: boolean;
+  is_day?: number;
 }
 
 export interface SoilSummary {

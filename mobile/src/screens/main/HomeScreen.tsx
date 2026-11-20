@@ -298,6 +298,10 @@ export function HomeScreen({ navigation }: Props) {
                   acres={totalAcres}
                   source={((activeFarm?.irrigationType || "borewell") as any)}
                   height={190}
+                  weatherCondition={activeWeather.condition}
+                  precipitationMm={activeWeather.precipitation_mm ?? 0}
+                  isNight={activeWeather.is_night}
+                  tempC={activeWeather.temp_c}
                 />
 
                 {/* 2. Farm Overview */}
@@ -359,12 +363,13 @@ export function HomeScreen({ navigation }: Props) {
                   location={`${effectiveDistrict} Farm Zone`}
                   tempC={activeWeather.temp_c}
                   condition={activeWeather.condition}
-                  humidityPct={liveWeather?.humidity_pct ?? (activeWeather.rain_chance_pct > 0 ? 68 : 55)}
-                  precipitationMm={liveWeather?.precipitation_mm ?? (activeWeather.rain_chance_pct > 40 ? 5.2 : 0)}
-                  pressureHpa={liveWeather?.pressure_hpa ?? 1012}
-                  windSpeedKmh={liveWeather?.wind_speed_kmh ?? 14}
-                  sunrise={liveWeather?.sunrise ?? "5:45 am"}
-                  sunset={liveWeather?.sunset ?? "6:15 pm"}
+                  humidityPct={activeWeather.humidity_pct ?? 60}
+                  precipitationMm={activeWeather.precipitation_mm ?? 0}
+                  pressureHpa={activeWeather.pressure_hpa ?? 1012}
+                  windSpeedKmh={activeWeather.wind_speed_kmh ?? 14}
+                  sunrise={activeWeather.sunrise ?? "06:15 am"}
+                  sunset={activeWeather.sunset ?? "06:00 pm"}
+                  isNight={activeWeather.is_night}
                 />
 
                 {/* 5. Market Intelligence */}
@@ -398,6 +403,10 @@ export function HomeScreen({ navigation }: Props) {
                 acres={totalAcres}
                 source={((activeFarm?.irrigationType || "borewell") as any)}
                 height={165}
+                weatherCondition={activeWeather.condition}
+                precipitationMm={activeWeather.precipitation_mm ?? 0}
+                isNight={activeWeather.is_night}
+                tempC={activeWeather.temp_c}
               />
 
               {/* 2. Farm Overview */}

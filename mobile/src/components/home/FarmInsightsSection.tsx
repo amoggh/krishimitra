@@ -13,6 +13,7 @@ import {
   Wind,
   SunMedium,
   AlertTriangle,
+  Moon,
 } from "lucide-react-native";
 import { Card, Badge, SectionHeader, EmptyState } from "@/components/ui";
 import { colors, radii, shadows } from "@/theme/tokens";
@@ -122,11 +123,13 @@ export function FarmInsightsSection({
     weatherItem = {
       id: "weather-insight",
       category: "weather",
-      title: "Optimal Fieldwork Window",
-      explanation: `Clear microclimate (${tempC}°C, ${condition.toLowerCase()}) in ${location}. Optimal window for intercultural weeding, soil aeration, and morning crop maintenance.`,
+      title: extWeather.is_night ? "Nighttime Field Conditions" : "Optimal Fieldwork Window",
+      explanation: extWeather.is_night
+        ? `Calm nocturnal microclimate (${tempC}°C, ${condition.toLowerCase()}) in ${location}. Minimal evapotranspiration; favorable conditions for crop rest and night irrigation.`
+        : `Clear microclimate (${tempC}°C, ${condition.toLowerCase()}) in ${location}. Optimal window for intercultural weeding, soil aeration, and morning crop maintenance.`,
       priority: "Optimal",
       priorityTone: "success",
-      icon: <CloudSun size={18} color={colors.primary} />,
+      icon: extWeather.is_night ? <Moon size={18} color={colors.primary} /> : <CloudSun size={18} color={colors.primary} />,
       actionLabel: "Weather Details",
       onPress: onNavigateToPlan,
     };

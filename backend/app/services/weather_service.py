@@ -26,6 +26,8 @@ class WeatherData(BaseModel):
     sunset: str
     source: str
     updated_at: str
+    is_day: int = 1
+    is_night: bool = False
 
 # Simple in-memory cache with 15-minute TTL
 _WEATHER_CACHE: dict[str, tuple[WeatherData, float]] = {}
@@ -56,6 +58,26 @@ def _wmo_code_to_condition(code: int) -> str:
     elif code in (95, 96, 99):
         return "Thunderstorm"
     return "Cloudy"
+
+def _check_is_night(sunrise_str: str, sunset_str: str) -> tuple[int, bool]:
+    """Helper to determine whether current IST time is before sunrise or after sunset."""
+    try:
+        now_utc = datetime.now(timezone.utc)
+        ist_now = now_utc + timedelta(hours=5, minutes=30)
+        curr_min = ist_now.hour * 60 + ist_now.minute
+
+        def to_min(s: str) -> int:
+            t = datetime.strptime(s.strip().upper(), "%I:%M %p")
+            return t.hour * 60 + t.minute
+
+        r_min = to_min(sunrise_str)
+        s_min = to_min(sunset_str)
+        is_night = curr_min < r_min or curr_min >= s_min
+        return (0 if is_night else 1, is_night)
+    except Exception:
+        h = (datetime.now(timezone.utc) + timedelta(hours=5, minutes=30)).hour
+        is_night = h < 6 or h >= 18
+        return (0 if is_night else 1, is_night)
 
 async def fetch_live_weather(
     latitude: float,
@@ -112,6 +134,7 @@ async def fetch_live_weather(
 
                     rain_mm = d.get("rain", {}).get("1h", 0.0)
                     clouds = d.get("clouds", {}).get("all", 0)
+                    is_day_val, is_night_val = _check_is_night(sunrise_str, sunset_str)
 
                     result = WeatherData(
                         location=d.get("name") or district_name,
@@ -128,6 +151,8 @@ async def fetch_live_weather(
                         sunset=sunset_str,
                         source="OpenWeatherMap (Real-time)",
                         updated_at="Just now",
+                        is_day=is_day_val,
+                        is_night=is_night_val,
                     )
                     _WEATHER_CACHE[cache_key] = (result, now_ts)
                     return result
@@ -155,6 +180,10 @@ async def fetch_live_weather(
                     day_info = forecast_day.get("day", {})
                     astro = forecast_day.get("astro", {})
 
+                    sunrise_s = astro.get("sunrise", "05:45 AM").lower()
+                    sunset_s = astro.get("sunset", "06:15 PM").lower()
+                    is_day_val, is_night_val = _check_is_night(sunrise_s, sunset_s)
+
                     result = WeatherData(
                         location=d.get("location", {}).get("name") or district_name,
                         latitude=latitude,
@@ -166,10 +195,12 @@ async def fetch_live_weather(
                         precipitation_mm=round(float(curr.get("precip_mm", 0.0)), 1),
                         pressure_hpa=int(curr.get("pressure_mb", 1012)),
                         wind_speed_kmh=round(float(curr.get("wind_kph", 12.0)), 1),
-                        sunrise=astro.get("sunrise", "05:45 AM").lower(),
-                        sunset=astro.get("sunset", "06:15 PM").lower(),
+                        sunrise=sunrise_s,
+                        sunset=sunset_s,
                         source="WeatherAPI (Real-time)",
                         updated_at="Just now",
+                        is_day=is_day_val,
+                        is_night=is_night_val,
                     )
                     _WEATHER_CACHE[cache_key] = (result, now_ts)
                     return result
@@ -183,7 +214,7 @@ async def fetch_live_weather(
             params = {
                 "latitude": latitude,
                 "longitude": longitude,
-                "current": "temperature_2m,relative_humidity_2m,precipitation,surface_pressure,wind_speed_10m,weather_code",
+                "current": "temperature_2m,relative_humidity_2m,precipitation,surface_pressure,wind_speed_10m,weather_code,is_day",
                 "daily": "sunrise,sunset,precipitation_probability_max",
                 "timezone": "auto",
             }
@@ -211,6 +242,9 @@ async def fetch_live_weather(
                 except Exception:
                     sunset_str = "06:00 pm"
 
+                is_day_val = int(curr.get("is_day", 1)) if "is_day" in curr else _check_is_night(sunrise_str, sunset_str)[0]
+                is_night_val = (is_day_val == 0)
+
                 precip_prob = (daily.get("precipitation_probability_max") or [15])[0]
 
                 result = WeatherData(
@@ -228,6 +262,8 @@ async def fetch_live_weather(
                     sunset=sunset_str,
                     source="Open-Meteo Live API",
                     updated_at="Live (Satellite)",
+                    is_day=is_day_val,
+                    is_night=is_night_val,
                 )
                 _WEATHER_CACHE[cache_key] = (result, now_ts)
                 return result
@@ -235,6 +271,10 @@ async def fetch_live_weather(
         logger.warning(f"Open-Meteo request failed: {exc}. Using agro-climatic base.")
 
     # 4. Fallback baseline
+    fb_rise = "05:45 am"
+    fb_set = "06:15 pm"
+    fb_is_day, fb_is_night = _check_is_night(fb_rise, fb_set)
+
     return WeatherData(
         location=district_name,
         latitude=latitude,
@@ -246,9 +286,11 @@ async def fetch_live_weather(
         precipitation_mm=0.0,
         pressure_hpa=1012,
         wind_speed_kmh=12.0,
-        sunrise="05:45 am",
-        sunset="06:15 pm",
+        sunrise=fb_rise,
+        sunset=fb_set,
         source="Karnataka Agro-Climate Baseline",
         updated_at="Index Baseline",
+        is_day=fb_is_day,
+        is_night=fb_is_night,
     )
 

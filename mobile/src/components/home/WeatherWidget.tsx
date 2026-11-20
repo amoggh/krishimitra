@@ -15,6 +15,7 @@ export function WeatherWidget({ weather }: Props) {
       tempC={weather.temp_c}
       condition={weather.condition}
       humidityPct={weather.rain_chance_pct > 0 ? 68 : 55}
+      isNight={weather.is_night}
       advisoryText={
         weather.rain_chance_pct > 40
           ? `Rain probability ${weather.rain_chance_pct}%. Monitor fields and postpone chemical spraying.`

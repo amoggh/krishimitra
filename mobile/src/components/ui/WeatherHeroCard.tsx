@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, type ViewProps } from "react-native";
 import {
   Sun,
+  Moon,
+  CloudMoon,
   CloudSun,
   CloudRain,
   Cloud,
@@ -18,19 +20,23 @@ export type WeatherHeroCardProps = ViewProps & {
   condition: string;
   humidityPct: number;
   advisoryText?: string;
+  isNight?: boolean;
   className?: string;
 };
 
-function getWeatherIcon(condition: string, color: string, size = 32) {
+function getWeatherIcon(condition: string, color: string, size = 32, isNight: boolean = false) {
   const lower = condition.toLowerCase();
   if (lower.includes("rain") || lower.includes("drizzle") || lower.includes("shower")) {
     return <CloudRain size={size} color={color} />;
   }
   if (lower.includes("cloud") || lower.includes("overcast")) {
-    return <Cloud size={size} color={color} />;
+    return isNight ? <CloudMoon size={size} color={color} /> : <Cloud size={size} color={color} />;
   }
   if (lower.includes("partly") || lower.includes("scattered")) {
-    return <CloudSun size={size} color={color} />;
+    return isNight ? <CloudMoon size={size} color={color} /> : <CloudSun size={size} color={color} />;
+  }
+  if (isNight) {
+    return <Moon size={size} color={color} />;
   }
   return <Sun size={size} color={color} />;
 }
@@ -42,10 +48,15 @@ export function WeatherHeroCard({
   condition,
   humidityPct,
   advisoryText = "Good conditions for farm field activities today.",
+  isNight,
   className = "",
   style,
   ...rest
 }: WeatherHeroCardProps) {
+  const safeNight = isNight !== undefined ? isNight : (() => {
+    const h = new Date().getHours();
+    return h < 6 || h >= 18;
+  })();
   return (
     <View
       className={`overflow-hidden bg-primary p-4 text-white ${className}`}
@@ -86,10 +97,10 @@ export function WeatherHeroCard({
         {/* Condition Graphic and Label */}
         <View className="items-center">
           <View className="h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
-            {getWeatherIcon(condition, colors.accent, 28)}
+            {getWeatherIcon(condition, colors.accent, 28, safeNight)}
           </View>
           <Text className="mt-1 font-sans-semibold text-xs text-white/90">
-            {condition}
+            {condition} {safeNight ? "🌙" : "☀️"}
           </Text>
         </View>
       </View>
