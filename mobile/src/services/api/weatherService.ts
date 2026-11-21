@@ -15,12 +15,10 @@ export interface ExtendedWeatherData extends WeatherSummary {
 }
 
 /**
- * Helper to determine whether the current local time is night (before sunrise or after sunset).
+ * Helper to determine whether the current local time is night (strictly before sunrise or after sunset).
+ * Evaluates real-time clock minutes against the astronomical sunrise and sunset times.
  */
-export function computeIsNight(sunriseStr: string = "06:15 am", sunsetStr: string = "06:00 pm", isDayVal?: number): boolean {
-  if (isDayVal !== undefined) {
-    return isDayVal === 0;
-  }
+export function computeIsNight(sunriseStr: string = "06:30 am", sunsetStr: string = "06:00 pm", _unusedDayVal?: number): boolean {
   try {
     const now = new Date();
     const currMin = now.getHours() * 60 + now.getMinutes();
@@ -36,12 +34,13 @@ export function computeIsNight(sunriseStr: string = "06:15 am", sunsetStr: strin
       return h * 60 + m;
     };
 
-    const rMin = parseMin(sunriseStr) ?? (6 * 60);
+    const rMin = parseMin(sunriseStr) ?? (6 * 60 + 30);
     const sMin = parseMin(sunsetStr) ?? (18 * 60);
     return currMin < rMin || currMin >= sMin;
   } catch {
-    const h = new Date().getHours();
-    return h < 6 || h >= 18;
+    const now = new Date();
+    const m = now.getHours() * 60 + now.getMinutes();
+    return m < 390 || m >= 1080;
   }
 }
 
@@ -66,9 +65,9 @@ export async function getLiveWeather(
       timeout: 6000,
     });
     if (data && data.temp_c != null) {
-      const sRise = data.sunrise || "06:15 am";
-      const sSet = data.sunset || "06:00 pm";
-      const isNight = data.is_night !== undefined ? data.is_night : computeIsNight(sRise, sSet, data.is_day);
+      const sRise = data.sunrise || "06:30 am";
+      const sSet = data.sunset || "05:56 pm";
+      const isNight = computeIsNight(sRise, sSet);
       return {
         ...data,
         is_day: isNight ? 0 : 1,
@@ -150,8 +149,7 @@ export async function getLiveWeather(
         ? new Date(sunsetRaw).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }).toLowerCase()
         : "06:00 pm";
 
-      const isDayVal = curr.is_day !== undefined ? Number(curr.is_day) : undefined;
-      const isNight = computeIsNight(sRise, sSet, isDayVal);
+      const isNight = computeIsNight(sRise, sSet);
 
       return {
         location: district,

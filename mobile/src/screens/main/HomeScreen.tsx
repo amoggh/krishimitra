@@ -34,6 +34,18 @@ import { colors } from "@/theme/tokens";
 import { LivingField } from "@/components/animation/LivingField";
 import { generateAgronomicAdvisory, type AgronomicAdvisory } from "@/services/agronomicAdvisoryService";
 
+function parseTimeToMinutes(timeStr?: string): number | null {
+  if (!timeStr) return null;
+  const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
+  if (!match) return null;
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3]?.toLowerCase();
+  if (period === "pm" && hours < 12) hours += 12;
+  if (period === "am" && hours === 12) hours = 0;
+  return hours * 60 + minutes;
+}
+
 type Props = MainTabScreenProps<"Home">;
 
 export function HomeScreen({ navigation }: Props) {
@@ -88,6 +100,20 @@ export function HomeScreen({ navigation }: Props) {
   // Live real-time weather fetched from API (OpenWeather / WeatherAPI / Open-Meteo)
   const [liveWeather, setLiveWeather] = useState<ExtendedWeatherData | null>(null);
 
+  // Live clock ticker (every 5 seconds) to ensure day/night syncs dynamically in real time
+  const [currentClockMinutes, setCurrentClockMinutes] = useState(() => {
+    const d = new Date();
+    return d.getHours() * 60 + d.getMinutes();
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const d = new Date();
+      setCurrentClockMinutes(d.getHours() * 60 + d.getMinutes());
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   useEffect(() => {
     let mounted = true;
     getLiveWeather(profile.coordinates.lat, profile.coordinates.lon, effectiveDistrict)
@@ -104,19 +130,33 @@ export function HomeScreen({ navigation }: Props) {
   }, [profile.coordinates.lat, profile.coordinates.lon, effectiveDistrict]);
 
   const activeWeather = useMemo<ExtendedWeatherData>(() => {
-    if (liveWeather) {
-      return {
-        ...liveWeather,
-        location: liveWeather.location || effectiveDistrict,
-      };
-    }
+    const base = liveWeather
+      ? {
+          ...liveWeather,
+          location: liveWeather.location || effectiveDistrict,
+        }
+      : {
+          ...profile.weather,
+          humidity_pct: profile.weather.rain_chance_pct > 30 ? 72 : 55,
+          precipitation_mm: profile.weather.rain_chance_pct > 50 ? 4.8 : 0,
+          wind_speed_kmh: 12,
+          sunrise: "06:30 am",
+          sunset: "05:56 pm",
+        };
+
+    const sunriseStr = base.sunrise || "06:30 am";
+    const sunsetStr = base.sunset || "05:56 pm";
+    const riseMin = parseTimeToMinutes(sunriseStr) ?? (6 * 60 + 30);
+    const setMin = parseTimeToMinutes(sunsetStr) ?? (17 * 60 + 56);
+    const isNightRealtime = currentClockMinutes < riseMin || currentClockMinutes >= setMin;
+
     return {
-      ...profile.weather,
-      humidity_pct: profile.weather.rain_chance_pct > 30 ? 72 : 55,
-      precipitation_mm: profile.weather.rain_chance_pct > 50 ? 4.8 : 0,
-      wind_speed_kmh: 12,
+      ...base,
+      sunrise: sunriseStr,
+      sunset: sunsetStr,
+      is_night: isNightRealtime,
     };
-  }, [liveWeather, profile.weather, effectiveDistrict]);
+  }, [liveWeather, profile.weather, effectiveDistrict, currentClockMinutes]);
 
   // Seasonal crop water depth in mm derived agronomically from district profile
   const seasonalWaterBudgetMm = useMemo(() => {
@@ -330,6 +370,8 @@ export function HomeScreen({ navigation }: Props) {
                   weatherCondition={activeWeather.condition}
                   precipitationMm={activeWeather.precipitation_mm ?? 0}
                   isNight={activeWeather.is_night}
+                  sunrise={activeWeather.sunrise}
+                  sunset={activeWeather.sunset}
                   tempC={activeWeather.temp_c}
                 />
 
@@ -435,7 +477,23 @@ export function HomeScreen({ navigation }: Props) {
                 weatherCondition={activeWeather.condition}
                 precipitationMm={activeWeather.precipitation_mm ?? 0}
                 isNight={activeWeather.is_night}
+                sunrise={activeWeather.sunrise}
+                sunset={activeWeather.sunset}
                 tempC={activeWeather.temp_c}
+              />
+
+              {/* Real-time Weather Detail Card with Sunrise & Sunset Slider */}
+              <WeatherDetailCard
+                location={`${effectiveDistrict} Farm Zone`}
+                tempC={activeWeather.temp_c}
+                condition={activeWeather.condition}
+                humidityPct={activeWeather.humidity_pct ?? 60}
+                precipitationMm={activeWeather.precipitation_mm ?? 0}
+                pressureHpa={activeWeather.pressure_hpa ?? 1012}
+                windSpeedKmh={activeWeather.wind_speed_kmh ?? 14}
+                sunrise={activeWeather.sunrise ?? "06:30 am"}
+                sunset={activeWeather.sunset ?? "05:56 pm"}
+                isNight={activeWeather.is_night}
               />
 
               {/* 2. Farm Overview */}

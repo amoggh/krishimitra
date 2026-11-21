@@ -81,13 +81,13 @@ export function WeatherDetailCard({
   style,
   ...rest
 }: WeatherDetailCardProps) {
-  // Live local time tracking (updates every 30 seconds)
+  // Live local time tracking (updates every 5 seconds for immediate real-time synchronization)
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
       setNow(new Date());
-    }, 30000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -98,11 +98,11 @@ export function WeatherDetailCard({
 
   // Determine current time in minutes and sunrise/sunset boundaries
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const riseMinutes = parseTimeToMinutes(sunrise) ?? (6 * 60 + 15);
-  const setMinutes = parseTimeToMinutes(sunset) ?? (18 * 60);
+  const riseMinutes = parseTimeToMinutes(sunrise) ?? (6 * 60 + 30);
+  const setMinutes = parseTimeToMinutes(sunset) ?? (17 * 60 + 56);
 
-  // Check if night
-  const isNightTime = isNight !== undefined ? isNight : (currentMinutes < riseMinutes || currentMinutes >= setMinutes);
+  // Check if night strictly and dynamically against local device clock and sunrise/sunset
+  const isNightTime = (currentMinutes < riseMinutes || currentMinutes >= setMinutes);
 
   // Calculate day progress percentage for the sunrise-to-sunset indicator:
   // - If before sunrise: progress is 0% (dot stops at sunrise on the left)

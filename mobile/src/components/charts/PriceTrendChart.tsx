@@ -235,30 +235,18 @@ export function PriceTrendChart({
   const todayIndex = 3;
   const todayPt = points[todayIndex];
 
-  // Separate paths into Historical (0 -> 3) and Forecast (3 -> 6)
-  const { historicalLine, historicalArea, forecastLine, forecastArea } = useMemo(() => {
-    if (points.length < 4) {
-      return { historicalLine: "", historicalArea: "", forecastLine: "", forecastArea: "" };
-    }
+  // Generate smooth cubic Catmull-Rom path across all 7 points (matching report solid line style)
+  const { linePath, areaPath } = useMemo(() => {
+    if (points.length < 2) return { linePath: "", areaPath: "" };
 
+    const lp = pointsToCurvedPath(points);
+    const lastPoint = points[points.length - 1];
+    const firstPoint = points[0];
     const bottomY = (paddingTop + plotHeight).toFixed(1);
 
-    // 1. Historical actuals curve (Points 0, 1, 2, 3)
-    const histPts = points.slice(0, 4);
-    const hLine = pointsToCurvedPath(histPts);
-    const hArea = `${hLine} L ${histPts[histPts.length - 1].x.toFixed(1)} ${bottomY} L ${histPts[0].x.toFixed(1)} ${bottomY} Z`;
+    const ap = `${lp} L ${lastPoint.x.toFixed(1)} ${bottomY} L ${firstPoint.x.toFixed(1)} ${bottomY} Z`;
 
-    // 2. Forecasted curve (Points 3, 4, 5, 6)
-    const forePts = points.slice(3, 7);
-    const fLine = pointsToCurvedPath(forePts);
-    const fArea = `${fLine} L ${forePts[forePts.length - 1].x.toFixed(1)} ${bottomY} L ${forePts[0].x.toFixed(1)} ${bottomY} Z`;
-
-    return {
-      historicalLine: hLine,
-      historicalArea: hArea,
-      forecastLine: fLine,
-      forecastArea: fArea,
-    };
+    return { linePath: lp, areaPath: ap };
   }, [points, paddingTop, plotHeight]);
 
   // 4 horizontal gridlines
@@ -408,27 +396,14 @@ export function PriceTrendChart({
         )}
 
         {/* ── 4. Historical Area & Curve (Left to Center) ── */}
-        {historicalArea ? <Path d={historicalArea} fill="url(#krishiGreenGradient)" /> : null}
-        {historicalLine ? (
+        {/* Smooth Continuous Area & Solid Curve across all 7 points */}
+        {areaPath ? <Path d={areaPath} fill="url(#krishiGreenGradient)" /> : null}
+        {linePath ? (
           <Path
-            d={historicalLine}
+            d={linePath}
             fill="none"
             stroke="#145C3A"
             strokeWidth={2.4}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        ) : null}
-
-        {/* ── 5. Forecast Area & Dashed Curve (Center to Right) ── */}
-        {forecastArea ? <Path d={forecastArea} fill="url(#krishiForecastGradient)" /> : null}
-        {forecastLine ? (
-          <Path
-            d={forecastLine}
-            fill="none"
-            stroke="#0D9488"
-            strokeWidth={2.4}
-            strokeDasharray="5,4"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -514,12 +489,12 @@ export function PriceTrendChart({
               {/* Data Node Markers */}
               {isActive ? (
                 <>
-                  <Circle cx={pt.x} cy={pt.y} r={9} fill={isForecast ? "#0D9488" : "#145C3A"} opacity={0.2} />
+                  <Circle cx={pt.x} cy={pt.y} r={9} fill="#145C3A" opacity={0.18} />
                   <Circle
                     cx={pt.x}
                     cy={pt.y}
                     r={5.5}
-                    fill={isForecast ? "#0D9488" : "#145C3A"}
+                    fill="#145C3A"
                     stroke="#FFFFFF"
                     strokeWidth={2.5}
                   />
@@ -527,29 +502,19 @@ export function PriceTrendChart({
               ) : isToday ? (
                 // Today: Double-ring subtle highlight in center
                 <>
-                  <Circle cx={pt.x} cy={pt.y} r={8} fill="#145C3A" opacity={0.18} />
+                  <Circle cx={pt.x} cy={pt.y} r={7.5} fill="#145C3A" opacity={0.18} />
                   <Circle
                     cx={pt.x}
                     cy={pt.y}
-                    r={5}
+                    r={4.8}
                     fill="#145C3A"
                     stroke="#FFFFFF"
                     strokeWidth={2}
                   />
                   <Circle cx={pt.x} cy={pt.y} r={1.6} fill="#FFFFFF" />
                 </>
-              ) : isForecast ? (
-                // Forecast: Hollow teal dot with dashed accent
-                <Circle
-                  cx={pt.x}
-                  cy={pt.y}
-                  r={4}
-                  fill="#F0FDFA"
-                  stroke="#0D9488"
-                  strokeWidth={1.8}
-                />
               ) : (
-                // Past Actual: Solid white circle with forest border
+                // Standard circular dot matching report screenshots
                 <Circle
                   cx={pt.x}
                   cy={pt.y}
@@ -692,8 +657,8 @@ export function PriceTrendChart({
 
           {/* Forecast indicator */}
           <View className="flex-row items-center gap-1">
-            <View className="w-2 h-2 rounded-full border border-teal-600 bg-teal-50" />
-            <Text className="text-[10px] font-sans-medium text-teal-800">3-Day Forecast</Text>
+            <View className="w-2 h-2 rounded-full border border-forest bg-white" />
+            <Text className="text-[10px] font-sans-medium text-earth-dark">3-Day Forecast</Text>
           </View>
         </View>
 

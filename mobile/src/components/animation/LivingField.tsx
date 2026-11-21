@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import { View, Text, Platform, Pressable } from "react-native";
 import { DISTRICTS } from "@/data/districtsData";
 import { colors } from "@/theme/tokens";
@@ -16,7 +16,21 @@ export interface LivingFieldProps {
   weatherCondition?: string;
   precipitationMm?: number;
   isNight?: boolean;
+  sunrise?: string;
+  sunset?: string;
   tempC?: number;
+}
+
+function parseTimeToMinutes(timeStr?: string): number | null {
+  if (!timeStr) return null;
+  const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
+  if (!match) return null;
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3]?.toLowerCase();
+  if (period === "pm" && hours < 12) hours += 12;
+  if (period === "am" && hours === 12) hours = 0;
+  return hours * 60 + minutes;
 }
 
 const START = { kharif: 5, rabi: 9, summer: 1 };
@@ -44,6 +58,8 @@ export function LivingField({
   weatherCondition = "Clear sky",
   precipitationMm = 0,
   isNight,
+  sunrise = "06:30 am",
+  sunset = "05:56 pm",
   tempC,
 }: LivingFieldProps) {
   const rainMm = seasonRain(district, season);
@@ -51,11 +67,28 @@ export function LivingField({
   const animFrameRef = useRef<number>(0);
   const [clickCount, setClickCount] = useState(0);
 
-  // Compute live day vs night state (consistently aligned with local time & weather API)
-  const effectiveIsNight = isNight !== undefined ? isNight : (() => {
-    const h = new Date().getHours();
-    return h < 6 || h >= 18;
-  })();
+  // Live 5-second clock ticker to guarantee real-time day/night sync as minutes advance
+  const [clockMinutes, setClockMinutes] = useState(() => {
+    const d = new Date();
+    return d.getHours() * 60 + d.getMinutes();
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const d = new Date();
+      setClockMinutes(d.getHours() * 60 + d.getMinutes());
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Compute live day vs night state:
+  // Evaluates current local clock minutes against sunrise (06:30 am) & sunset (05:56 pm).
+  // Once the clock hits sunrise, day mode activates immediately.
+  const effectiveIsNight = useMemo(() => {
+    const rise = parseTimeToMinutes(sunrise) ?? (6 * 60 + 30);
+    const set = parseTimeToMinutes(sunset) ?? (17 * 60 + 56);
+    return clockMinutes < rise || clockMinutes >= set;
+  }, [clockMinutes, sunrise, sunset]);
 
   // Live rain detection: ONLY rain when actual real-time weather reports precipitation!
   const isRaining = (precipitationMm != null && precipitationMm > 0.1) ||

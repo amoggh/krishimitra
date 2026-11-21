@@ -91,6 +91,10 @@ async def fetch_live_weather(
     if cache_key in _WEATHER_CACHE:
         cached_data, cached_at = _WEATHER_CACHE[cache_key]
         if now_ts - cached_at < CACHE_TTL_SECONDS:
+            # Dynamically recalculate day/night state against the current clock at the second of request
+            is_day_now, is_night_now = _check_is_night(cached_data.sunrise, cached_data.sunset)
+            cached_data.is_day = is_day_now
+            cached_data.is_night = is_night_now
             return cached_data
 
     owm_key = _get_openweather_key()
@@ -242,8 +246,7 @@ async def fetch_live_weather(
                 except Exception:
                     sunset_str = "06:00 pm"
 
-                is_day_val = int(curr.get("is_day", 1)) if "is_day" in curr else _check_is_night(sunrise_str, sunset_str)[0]
-                is_night_val = (is_day_val == 0)
+                is_day_val, is_night_val = _check_is_night(sunrise_str, sunset_str)
 
                 precip_prob = (daily.get("precipitation_probability_max") or [15])[0]
 
